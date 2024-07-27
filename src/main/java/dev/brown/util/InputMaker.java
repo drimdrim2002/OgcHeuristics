@@ -9,11 +9,9 @@ import java.util.HashMap;
 
 public class InputMaker {
 
-    public static Solution makeSolutionClassByInput(String decodesStr) {
+    public static Solution makeSolutionClassByInput(JsonObject inputObject) {
 
         Solution solution = new Solution();
-
-        JsonObject inputObject = JsonParser.parseString(decodesStr).getAsJsonObject();
         JsonObject orderInput = JsonParser.parseString(inputObject.get("orders").getAsString()).getAsJsonObject();
 
         HashMap<Integer, Order> orderMap = new HashMap<>();
@@ -48,21 +46,21 @@ public class InputMaker {
             }
         }
         solution.setRiderMap(riderMap);
+        return solution;
+    }
 
+    public static void setMatrixManager(JsonObject inputObject) {
         JsonObject distShopInput = JsonParser.parseString(inputObject.get("dist_shops").getAsString())
             .getAsJsonObject();
         MatrixManager.applyShopDistanceMap(distShopInput);
 
-
         JsonObject distShopToDlveryInput = JsonParser.parseString(inputObject.get("dist_shops_to_dlvrys").getAsString())
             .getAsJsonObject();
-        MatrixManager.applyShopToDeliveryDistanceMap(distShopToDlveryInput, orderMap.size());
+        MatrixManager.applyShopToDeliveryDistanceMap(distShopToDlveryInput, distShopInput.size());
 
         JsonObject distDlvrysInput = JsonParser.parseString(inputObject.get("dist_dlvrys").getAsString())
             .getAsJsonObject();
         MatrixManager.applyDeliveryDistanceMap(distDlvrysInput);
-
-        return solution;
     }
 
 

@@ -1,20 +1,25 @@
 package dev.brown;
 
-import java.util.Base64;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
+import dev.brown.domain.Solution;
+import dev.brown.util.InputMaker;
+import dev.brown.util.ParameterDecoder;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class PlannerMain {
+    static final Logger logger = LoggerFactory.getLogger(PlannerMain.class);
 
     public static void main(String[] args) {
 
-        String encodedStr = args[0];
-        String decodedStr = new String(Base64.getDecoder().decode(encodedStr.getBytes()));
+        logger.debug(args[0]);
+        String decodedStr = ParameterDecoder.decode(args[0]);
+        JsonObject inputObject = JsonParser.parseString(decodedStr).getAsJsonObject();
 
-        StringBuilder stringBuilder = new StringBuilder();
+        Solution solution = InputMaker.makeSolutionClassByInput(inputObject);
+        InputMaker.setMatrixManager(inputObject);
 
-        for (String arg : args) {
-            stringBuilder.append(arg);
-        }
 
-        System.out.println(stringBuilder);
     }
 }
