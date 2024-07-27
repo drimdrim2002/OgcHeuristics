@@ -1,0 +1,9 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="OgcHeuristics:jar">
+    <output-path>$PROJECT_DIR$/../../Python/ogc2024/baseline_2024051</output-path>
+    <root id="archive" name="OgcHeuristics.jar">
+      <element id="module-output" name="OgcHeuristics" />
+      <element id="extracted-dir" path="$MAVEN_REPOSITORY$/com/google/code/gson/gson/2.10/gson-2.10.jar" path-in-jar="/" />
+    </root>
+  </artifact>
+</component>
