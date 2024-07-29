@@ -9,6 +9,7 @@ public class Order {
     private final int deadline;
     private final int readyTime;
 
+    private Rider rider;
     public Order(int id, int volume, int orderTime, int cookTime, int deadline) {
         this.cookTime = cookTime;
         this.deadline = deadline;
@@ -52,5 +53,13 @@ public class Order {
             ", deadline=" + deadline +
             ", readyTime=" + readyTime +
             '}';
+    }
+
+    public Rider rider() {
+        return rider;
+    }
+
+    public void setRider(Rider rider) {
+        this.rider = rider;
     }
 }

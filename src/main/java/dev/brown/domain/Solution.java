@@ -4,6 +4,29 @@ import java.util.HashMap;
 
 public class Solution {
 
+
+    private int notAssignedOrderCount = 0;
+    private int totalCost = 0;
+
+    public int notAssignedOrderCount() {
+        return notAssignedOrderCount;
+    }
+
+    public int totalCost() {
+        return totalCost;
+    }
+
+    public void calculateScore() {
+        for (Order order : orderMap.values()) {
+            if (order.rider() == null) {
+                notAssignedOrderCount -= 1;
+            } else {
+                totalCost -= order.rider().cost();
+            }
+        }
+    }
+
+
     private HashMap<Integer, Order> orderMap = new HashMap<>();
     private HashMap<Integer, Rider> riderMap = new HashMap<>();
 

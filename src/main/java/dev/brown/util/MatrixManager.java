@@ -1,7 +1,7 @@
 package dev.brown.util;
 
 import com.google.gson.JsonObject;
-import dev.brown.domain.Constants.DISTANCE_MATRIX_TYPE;
+import dev.brown.Constants.DISTANCE_MATRIX_TYPE;
 import java.util.HashMap;
 
 public class MatrixManager {
@@ -67,13 +67,13 @@ public class MatrixManager {
     public static void applyShopToDeliveryDistanceMap(JsonObject jsonObject, int orderCount) {
         for (String originIndexStr : jsonObject.keySet()) {
             int originIndex = Integer.parseInt(originIndexStr);
-            shopDistanceMap.put(originIndex, new HashMap<>());
+            shopToDeliveryDistanceMap.put(originIndex, new HashMap<>());
             for (String destinationIndexStr : jsonObject.get(originIndexStr).getAsJsonObject().keySet()) {
                 String distanceStr = jsonObject.get(originIndexStr).getAsJsonObject().get(destinationIndexStr)
                     .getAsString();
                 int distance = Integer.parseInt(distanceStr);
                 int destinationIndex = Integer.parseInt(destinationIndexStr) - orderCount;
-                shopDistanceMap.get(originIndex).put(destinationIndex, distance);
+                shopToDeliveryDistanceMap.get(originIndex).put(destinationIndex, distance);
             }
         }
     }

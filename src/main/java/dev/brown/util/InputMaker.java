@@ -5,7 +5,9 @@ import com.google.gson.JsonParser;
 import dev.brown.domain.Order;
 import dev.brown.domain.Rider;
 import dev.brown.domain.Solution;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 public class InputMaker {
 
@@ -28,25 +30,39 @@ public class InputMaker {
         solution.setOrderMap(orderMap);
 
         JsonObject riderInput = JsonParser.parseString(inputObject.get("riders").getAsString()).getAsJsonObject();
+        JsonObject carRiderObject = riderInput.get("CAR").getAsJsonObject();
+        JsonObject bikeRiderObject = riderInput.get("BIKE").getAsJsonObject();
+        JsonObject walkRiderObject = riderInput.get("WALK").getAsJsonObject();
         int riderIndex = 0;
-        HashMap<Integer, Rider> riderMap = new HashMap<>();
-        for (String riderType : riderInput.keySet()) {
-            JsonObject riderObject = riderInput.get(riderType).getAsJsonObject();
-            int speed = riderObject.get("speed").getAsInt();
-            int capacity = riderObject.get("capa").getAsInt();
-            int varCost = riderObject.get("var_cost").getAsInt();
-            int fixedCost = riderObject.get("fixed_cost").getAsInt();
-            int serviceTime = riderObject.get("service_time").getAsInt();
+        List<Rider> riderList = getRiderListByObject(carRiderObject, riderIndex);
+        riderList.addAll(getRiderListByObject(bikeRiderObject, riderList.size()));
+        riderList.addAll(getRiderListByObject(walkRiderObject, riderList.size()));
 
-            int availableNumber = riderObject.get("available_number").getAsInt();
-            for (int riderCount = 0; riderCount < availableNumber; riderCount++) {
-                Rider rider = new Rider(riderIndex, riderType, speed, capacity, varCost, fixedCost, serviceTime);
-                riderMap.put(riderIndex, rider);
-                riderIndex += 1;
-            }
+        HashMap<Integer, Rider> riderMap = new HashMap<>();
+        for (Rider rider : riderList) {
+            rider.setSolution(solution);
+            riderMap.put(rider.id(), rider);
         }
         solution.setRiderMap(riderMap);
         return solution;
+    }
+
+    public static List<Rider> getRiderListByObject(JsonObject riderObject, int riderIndex) {
+        List<Rider> riderList = new ArrayList<>();
+        String riderType = riderObject.get("type").getAsString();
+        int speed = riderObject.get("speed").getAsInt();
+        int capacity = riderObject.get("capa").getAsInt();
+        int varCost = riderObject.get("var_cost").getAsInt();
+        int fixedCost = riderObject.get("fixed_cost").getAsInt();
+        int serviceTime = riderObject.get("service_time").getAsInt();
+
+        int availableNumber = riderObject.get("available_number").getAsInt();
+        for (int riderCount = 0; riderCount < availableNumber; riderCount++) {
+            Rider rider = new Rider(riderIndex, riderType, speed, capacity, varCost, fixedCost, serviceTime);
+            riderList.add(rider);
+            riderIndex += 1;
+        }
+        return riderList;
     }
 
     public static void setMatrixManager(JsonObject inputObject) {
