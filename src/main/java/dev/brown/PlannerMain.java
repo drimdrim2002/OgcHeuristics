@@ -6,7 +6,7 @@ import dev.brown.domain.Solution;
 import dev.brown.util.ConstructHeuristics;
 import dev.brown.util.InputMaker;
 import dev.brown.util.OutputMaker;
-import dev.brown.util.ParameterDecoder;
+import dev.brown.util.Properties;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -16,8 +16,17 @@ public class PlannerMain {
 
     public static void main(String[] args) {
 
-//        logger.debug(args[0]);
-        String decodedStr = ParameterDecoder.decode(args[0]);
+        String decodedStr = getDecodedStr(args);
+
+//
+//
+//        logger.info("encodedStr-->" + encodedStr);
+//        String decodedStr = ParameterDecoder.decode(encodedStr);
+//        logger.info("decodedStr-->" + decodedStr);
+        mainProcess(decodedStr);
+    }
+
+    private static void mainProcess(String decodedStr) {
         JsonObject inputObject = JsonParser.parseString(decodedStr).getAsJsonObject();
 
         Solution solution = InputMaker.makeSolutionClassByInput(inputObject);
@@ -30,5 +39,14 @@ public class PlannerMain {
         output.addProperty("cost", initialSolution.totalCost() * -1);
 
         System.out.print(output);
+    }
+
+    private static String getDecodedStr(String[] args) {
+        StringBuilder sb = new StringBuilder();
+        for (String arg : args) {
+            String encodedStr = Properties.getEnvValue(arg);
+            sb.append(encodedStr);
+        }
+        return sb.toString();
     }
 }

@@ -1,3 +1,5 @@
 Manifest-Version: 1.0
 Main-Class: dev.brown.PlannerMain
+Class-Path: gson-2.10.jar slf4j-api-2.0.12.jar logback-classic-1.4.14.ja
+ r logback-core-1.4.14.jar
 

@@ -37,7 +37,7 @@ public class ConstructHeuristics {
             }
         }
 
-        log.info("totalCost: {}", totalCost);
+//        log.info("totalCost: {}", totalCost);
         return solution;
     }
 }

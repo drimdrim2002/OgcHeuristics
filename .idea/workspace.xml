@@ -10,17 +10,17 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="8202c2ee-1972-45b1-aca6-81efa16706b3" name="변경" comment="[AlphaPlanner] heuristics 준비">
-      <change afterPath="$PROJECT_DIR$/src/main/java/dev/brown/util/CalculationUtils.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/dev/brown/util/ConstructHeuristics.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/dev/brown/util/OutputMaker.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/dev/brown/util/Properties.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/artifacts/OgcHeuristics_jar.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/artifacts/OgcHeuristics_jar.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/dev/brown/PlannerMain.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dev/brown/PlannerMain.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/dev/brown/domain/Constants.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dev/brown/Constants.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/dev/brown/domain/Order.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dev/brown/domain/Order.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/dev/brown/domain/Rider.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dev/brown/domain/Rider.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/dev/brown/domain/Solution.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dev/brown/domain/Solution.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/dev/brown/util/InputMaker.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dev/brown/util/InputMaker.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/dev/brown/util/MatrixManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dev/brown/util/MatrixManager.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/dev/brown/util/ConstructHeuristics.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dev/brown/util/ConstructHeuristics.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/dev/brown/util/ParameterDecoder.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dev/brown/util/ParameterDecoder.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/META-INF/MANIFEST.MF" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/META-INF/MANIFEST.MF" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/dev/brown/PlannerMainTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/dev/brown/PlannerMainTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/dev/brown/decodingTest.txt" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/dev/brown/decodingTest.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/dev/brown/util/decodingTest.txt" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/dev/brown/util/decodingTest.txt" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -48,25 +48,25 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;JUnit.ParameterDecoderTest.decode.executor&quot;: &quot;Debug&quot;,
-    &quot;JUnit.PlannerMainTest.mainProcessTest.executor&quot;: &quot;Run&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
-    &quot;com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrary&quot;: &quot;JUnit5&quot;,
-    &quot;com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrarySuperClass.JUnit5&quot;: &quot;&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;master&quot;,
-    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
-    &quot;last_opened_file_path&quot;: &quot;D:/Project/Java/OgcHeuristics/src/test/java/dev/brown&quot;,
-    &quot;project.structure.last.edited&quot;: &quot;아티팩트&quot;,
-    &quot;project.structure.proportion&quot;: &quot;0.15&quot;,
-    &quot;project.structure.side.proportion&quot;: &quot;0.2&quot;,
-    &quot;애플리케이션.Main.executor&quot;: &quot;Run&quot;,
-    &quot;애플리케이션.Permutation.executor&quot;: &quot;Debug&quot;,
-    &quot;애플리케이션.PlannerMain.executor&quot;: &quot;Debug&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "JUnit.ParameterDecoderTest.decode.executor": "Run",
+    "JUnit.PlannerMainTest.mainProcessTest.executor": "Debug",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
+    "com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrary": "JUnit5",
+    "com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrarySuperClass.JUnit5": "",
+    "git-widget-placeholder": "master",
+    "kotlin-language-version-configured": "true",
+    "last_opened_file_path": "D:/Project/Python/ogc2024/baseline_2024051",
+    "project.structure.last.edited": "아티팩트",
+    "project.structure.proportion": "0.15",
+    "project.structure.side.proportion": "0.34953463",
+    "애플리케이션.Main.executor": "Run",
+    "애플리케이션.Permutation.executor": "Debug",
+    "애플리케이션.PlannerMain.executor": "Debug"
   }
-}</component>
+}]]></component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="D:\Project\Java\OgcHeuristics\src\test\java\dev\brown" />
@@ -148,9 +148,9 @@
     <recent_temporary>
       <list>
         <item itemvalue="JUnit.PlannerMainTest.mainProcessTest" />
+        <item itemvalue="JUnit.ParameterDecoderTest.decode" />
         <item itemvalue="애플리케이션.PlannerMain" />
         <item itemvalue="애플리케이션.Permutation" />
-        <item itemvalue="JUnit.ParameterDecoderTest.decode" />
       </list>
     </recent_temporary>
   </component>
@@ -171,7 +171,15 @@
       <option name="project" value="LOCAL" />
       <updated>1722084238650</updated>
     </task>
-    <option name="localTasksCounter" value="2" />
+    <task id="LOCAL-00002" summary="[AlphaPlanner] heuristics 준비">
+      <option name="closed" value="true" />
+      <created>1722262697222</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1722262697222</updated>
+    </task>
+    <option name="localTasksCounter" value="3" />
     <servers />
   </component>
   <component name="VcsManagerConfiguration">
@@ -180,17 +188,9 @@
     <option name="LAST_COMMIT_MESSAGE" value="[AlphaPlanner] heuristics 준비" />
   </component>
   <component name="XDebuggerManager">
-    <breakpoint-manager>
-      <breakpoints>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/dev/brown/util/ConstructHeuristics.java</url>
-          <line>40</line>
-          <option name="timeStamp" value="13" />
-        </line-breakpoint>
-      </breakpoints>
-    </breakpoint-manager>
     <watches-manager>
       <configuration name="JUnit">
+        <watch expression="decodedStr" language="JAVA" />
         <watch expression="inputObject" language="JAVA" />
       </configuration>
     </watches-manager>
