@@ -19,22 +19,22 @@ public class MatrixManager {
         };
     }
 
-    private static void convertJsonToMap(JsonObject matrixJson, DISTANCE_MATRIX_TYPE distanceMatrixType) {
-
-        HashMap<Integer, HashMap<Integer, Integer>> distanceMapByType = getDistanceMapByType(distanceMatrixType);
-
-        for (String originIndexStr : matrixJson.keySet()) {
-            int originIndex = Integer.parseInt(originIndexStr);
-            distanceMapByType.putIfAbsent(originIndex, new HashMap<>());
-            JsonObject rowObject = matrixJson.get(originIndexStr).getAsJsonObject();
-            for (String destinationIndexStr : rowObject.keySet()) {
-                String distanceStr = rowObject.get(destinationIndexStr).getAsString();
-                int destinationIndex = Integer.parseInt(destinationIndexStr);
-                int distance = Integer.parseInt(distanceStr);
-                distanceMapByType.get(originIndex).put(destinationIndex, distance);
-            }
-        }
-    }
+//    private static void convertJsonToMap(JsonObject matrixJson, DISTANCE_MATRIX_TYPE distanceMatrixType) {
+//
+//        HashMap<Integer, HashMap<Integer, Integer>> distanceMapByType = getDistanceMapByType(distanceMatrixType);
+//
+//        for (String originIndexStr : matrixJson.keySet()) {
+//            int originIndex = Integer.parseInt(originIndexStr);
+//            distanceMapByType.putIfAbsent(originIndex, new HashMap<>());
+//            JsonObject rowObject = matrixJson.get(originIndexStr).getAsJsonObject();
+//            for (String destinationIndexStr : rowObject.keySet()) {
+//                String distanceStr = rowObject.get(destinationIndexStr).getAsString();
+//                int destinationIndex = Integer.parseInt(destinationIndexStr);
+//                int distance = Integer.parseInt(distanceStr);
+//                distanceMapByType.get(originIndex).put(destinationIndex, distance);
+//            }
+//        }
+//    }
 
     public static void applyShopDistanceMap(JsonObject jsonObject) {
         for (String originIndexStr : jsonObject.keySet()) {
@@ -50,15 +50,15 @@ public class MatrixManager {
         }
     }
 
-    public static void applyDeliveryDistanceMap(JsonObject jsonObject) {
+    public static void applyDeliveryDistanceMap(JsonObject jsonObject, int orderCount) {
         for (String originIndexStr : jsonObject.keySet()) {
-            int originIndex = Integer.parseInt(originIndexStr);
+            int originIndex = Integer.parseInt(originIndexStr) - orderCount;
             deliveryDistanceMap.put(originIndex, new HashMap<>());
             for (String destinationIndexStr : jsonObject.get(originIndexStr).getAsJsonObject().keySet()) {
                 String distanceStr = jsonObject.get(originIndexStr).getAsJsonObject().get(destinationIndexStr)
                     .getAsString();
                 int distance = Integer.parseInt(distanceStr);
-                int destinationIndex = Integer.parseInt(destinationIndexStr);
+                int destinationIndex = Integer.parseInt(destinationIndexStr) - orderCount;
                 deliveryDistanceMap.get(originIndex).put(destinationIndex, distance);
             }
         }
@@ -66,7 +66,7 @@ public class MatrixManager {
 
     public static void applyShopToDeliveryDistanceMap(JsonObject jsonObject, int orderCount) {
         for (String originIndexStr : jsonObject.keySet()) {
-            int originIndex = Integer.parseInt(originIndexStr);
+            int originIndex = Integer.parseInt(originIndexStr) ;
             shopToDeliveryDistanceMap.put(originIndex, new HashMap<>());
             for (String destinationIndexStr : jsonObject.get(originIndexStr).getAsJsonObject().keySet()) {
                 String distanceStr = jsonObject.get(originIndexStr).getAsJsonObject().get(destinationIndexStr)

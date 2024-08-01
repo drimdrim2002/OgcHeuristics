@@ -10,17 +10,16 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="8202c2ee-1972-45b1-aca6-81efa16706b3" name="변경" comment="[AlphaPlanner] heuristics 준비">
-      <change afterPath="$PROJECT_DIR$/src/main/java/dev/brown/util/Properties.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/artifacts/OgcHeuristics_jar.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/artifacts/OgcHeuristics_jar.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/test/java/dev/brown/util/decodedStr.txt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/dev/brown/PlannerMain.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dev/brown/PlannerMain.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/dev/brown/domain/Rider.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dev/brown/domain/Rider.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/dev/brown/util/ConstructHeuristics.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dev/brown/util/ConstructHeuristics.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/dev/brown/util/ParameterDecoder.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dev/brown/util/ParameterDecoder.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/META-INF/MANIFEST.MF" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/META-INF/MANIFEST.MF" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/dev/brown/util/InputMaker.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dev/brown/util/InputMaker.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/dev/brown/util/MatrixManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dev/brown/util/MatrixManager.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/test/java/dev/brown/PlannerMainTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/dev/brown/PlannerMainTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/dev/brown/decodingTest.txt" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/dev/brown/decodingTest.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/dev/brown/util/decodingTest.txt" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/dev/brown/util/decodingTest.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/dev/brown/decodingTest.txt" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/dev/brown/encodedString.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/dev/brown/util/ParameterDecoderTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/dev/brown/util/ParameterDecoderTest.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -51,7 +50,7 @@
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
     "JUnit.ParameterDecoderTest.decode.executor": "Run",
-    "JUnit.PlannerMainTest.mainProcessTest.executor": "Debug",
+    "JUnit.PlannerMainTest.mainProcessTest.executor": "Run",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "SHARE_PROJECT_CONFIGURATION_FILES": "true",
     "com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrary": "JUnit5",
@@ -179,7 +178,15 @@
       <option name="project" value="LOCAL" />
       <updated>1722262697222</updated>
     </task>
-    <option name="localTasksCounter" value="3" />
+    <task id="LOCAL-00003" summary="[AlphaPlanner] heuristics 준비">
+      <option name="closed" value="true" />
+      <created>1722354048705</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1722354048705</updated>
+    </task>
+    <option name="localTasksCounter" value="4" />
     <servers />
   </component>
   <component name="VcsManagerConfiguration">
@@ -188,6 +195,30 @@
     <option name="LAST_COMMIT_MESSAGE" value="[AlphaPlanner] heuristics 준비" />
   </component>
   <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/dev/brown/PlannerMain.java</url>
+          <line>40</line>
+          <option name="timeStamp" value="9" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/dev/brown/domain/Rider.java</url>
+          <line>198</line>
+          <option name="timeStamp" value="11" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/dev/brown/domain/Rider.java</url>
+          <line>223</line>
+          <option name="timeStamp" value="12" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/dev/brown/PlannerMain.java</url>
+          <line>34</line>
+          <option name="timeStamp" value="16" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
     <watches-manager>
       <configuration name="JUnit">
         <watch expression="decodedStr" language="JAVA" />

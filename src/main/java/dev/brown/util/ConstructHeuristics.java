@@ -16,8 +16,6 @@ public class ConstructHeuristics {
         HashMap<Integer, Order> orderMap = solution.orderMap();
         HashMap<Integer, Rider> riderMap = solution.riderMap();
 
-        int totalCost = 0;
-
         int riderIndex = 0;
         int orderIndex = 0;
 
@@ -29,7 +27,6 @@ public class ConstructHeuristics {
             rider.addOrder(order);
             if (rider.isValid()) {
                 order.setRider(rider);
-                totalCost += rider.cost();
                 orderIndex += 1;
             } else {
                 rider.removeOrder(order);
@@ -37,6 +34,12 @@ public class ConstructHeuristics {
             }
         }
 
+        for (Rider rider : solution.riderMap().values()) {
+            if (rider.shopIndexList().size() > 1) {
+                int t = 1;
+                t = 2;
+            }
+        }
 //        log.info("totalCost: {}", totalCost);
         return solution;
     }

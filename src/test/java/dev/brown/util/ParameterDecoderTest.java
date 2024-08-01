@@ -15,7 +15,7 @@ class ParameterDecoderTest {
     @Test
     void decode() throws FileNotFoundException {
 
-        String fileName = "src/test/java/dev/brown/util/decodingTest.txt";
+        String fileName = "src/test/java/dev/brown/util/encodedString.txt";
 
         try (BufferedReader bufferedReader = new BufferedReader(new FileReader(fileName))) {
 

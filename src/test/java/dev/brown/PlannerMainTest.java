@@ -11,13 +11,15 @@ import org.mockito.ArgumentMatchers;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.mockito.Mockito;
+
 class PlannerMainTest {
+
     static final Logger log = LoggerFactory.getLogger(PlannerMainTest.class);
 
-//    @BeforeAll
+    //    @BeforeAll
 //    public static void setup() {
 //        Mockito.mockStatic(Properties.class);
-//        String fileName = "src/test/java/dev/brown/util/decodingTest.txt";
+//        String fileName = "src/test/java/dev/brown/util/encodedString.txt";
 //        try (BufferedReader bufferedReader = new BufferedReader(new FileReader(fileName))) {
 //
 //            StringBuilder stringBuilder = new StringBuilder();
@@ -41,11 +43,19 @@ class PlannerMainTest {
     @Test
     public void mainProcessTest() {
 
+        try (BufferedReader fileReader = new BufferedReader(
+            new FileReader("src/test/java/dev/brown/util/decodedStr.txt"))) {
+
+            String decodedStr = fileReader.readLine();
+            PlannerMain.mainProcess(decodedStr);
+        } catch (Exception e) {
+            log.error(e.getMessage(), e);
+        }
+
 //        String[] args = new String[1];
 //        args[0] = "alpha_input";
 //        PlannerMain.main(args);
     }
-
 
 
 }

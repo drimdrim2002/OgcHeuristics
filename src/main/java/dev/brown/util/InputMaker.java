@@ -50,7 +50,7 @@ public class InputMaker {
     public static List<Rider> getRiderListByObject(JsonObject riderObject, int riderIndex) {
         List<Rider> riderList = new ArrayList<>();
         String riderType = riderObject.get("type").getAsString();
-        int speed = riderObject.get("speed").getAsInt();
+        double speed = riderObject.get("speed").getAsDouble();
         int capacity = riderObject.get("capa").getAsInt();
         int varCost = riderObject.get("var_cost").getAsInt();
         int fixedCost = riderObject.get("fixed_cost").getAsInt();
@@ -76,7 +76,7 @@ public class InputMaker {
 
         JsonObject distDlvrysInput = JsonParser.parseString(inputObject.get("dist_dlvrys").getAsString())
             .getAsJsonObject();
-        MatrixManager.applyDeliveryDistanceMap(distDlvrysInput);
+        MatrixManager.applyDeliveryDistanceMap(distDlvrysInput, distDlvrysInput.size());
     }
 
 

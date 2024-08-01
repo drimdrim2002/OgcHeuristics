@@ -11,7 +11,7 @@ public class Rider {
 
     private final int id;
     private final String type;
-    private final int speed;
+    private final double speed;
     private final int capa;
     private final int varCost;
     private final int fixedCost;
@@ -32,7 +32,7 @@ public class Rider {
 
     private boolean isValid;
 
-    public Rider(int id, String type, int speed, int capa, int varCost, int fixedCost, int serviceTime) {
+    public Rider(int id, String type, double speed, int capa, int varCost, int fixedCost, int serviceTime) {
         this.id = id;
         this.type = type;
         this.speed = speed;
@@ -47,7 +47,7 @@ public class Rider {
         this.isValid = true;
     }
 
-    public int speed() {
+    public double speed() {
         return speed;
     }
 
@@ -104,7 +104,7 @@ public class Rider {
     }
 
     public int calculateDuration(int distance) {
-        return (int) Math.round(distance * 1.0 / this.speed) + this.serviceTime;
+        return (int) Math.round(distance * 1.0 / this.speed + this.serviceTime);
     }
 
 
@@ -112,6 +112,8 @@ public class Rider {
         this.orderList.add(order);
         shopIndexList.add(order.id());
         deliveryIndexList.add(order.id());
+
+
 
         List<List<Integer>> shopPermuationList = Permutation.generatePermutations(shopIndexList);
         List<List<Integer>> deliveryPermutationList = Permutation.generatePermutations(deliveryIndexList);
@@ -144,7 +146,7 @@ public class Rider {
             Constants.bestDeliveryIndexMap.put(orderKey, deliveryIndexKey);
             Constants.bestScore.put(orderKey, minCost);
 
-            this.isValid =true;
+            this.isValid = true;
             this.cost = minCost;
         } else {
             this.isValid = false;
@@ -190,6 +192,13 @@ public class Rider {
 
         int deliveryTime = 0;
         int totalDistance = 0;
+
+        if (shopIndexList.size() == 2 && shopIndexList.get(0) == 56 && shopIndexList.get(1) == 57) {
+            if (deliveryIndexList.get(0) == 57 && deliveryIndexList.get(1) == 56) {
+                int t = 1;
+                t = 2;
+            }
+        }
         for (int shopVisitOrder = 0; shopVisitOrder < shopIndexList.size(); shopVisitOrder++) {
             Integer currShopIndex = shopIndexList.get(shopVisitOrder);
             if (shopVisitOrder > 0) {
@@ -213,7 +222,7 @@ public class Rider {
             Integer currDeliveryIndex = deliveryIndexList.get(deliveryVisitOrder);
             if (deliveryVisitOrder > 0) {
                 Integer prevShopIndex = deliveryIndexList.get(deliveryVisitOrder - 1);
-                int distance = MatrixManager.getShopDistance(prevShopIndex, currDeliveryIndex);
+                int distance = MatrixManager.getDeliveryDistance(prevShopIndex, currDeliveryIndex);
                 totalDistance += shopToDeliveryDistance;
                 deliveryTime += calculateDuration(distance);
             }
