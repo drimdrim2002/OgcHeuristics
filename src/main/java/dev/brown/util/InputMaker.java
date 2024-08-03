@@ -38,12 +38,15 @@ public class InputMaker {
         riderList.addAll(getRiderListByObject(bikeRiderObject, riderList.size()));
         riderList.addAll(getRiderListByObject(walkRiderObject, riderList.size()));
 
-        HashMap<Integer, Rider> riderMap = new HashMap<>();
+        HashMap<Integer, Rider> riderMapByIndex = new HashMap<>();
+        HashMap<String, Rider> sampleRiderByType = new HashMap<>();
         for (Rider rider : riderList) {
             rider.setSolution(solution);
-            riderMap.put(rider.id(), rider);
+            riderMapByIndex.put(rider.id(), rider);
+            sampleRiderByType.put(rider.type(), rider);
         }
-        solution.setRiderMap(riderMap);
+        solution.setRiderMap(riderMapByIndex);
+        solution.setSampleRiderMapByType(sampleRiderByType);
         return solution;
     }
 

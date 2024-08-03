@@ -21,6 +21,7 @@ public class Rider {
     private final List<Integer> deliveryIndexList;
     private Solution solution;
     private int cost;
+    private int priority;
 
     public boolean isValid() {
         return isValid;
@@ -45,6 +46,13 @@ public class Rider {
         this.deliveryIndexList = new ArrayList<>();
         this.cost = 0;
         this.isValid = true;
+        if (type.equals("CAR")) {
+            priority = -1;
+        } else if (type.equals("BIKE")) {
+            priority = -2;
+        } else {
+            priority = -3;
+        }
     }
 
     public double speed() {
@@ -311,5 +319,9 @@ public class Rider {
 
     public int getShopToDeliveryDuration(int originIndex, int destinationIndex) {
         return MatrixManager.getShopToDeliveryDuration(this.type, originIndex, destinationIndex);
+    }
+
+    public int priority() {
+        return priority;
     }
 }

@@ -16,6 +16,13 @@ public class ConstructHeuristics {
         HashMap<Integer, Order> orderMap = solution.orderMap();
         HashMap<Integer, Rider> riderMap = solution.riderMap();
 
+//        for (Order order : orderMap.values()) {
+//            solution.sam
+//        }
+
+        // 무엇이 풀기 어려운 order일까?
+
+
         int riderIndex = 0;
         int orderIndex = 0;
 

@@ -11,4 +11,6 @@ public class Constants {
     public static final HashMap<String, String> bestShopIndexMap = new HashMap<>();
     public static final HashMap<String, String> bestDeliveryIndexMap = new HashMap<>();
     public static final HashMap<String, Integer> bestScore = new HashMap<>();
+
+    public static int RIDER_TYPE_SIZE;
 }

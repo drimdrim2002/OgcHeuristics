@@ -29,6 +29,7 @@ public class Solution {
 
     private HashMap<Integer, Order> orderMap = new HashMap<>();
     private HashMap<Integer, Rider> riderMap = new HashMap<>();
+    private HashMap<String, Rider> sampleRiderMapByType = new HashMap<>();
 
     public Solution() {
     }
@@ -47,5 +48,13 @@ public class Solution {
 
     public void setRiderMap(HashMap<Integer, Rider> riderMap) {
         this.riderMap = riderMap;
+    }
+
+    public void setSampleRiderMapByType(HashMap<String, Rider> sampleRiderMapByType) {
+        this.sampleRiderMapByType = sampleRiderMapByType;
+    }
+
+    public HashMap<String, Rider> sampleRiderMapByType() {
+        return sampleRiderMapByType;
     }
 }
