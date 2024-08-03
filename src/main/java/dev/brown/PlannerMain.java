@@ -35,8 +35,11 @@ public class PlannerMain {
         Solution initialSolution = ConstructHeuristics.solve(solution);
         initialSolution.calculateScore();
         JsonObject output = OutputMaker.convertSolutionToBundles(initialSolution);
+
+//        logger.debug(String.valueOf(initialSolution.totalCost() * -1));
+
 //        output.addProperty("not assigned order count", initialSolution.notAssignedOrderCount());
-//        output.addProperty("cost", initialSolution.totalCost() * -1);
+        output.addProperty("cost", initialSolution.totalCost() * -1);
 
         System.out.print(output);
     }

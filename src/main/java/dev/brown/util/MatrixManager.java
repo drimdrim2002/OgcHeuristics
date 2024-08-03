@@ -66,7 +66,7 @@ public class MatrixManager {
 
     public static void applyShopToDeliveryDistanceMap(JsonObject jsonObject, int orderCount) {
         for (String originIndexStr : jsonObject.keySet()) {
-            int originIndex = Integer.parseInt(originIndexStr) ;
+            int originIndex = Integer.parseInt(originIndexStr);
             shopToDeliveryDistanceMap.put(originIndex, new HashMap<>());
             for (String destinationIndexStr : jsonObject.get(originIndexStr).getAsJsonObject().keySet()) {
                 String distanceStr = jsonObject.get(originIndexStr).getAsJsonObject().get(destinationIndexStr)
@@ -91,4 +91,32 @@ public class MatrixManager {
         return deliveryDistanceMap.get(originIndex).get(destinationIndex);
     }
 
+    private static final HashMap<String, HashMap<Integer, HashMap<Integer, Integer>>> shopDurationMap = new HashMap<>();
+    private static final HashMap<String, HashMap<Integer, HashMap<Integer, Integer>>> deliveryDurationMap = new HashMap<>();
+    private static final HashMap<String, HashMap<Integer, HashMap<Integer, Integer>>> shopToDeliveryDurationMap = new HashMap<>();
+
+    public static void applyShopDuration(String riderType, HashMap<Integer, HashMap<Integer, Integer>> durationMap) {
+        shopDurationMap.put(riderType, durationMap);
+    }
+
+    public static void applyDeliveryDuration(String riderType, HashMap<Integer, HashMap<Integer, Integer>> durationMap) {
+        deliveryDurationMap.put(riderType, durationMap);
+    }
+
+    public static void applyShopToDeliveryDuration(String riderType, HashMap<Integer, HashMap<Integer, Integer>> durationMap) {
+        shopToDeliveryDurationMap.put(riderType, durationMap);
+    }
+
+    public static Integer getShopDuration(String riderType, Integer originIndex, Integer destinationIndex) {
+       return shopDurationMap.get(riderType).get(originIndex).get(destinationIndex);
+    }
+
+    public static Integer getDeliveryDuration(String riderType, Integer originIndex, Integer destinationIndex) {
+        return deliveryDurationMap.get(riderType).get(originIndex).get(destinationIndex);
+    }
+
+    public static Integer getShopToDeliveryDuration(String riderType, Integer originIndex, Integer destinationIndex) {
+        return shopToDeliveryDurationMap.get(riderType).get(originIndex).get(destinationIndex);
+    }
 }
+

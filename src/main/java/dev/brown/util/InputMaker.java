@@ -77,6 +77,48 @@ public class InputMaker {
         JsonObject distDlvrysInput = JsonParser.parseString(inputObject.get("dist_dlvrys").getAsString())
             .getAsJsonObject();
         MatrixManager.applyDeliveryDistanceMap(distDlvrysInput, distDlvrysInput.size());
+
+        JsonObject ridersInput = JsonParser.parseString(inputObject.get("riders").getAsString()).getAsJsonObject();
+        for (String riderType : ridersInput.keySet()) {
+
+            applyDuration(riderType, ridersInput, "duration_shops", 0);
+            applyDuration(riderType, ridersInput, "duration_shops_to_dlvrys", distShopInput.size());
+            applyDuration(riderType, ridersInput, "duration_dlvrys", distShopInput.size());
+        }
+
+
+    }
+
+    private static void applyDuration(String riderType, JsonObject ridersInput, String durationKey, int orderCount) {
+        HashMap<Integer, HashMap<Integer, Integer>> durationMap = new HashMap<>();
+        JsonObject durationObject = ridersInput.get(riderType).getAsJsonObject().get(durationKey).getAsJsonObject();
+        for (String originIndexStr : durationObject.keySet()) {
+            int originIndex = Integer.parseInt(originIndexStr);
+            originIndex = durationKey.equals("duration_dlvrys") ? originIndex - orderCount : originIndex;
+            durationMap.putIfAbsent(originIndex, new HashMap<>());
+
+            for (String destinationIndexStr : durationObject.get(originIndexStr).getAsJsonObject().keySet()) {
+                int destinationIndex = Integer.parseInt(destinationIndexStr);
+                destinationIndex =
+                    durationKey.equals("duration_shops") ? destinationIndex : destinationIndex - orderCount;
+                int duration = (int)
+                    durationObject.get(originIndexStr).getAsJsonObject().get(destinationIndexStr)
+                        .getAsDouble();
+
+                durationMap.get(originIndex).put(destinationIndex, duration);
+            }
+        }
+
+        switch (durationKey) {
+            case "duration_shops":
+                MatrixManager.applyShopDuration(riderType, durationMap);
+            case "duration_dlvrys":
+                MatrixManager.applyDeliveryDuration(riderType, durationMap);
+            case "duration_shops_to_dlvrys":
+                MatrixManager.applyShopToDeliveryDuration(riderType, durationMap);
+        }
+
+
     }
 
 

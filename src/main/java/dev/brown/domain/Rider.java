@@ -103,17 +103,11 @@ public class Rider {
         return this.fixedCost + (int) Math.floor(totalDistance / 100.0) * this.varCost;
     }
 
-    public int calculateDuration(int distance) {
-        return (int) Math.round(distance * 1.0 / this.speed + this.serviceTime);
-    }
-
 
     public void addOrder(Order order) {
         this.orderList.add(order);
         shopIndexList.add(order.id());
         deliveryIndexList.add(order.id());
-
-
 
         List<List<Integer>> shopPermuationList = Permutation.generatePermutations(shopIndexList);
         List<List<Integer>> deliveryPermutationList = Permutation.generatePermutations(deliveryIndexList);
@@ -203,18 +197,24 @@ public class Rider {
             Integer currShopIndex = shopIndexList.get(shopVisitOrder);
             if (shopVisitOrder > 0) {
                 Integer prevShopIndex = shopIndexList.get(shopVisitOrder - 1);
-                int distance = MatrixManager.getShopDistance(prevShopIndex, currShopIndex);
-                totalDistance += distance;
-                deliveryTime += calculateDuration(distance);
+                int shopDistance = MatrixManager.getShopDistance(prevShopIndex, currShopIndex);
+                totalDistance += shopDistance;
+                deliveryTime += getShopDuration(prevShopIndex, currShopIndex);
             }
             Order order = this.solution.orderMap().get(currShopIndex);
             deliveryTime = Math.max(deliveryTime, order.readyTime());
         }
 
+        int lastVisitShopIndex = shopIndexList.size() - 1;
+        int firstVisitShopIndex = deliveryIndexList.get(0);
         int shopToDeliveryDistance = MatrixManager.getShopToDeliveryDistance(
-            shopIndexList.get(shopIndexList.size() - 1), deliveryIndexList.get(0));
+            shopIndexList.get(lastVisitShopIndex), firstVisitShopIndex);
         totalDistance += shopToDeliveryDistance;
-        deliveryTime += calculateDuration(shopToDeliveryDistance);
+        if (lastVisitShopIndex > 99 || firstVisitShopIndex > 99) {
+            int t = 1;
+            t = 2;
+        }
+        deliveryTime += getShopToDeliveryDuration(lastVisitShopIndex, firstVisitShopIndex);
 
         int volSum = 0;
         boolean deadlineViolated = false;
@@ -222,9 +222,9 @@ public class Rider {
             Integer currDeliveryIndex = deliveryIndexList.get(deliveryVisitOrder);
             if (deliveryVisitOrder > 0) {
                 Integer prevShopIndex = deliveryIndexList.get(deliveryVisitOrder - 1);
-                int distance = MatrixManager.getDeliveryDistance(prevShopIndex, currDeliveryIndex);
-                totalDistance += shopToDeliveryDistance;
-                deliveryTime += calculateDuration(distance);
+                int deliveryDistance = MatrixManager.getDeliveryDistance(prevShopIndex, currDeliveryIndex);
+                totalDistance += deliveryDistance;
+                deliveryTime += getDeliveryDuration(prevShopIndex, currDeliveryIndex);
             }
             Order order = this.solution.orderMap().get(currDeliveryIndex);
             if (order.deadline() < deliveryTime) {
@@ -242,52 +242,52 @@ public class Rider {
         return cost;
     }
 
-    public void calculateAll() {
-
-        int deliveryTime = 0;
-        int totalDistance = 0;
-        for (int shopVisitOrder = 0; shopVisitOrder < shopIndexList.size(); shopVisitOrder++) {
-            Integer currShopIndex = shopIndexList.get(shopVisitOrder);
-            if (shopVisitOrder > 0) {
-                Integer prevShopIndex = shopIndexList.get(shopVisitOrder - 1);
-                int distance = MatrixManager.getShopDistance(prevShopIndex, currShopIndex);
-                totalDistance += distance;
-                deliveryTime += calculateDuration(distance);
-            }
-            Order order = this.solution.orderMap().get(currShopIndex);
-            deliveryTime = Math.max(deliveryTime, order.readyTime());
-        }
-
-        int shopToDeliveryDistance = MatrixManager.getShopToDeliveryDistance(
-            shopIndexList.get(shopIndexList.size() - 1), deliveryIndexList.get(0));
-        totalDistance += shopToDeliveryDistance;
-        deliveryTime += calculateDuration(shopToDeliveryDistance);
-
-        int volSum = 0;
-        boolean deadlineViolated = false;
-        for (int deliveryVisitOrder = 0; deliveryVisitOrder < deliveryIndexList.size(); deliveryVisitOrder++) {
-            Integer currDeliveryIndex = deliveryIndexList.get(deliveryVisitOrder);
-            if (deliveryVisitOrder > 0) {
-                Integer prevShopIndex = deliveryIndexList.get(deliveryVisitOrder - 1);
-                int distance = MatrixManager.getShopDistance(prevShopIndex, currDeliveryIndex);
-                totalDistance += shopToDeliveryDistance;
-                deliveryTime += calculateDuration(distance);
-            }
-            Order order = this.solution.orderMap().get(currDeliveryIndex);
-            if (order.deadline() < deliveryTime) {
-                deadlineViolated = true;
-                break;
-            }
-            volSum += order.volume();
-
-        }
-
-        if (volSum > this.capa || deadlineViolated) {
-            isValid = false;
-        } else {
-            cost = calculateCost(totalDistance);
-        }
-    }
+//    public void calculateAll() {
+//
+//        int deliveryTime = 0;
+//        int totalDistance = 0;
+//        for (int shopVisitOrder = 0; shopVisitOrder < shopIndexList.size(); shopVisitOrder++) {
+//            Integer currShopIndex = shopIndexList.get(shopVisitOrder);
+//            if (shopVisitOrder > 0) {
+//                Integer prevShopIndex = shopIndexList.get(shopVisitOrder - 1);
+//                int distance = MatrixManager.getShopDistance(prevShopIndex, currShopIndex);
+//                totalDistance += distance;
+//                deliveryTime += calculateDuration(distance);
+//            }
+//            Order order = this.solution.orderMap().get(currShopIndex);
+//            deliveryTime = Math.max(deliveryTime, order.readyTime());
+//        }
+//
+//        int shopToDeliveryDistance = MatrixManager.getShopToDeliveryDistance(
+//            shopIndexList.get(shopIndexList.size() - 1), deliveryIndexList.get(0));
+//        totalDistance += shopToDeliveryDistance;
+//        deliveryTime += calculateDuration(shopToDeliveryDistance);
+//
+//        int volSum = 0;
+//        boolean deadlineViolated = false;
+//        for (int deliveryVisitOrder = 0; deliveryVisitOrder < deliveryIndexList.size(); deliveryVisitOrder++) {
+//            Integer currDeliveryIndex = deliveryIndexList.get(deliveryVisitOrder);
+//            if (deliveryVisitOrder > 0) {
+//                Integer prevShopIndex = deliveryIndexList.get(deliveryVisitOrder - 1);
+//                int distance = MatrixManager.getShopDistance(prevShopIndex, currDeliveryIndex)
+//                totalDistance += shopToDeliveryDistance;
+//                deliveryTime += calculateDuration(distance);
+//            }
+//            Order order = this.solution.orderMap().get(currDeliveryIndex);
+//            if (order.deadline() < deliveryTime) {
+//                deadlineViolated = true;
+//                break;
+//            }
+//            volSum += order.volume();
+//
+//        }
+//
+//        if (volSum > this.capa || deadlineViolated) {
+//            isValid = false;
+//        } else {
+//            cost = calculateCost(totalDistance);
+//        }
+//    }
 
     public List<Integer> deliveryIndexList() {
         return deliveryIndexList;
@@ -299,5 +299,17 @@ public class Rider {
 
     public List<Integer> shopIndexList() {
         return shopIndexList;
+    }
+
+    public int getShopDuration(int originIndex, int destinationIndex) {
+        return MatrixManager.getShopDuration(this.type, originIndex, destinationIndex);
+    }
+
+    public int getDeliveryDuration(int originIndex, int destinationIndex) {
+        return MatrixManager.getDeliveryDuration(this.type, originIndex, destinationIndex);
+    }
+
+    public int getShopToDeliveryDuration(int originIndex, int destinationIndex) {
+        return MatrixManager.getShopToDeliveryDuration(this.type, originIndex, destinationIndex);
     }
 }

@@ -9,17 +9,13 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="8202c2ee-1972-45b1-aca6-81efa16706b3" name="변경" comment="[AlphaPlanner] heuristics 준비">
-      <change afterPath="$PROJECT_DIR$/src/test/java/dev/brown/util/decodedStr.txt" afterDir="false" />
+    <list default="true" id="8202c2ee-1972-45b1-aca6-81efa16706b3" name="변경" comment="[AlphaPlanner] rider type에 따라 duration 받도록 처리">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/dev/brown/PlannerMain.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dev/brown/PlannerMain.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/dev/brown/domain/Rider.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dev/brown/domain/Rider.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/dev/brown/util/ConstructHeuristics.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dev/brown/util/ConstructHeuristics.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/dev/brown/util/InputMaker.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dev/brown/util/InputMaker.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/dev/brown/util/MatrixManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dev/brown/util/MatrixManager.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/dev/brown/PlannerMainTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/dev/brown/PlannerMainTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/dev/brown/decodingTest.txt" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/dev/brown/encodedString.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/dev/brown/util/ParameterDecoderTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/dev/brown/util/ParameterDecoderTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/dev/brown/util/decodedStr.txt" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/dev/brown/util/decodedStr.txt" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -61,6 +57,7 @@
     "project.structure.last.edited": "아티팩트",
     "project.structure.proportion": "0.15",
     "project.structure.side.proportion": "0.34953463",
+    "settings.editor.selected.configurable": "Console",
     "애플리케이션.Main.executor": "Run",
     "애플리케이션.Permutation.executor": "Debug",
     "애플리케이션.PlannerMain.executor": "Debug"
@@ -186,25 +183,35 @@
       <option name="project" value="LOCAL" />
       <updated>1722354048705</updated>
     </task>
-    <option name="localTasksCounter" value="4" />
+    <task id="LOCAL-00004" summary="[AlphaPlanner] heuristics 준비2&#10; - duration은 그냥 따로 받은 것으로">
+      <option name="closed" value="true" />
+      <created>1722528845300</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1722528845300</updated>
+    </task>
+    <option name="localTasksCounter" value="5" />
     <servers />
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="[AlphaPlanner] InputMaker 작성" />
     <MESSAGE value="[AlphaPlanner] heuristics 준비" />
-    <option name="LAST_COMMIT_MESSAGE" value="[AlphaPlanner] heuristics 준비" />
+    <MESSAGE value="[AlphaPlanner] heuristics 준비2&#10; - duration은 그냥 따로 받은 것으로" />
+    <MESSAGE value="[AlphaPlanner] rider type에 따라 duration 받도록 처리" />
+    <option name="LAST_COMMIT_MESSAGE" value="[AlphaPlanner] rider type에 따라 duration 받도록 처리" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
       <breakpoints>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/dev/brown/PlannerMain.java</url>
-          <line>40</line>
+          <line>43</line>
           <option name="timeStamp" value="9" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/dev/brown/domain/Rider.java</url>
-          <line>198</line>
+          <line>192</line>
           <option name="timeStamp" value="11" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
@@ -213,9 +220,19 @@
           <option name="timeStamp" value="12" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/dev/brown/domain/Rider.java</url>
+          <line>216</line>
+          <option name="timeStamp" value="24" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/dev/brown/PlannerMain.java</url>
           <line>34</line>
-          <option name="timeStamp" value="16" />
+          <option name="timeStamp" value="34" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/dev/brown/util/InputMaker.java</url>
+          <line>85</line>
+          <option name="timeStamp" value="39" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
