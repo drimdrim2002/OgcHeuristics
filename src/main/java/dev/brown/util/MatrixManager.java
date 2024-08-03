@@ -9,6 +9,7 @@ public class MatrixManager {
     public final static HashMap<Integer, HashMap<Integer, Integer>> shopDistanceMap = new HashMap<>();
     public final static HashMap<Integer, HashMap<Integer, Integer>> deliveryDistanceMap = new HashMap<>();
     public final static HashMap<Integer, HashMap<Integer, Integer>> shopToDeliveryDistanceMap = new HashMap<>();
+//    private static final Logger log = LoggerFactory.getLogger(MatrixManager.class);
 
     private static HashMap<Integer, HashMap<Integer, Integer>> getDistanceMapByType(
         DISTANCE_MATRIX_TYPE distanceMatrixType) {
@@ -24,7 +25,7 @@ public class MatrixManager {
 //        HashMap<Integer, HashMap<Integer, Integer>> distanceMapByType = getDistanceMapByType(distanceMatrixType);
 //
 //        for (String originIndexStr : matrixJson.keySet()) {
-//            int originIndex = Integer.parseInt(originIndexStr);
+//            int originXIndex = Integer.parseInt(originIndexStr);
 //            distanceMapByType.putIfAbsent(originIndex, new HashMap<>());
 //            JsonObject rowObject = matrixJson.get(originIndexStr).getAsJsonObject();
 //            for (String destinationIndexStr : rowObject.keySet()) {
@@ -96,14 +97,18 @@ public class MatrixManager {
     private static final HashMap<String, HashMap<Integer, HashMap<Integer, Integer>>> shopToDeliveryDurationMap = new HashMap<>();
 
     public static void applyShopDuration(String riderType, HashMap<Integer, HashMap<Integer, Integer>> durationMap) {
+//        log.info("applyShopDuration");
         shopDurationMap.put(riderType, durationMap);
     }
 
     public static void applyDeliveryDuration(String riderType, HashMap<Integer, HashMap<Integer, Integer>> durationMap) {
+//        log.info("applyDeliveryDuration");
         deliveryDurationMap.put(riderType, durationMap);
     }
 
     public static void applyShopToDeliveryDuration(String riderType, HashMap<Integer, HashMap<Integer, Integer>> durationMap) {
+//        log.info("applyShopToDeliveryDuration");
+
         shopToDeliveryDurationMap.put(riderType, durationMap);
     }
 

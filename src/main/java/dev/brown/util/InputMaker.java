@@ -11,6 +11,8 @@ import java.util.List;
 
 public class InputMaker {
 
+//    private static final Logger log = LoggerFactory.getLogger(InputMaker.class);
+
     public static Solution makeSolutionClassByInput(JsonObject inputObject) {
 
         Solution solution = new Solution();
@@ -33,6 +35,7 @@ public class InputMaker {
         JsonObject carRiderObject = riderInput.get("CAR").getAsJsonObject();
         JsonObject bikeRiderObject = riderInput.get("BIKE").getAsJsonObject();
         JsonObject walkRiderObject = riderInput.get("WALK").getAsJsonObject();
+
         int riderIndex = 0;
         List<Rider> riderList = getRiderListByObject(carRiderObject, riderIndex);
         riderList.addAll(getRiderListByObject(bikeRiderObject, riderList.size()));
@@ -95,6 +98,7 @@ public class InputMaker {
     private static void applyDuration(String riderType, JsonObject ridersInput, String durationKey, int orderCount) {
         HashMap<Integer, HashMap<Integer, Integer>> durationMap = new HashMap<>();
         JsonObject durationObject = ridersInput.get(riderType).getAsJsonObject().get(durationKey).getAsJsonObject();
+
         for (String originIndexStr : durationObject.keySet()) {
             int originIndex = Integer.parseInt(originIndexStr);
             originIndex = durationKey.equals("duration_dlvrys") ? originIndex - orderCount : originIndex;
@@ -115,10 +119,13 @@ public class InputMaker {
         switch (durationKey) {
             case "duration_shops":
                 MatrixManager.applyShopDuration(riderType, durationMap);
+                break;
             case "duration_dlvrys":
                 MatrixManager.applyDeliveryDuration(riderType, durationMap);
+                break;
             case "duration_shops_to_dlvrys":
                 MatrixManager.applyShopToDeliveryDuration(riderType, durationMap);
+                break;
         }
 
 

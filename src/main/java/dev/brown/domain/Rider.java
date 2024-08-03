@@ -21,7 +21,7 @@ public class Rider {
     private final List<Integer> deliveryIndexList;
     private Solution solution;
     private int cost;
-    private int priority;
+    private final int priority;
 
     public boolean isValid() {
         return isValid;
@@ -195,12 +195,12 @@ public class Rider {
         int deliveryTime = 0;
         int totalDistance = 0;
 
-        if (shopIndexList.size() == 2 && shopIndexList.get(0) == 56 && shopIndexList.get(1) == 57) {
-            if (deliveryIndexList.get(0) == 57 && deliveryIndexList.get(1) == 56) {
-                int t = 1;
-                t = 2;
-            }
-        }
+//        if (shopIndexList.size() == 2 && shopIndexList.get(0) == 56 && shopIndexList.get(1) == 57) {
+//            if (deliveryIndexList.get(0) == 57 && deliveryIndexList.get(1) == 56) {
+//                int t = 1;
+//                t = 2;
+//            }
+//        }
         for (int shopVisitOrder = 0; shopVisitOrder < shopIndexList.size(); shopVisitOrder++) {
             Integer currShopIndex = shopIndexList.get(shopVisitOrder);
             if (shopVisitOrder > 0) {
@@ -213,15 +213,12 @@ public class Rider {
             deliveryTime = Math.max(deliveryTime, order.readyTime());
         }
 
-        int lastVisitShopIndex = shopIndexList.size() - 1;
+        int lastVisitShopIndex = shopIndexList.get(shopIndexList.size() - 1);
         int firstVisitShopIndex = deliveryIndexList.get(0);
         int shopToDeliveryDistance = MatrixManager.getShopToDeliveryDistance(
-            shopIndexList.get(lastVisitShopIndex), firstVisitShopIndex);
+            lastVisitShopIndex, firstVisitShopIndex);
         totalDistance += shopToDeliveryDistance;
-        if (lastVisitShopIndex > 99 || firstVisitShopIndex > 99) {
-            int t = 1;
-            t = 2;
-        }
+
         deliveryTime += getShopToDeliveryDuration(lastVisitShopIndex, firstVisitShopIndex);
 
         int volSum = 0;

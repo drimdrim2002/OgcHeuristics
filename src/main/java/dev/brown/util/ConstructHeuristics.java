@@ -4,12 +4,10 @@ import dev.brown.domain.Order;
 import dev.brown.domain.Rider;
 import dev.brown.domain.Solution;
 import java.util.HashMap;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 public class ConstructHeuristics {
 
-    static final Logger log = LoggerFactory.getLogger(ConstructHeuristics.class);
+//    static final Logger log = LoggerFactory.getLogger(ConstructHeuristics.class);
 
     public static Solution solve(Solution solution) {
 
@@ -22,7 +20,6 @@ public class ConstructHeuristics {
 
         // 무엇이 풀기 어려운 order일까?
 
-
         int riderIndex = 0;
         int orderIndex = 0;
 
@@ -31,22 +28,20 @@ public class ConstructHeuristics {
             Rider rider = riderMap.get(riderIndex);
             Order order = orderMap.get(orderIndex);
 
+
             rider.addOrder(order);
             if (rider.isValid()) {
                 order.setRider(rider);
                 orderIndex += 1;
+//                log.info("order {}-> rider{}", order.id(), rider.id());
             } else {
                 rider.removeOrder(order);
                 riderIndex += 1;
             }
+
         }
 
-        for (Rider rider : solution.riderMap().values()) {
-            if (rider.shopIndexList().size() > 1) {
-                int t = 1;
-                t = 2;
-            }
-        }
+
 //        log.info("totalCost: {}", totalCost);
         return solution;
     }
