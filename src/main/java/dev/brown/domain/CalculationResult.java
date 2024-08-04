@@ -1,10 +1,11 @@
 package dev.brown.domain;
 
+import java.util.List;
+
 public class CalculationResult {
 
     private final boolean isFeasible;
-    private  int cost;
-    private  int extraTime;
+    private int cost;
 
     public CalculationResult(boolean isFeasible) {
         this.isFeasible = isFeasible;
@@ -12,10 +13,6 @@ public class CalculationResult {
 
     public int cost() {
         return cost;
-    }
-
-    public int extraTime() {
-        return extraTime;
     }
 
     public boolean isFeasible() {
@@ -26,7 +23,4 @@ public class CalculationResult {
         this.cost = cost;
     }
 
-    public void setExtraTime(int extraTime) {
-        this.extraTime = extraTime;
-    }
 }

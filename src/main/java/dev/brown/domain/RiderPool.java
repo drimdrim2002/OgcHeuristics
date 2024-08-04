@@ -1,7 +1,9 @@
 package dev.brown.domain;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.List;
 import java.util.TreeMap;
 
 public class RiderPool {
@@ -9,6 +11,8 @@ public class RiderPool {
 
     private final HashMap<String, TreeMap<Integer, Rider>> riderMapByType;
     private final HashSet<Integer> consumedRecord;
+
+    private final List<Rider> totalRiderList = new ArrayList<>();
 
     public RiderPool(HashMap<Integer, Rider> riderMap) {
 
@@ -18,6 +22,9 @@ public class RiderPool {
             riderMapByType.get(rider.type()).put(rider.id(), rider);
         }
         consumedRecord = new HashSet<>();
+
+        List<Rider> riderList = riderMap.values().stream().toList();
+        totalRiderList.addAll(riderList);
 
 
     }
@@ -42,5 +49,9 @@ public class RiderPool {
             return riderMapByType.get(riderType).firstEntry().getValue();
         }
         return null;
+    }
+
+    public boolean vehicleRemains() {
+        return consumedRecord().size() < totalRiderList.size();
     }
 }

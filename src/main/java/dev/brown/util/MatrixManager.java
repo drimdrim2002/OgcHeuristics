@@ -2,12 +2,9 @@ package dev.brown.util;
 
 import com.google.gson.JsonObject;
 import dev.brown.Constants.DISTANCE_MATRIX_TYPE;
-import dev.brown.domain.Order;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Map.Entry;
 import java.util.Objects;
 import java.util.TreeMap;
 
@@ -133,7 +130,7 @@ public class MatrixManager {
         return shopToDeliveryDurationMap.get(riderType).get(originIndex).get(destinationIndex);
     }
 
-    private static final HashMap<Integer, TreeMap<Integer, List<Integer>>> nearestDistanceMap = new HashMap<>();
+    public static final HashMap<Integer, TreeMap<Integer, List<Integer>>> nearestDistanceMap = new HashMap<>();
 
     public static void applyNearestDistanceMap() {
         for (Integer originIndex : shopDistanceMap.keySet()) {
@@ -156,16 +153,6 @@ public class MatrixManager {
         }
     }
 
-    public static int findNearestIndex(Order order, HashSet<Integer> tried) {
-        for (Entry<Integer, List<Integer>> nearestDistanceEntry : nearestDistanceMap.get(order.id()).entrySet()) {
-            for (Integer orderIndex : nearestDistanceEntry.getValue()) {
-                if (!tried.contains(orderIndex)) {
-                    return orderIndex;
-                }
-            }
-        }
-        return -1;
-    }
 
     static void applyDuration(String riderType, JsonObject ridersInput, String durationKey, int orderCount) {
         HashMap<Integer, HashMap<Integer, Integer>> durationMap = new HashMap<>();

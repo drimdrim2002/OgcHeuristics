@@ -1,12 +1,11 @@
 package dev.brown.util;
 
-import dev.brown.Constants.ORDER_CRITERIA;
 import dev.brown.Constants.RIDER_TYPE;
-import dev.brown.domain.CalculationResult;
 import dev.brown.domain.Order;
 import dev.brown.domain.OrderPool;
 import dev.brown.domain.Rider;
 import dev.brown.domain.RiderPool;
+import dev.brown.domain.SimulationResult;
 import dev.brown.domain.Solution;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -27,9 +26,8 @@ public class ConstructHeuristics {
         HashMap<Integer, Order> orderMap = solution.orderMap();
         HashMap<Integer, Rider> riderMap = solution.riderMap();
 
-//        brownSolution(solution, orderMap);
+        brownSolution(solution);
 //        orderPool.sortOrderByDifficulties();
-
 
 //        for (Order order : orderMap.values()) {
 //            solution.sam
@@ -37,6 +35,13 @@ public class ConstructHeuristics {
 
         // 무엇이 풀기 어려운 order일까?
 
+//        simpleSolution(riderMap, orderMap);
+
+//        log.info("totalCost: {}", totalCost);
+        return solution;
+    }
+
+    private static void simpleSolution(HashMap<Integer, Rider> riderMap, HashMap<Integer, Order> orderMap) {
         int riderIndex = 0;
         int orderIndex = 0;
 
@@ -45,8 +50,8 @@ public class ConstructHeuristics {
             Rider rider = riderMap.get(riderIndex);
             Order order = orderMap.get(orderIndex);
 
-            CalculationResult calculationResult = rider.addOrder(order);
-            if (calculationResult.isFeasible()) {
+            rider.addOrder(order);
+            if (rider.isValid()) {
                 order.setRider(rider);
                 orderIndex += 1;
 //                log.info("order {}-> rider{}", order.id(), rider.id());
@@ -56,23 +61,19 @@ public class ConstructHeuristics {
             }
 
         }
-
-
-//        log.info("totalCost: {}", totalCost);
-        return solution;
     }
 
-    private static void brownSolution(Solution solution, HashMap<Integer, Order> orderMap) {
-        OrderPool orderPool = new OrderPool(solution.orderMap(), solution.sampleRiderMapByType());
+    private static void brownSolution(Solution solution) {
+        OrderPool orderPool = new OrderPool(solution.orderMap());
         RiderPool riderPool = new RiderPool(solution.riderMap());
-        int trial = 0;
-        while (orderPool.consumedRecord().size() < orderMap.size()) {
-            ORDER_CRITERIA criteria = trial % 2 == 0 ? ORDER_CRITERIA.DEADLINE : ORDER_CRITERIA.CAPACITY;
+        while (orderPool.orderRemains() && riderPool.vehicleRemains()) {
+//            ORDER_CRITERIA criteria = trial % 2 == 0 ? ORDER_CRITERIA.DEADLINE : ORDER_CRITERIA.CAPACITY;
 
-            Order nextOrder = orderPool.getNextOrder(criteria);
-
-
-            TreeMap<Double, HashMap<Rider, List<Order>>> availableScenarioMap = new TreeMap<>();
+            Order nextOrder = orderPool.getNextOrder();
+            if (nextOrder == null) {
+                break;
+            }
+            TreeMap<Double, List<SimulationResult>> availableScenarioMap = new TreeMap<>();
             for (RIDER_TYPE riderType : RIDER_TYPE.values()) {
                 HashSet<Integer> triedOrderIndex = new HashSet<>();
 
@@ -81,46 +82,75 @@ public class ConstructHeuristics {
                     continue;
                 }
 
-
-                int totalCost =0;
                 List<Order> pickOrder = new ArrayList<>();
                 while (nextOrder != null) {
-                    CalculationResult calculationResult = nextRider.addOrder(nextOrder);
-                    if (calculationResult.isFeasible()) {
-                        int cost = calculationResult.cost();
+                    int totalCost = 0;
+                    nextRider.addOrder(nextOrder);
+                    if (nextRider.isValid()) {
+                        int cost = nextRider.cost();
                         totalCost += cost;
                         pickOrder.add(nextOrder);
-                        triedOrderIndex.add(nextOrder.id());
-                        int nearestIndex = MatrixManager.findNearestIndex(nextOrder, triedOrderIndex);
-                        nextOrder = solution.orderMap().get(nearestIndex);
+
+                    } else {
+                        totalCost = -1;
+                        nextRider.removeOrder(nextOrder);
+                        pickOrder.remove(nextOrder);
                     }
+
+                    triedOrderIndex.add(nextOrder.id());
+                    int nearestIndex = orderPool.findNearestIndex(nextOrder, triedOrderIndex);
+                    nextOrder = solution.orderMap().get(nearestIndex);
+
+
+                    if (totalCost > 0) {
+                        // todo 단순히 개수로 하는 것보다는 ratio도 봐야하지 않을까?
+                        double averageCost = totalCost * 1.0 / pickOrder.size();
+
+                        availableScenarioMap.put(averageCost, new ArrayList<>());
+                        availableScenarioMap.get(averageCost).add(new SimulationResult(nextRider));
+                    }
+
+
                 }
-
-                double averageCost = totalCost * 1.0 / pickOrder.size();
-                availableScenarioMap.put(averageCost, new HashMap<>());
-                availableScenarioMap.get(averageCost).put(nextRider, pickOrder);
-
 
                 nextRider.resetAll();
                 for (Order order : pickOrder) {
                     order.setRider(null);
                 }
 
+                nextOrder = orderPool.getNextOrder();
             }
 
             if (!availableScenarioMap.isEmpty()) {
-                HashMap<Rider, List<Order>> bestScenario = availableScenarioMap.firstEntry().getValue();
-                for (Rider rider : bestScenario.keySet()) {
-                    riderPool.consume(rider);
-                    for (Order order : bestScenario.get(rider)) {
-                        orderPool.consume(order, criteria);
-                    }
+                List<SimulationResult> simulationResultList = availableScenarioMap.firstEntry().getValue();
+
+                SimulationResult simulationResult = simulationResultList.get(0);
+                Rider bestPickRider = solution.riderMap().get(simulationResult.riderIndex());
+                bestPickRider.setCost(simulationResult.cost());
+                bestPickRider.setShopIndexList(simulationResult.shopIndexList());
+                bestPickRider.setDeliveryIndexList(simulationResult.deliveryIndexList());
+                bestPickRider.setOrderList(simulationResult.orderList());
+
+//                log.info("best pick rider : {}", bestPickRider );
+
+                for (Order order : simulationResult.orderList()) {
+                    orderPool.consume(order);
+                    order.setRider(bestPickRider);
                 }
+                riderPool.consume(bestPickRider);
+
 
             }
 
-            trial += 1;
 //            orderPool.getNextOrder()
         }
+
+        int t = 1;
+        t = 2;
+
+//        for (Rider rider : solution.riderMap().values()) {
+//            log.info("rider: {}", );
+//        }
+
     }
 }

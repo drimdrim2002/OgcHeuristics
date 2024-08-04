@@ -6,10 +6,15 @@ import dev.brown.util.MatrixManager;
 import dev.brown.util.Permutation;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.TreeMap;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class Rider {
 
+    private static final Logger log = LoggerFactory.getLogger(Rider.class);
     private final int id;
     private final String type;
     private final double speed;
@@ -17,13 +22,31 @@ public class Rider {
     private final int varCost;
     private final int fixedCost;
     private final int serviceTime;
-    private final List<Order> orderList;
-    private final List<Integer> shopIndexList;
-    private final List<Integer> deliveryIndexList;
+    private List<Order> orderList;
+
+    public void setShopIndexList(List<Integer> shopIndexList) {
+        this.shopIndexList = shopIndexList;
+    }
+
+    public void setDeliveryIndexList(List<Integer> deliveryIndexList) {
+        this.deliveryIndexList = deliveryIndexList;
+    }
+
+    public void setOrderList(List<Order> orderList) {
+        this.orderList = orderList;
+    }
+
+    private List<Integer> shopIndexList = new ArrayList<>();
+    private List<Integer> deliveryIndexList = new ArrayList<>();
     private Solution solution;
+
+    public void setCost(int cost) {
+        this.cost = cost;
+    }
+
     private int cost;
     private final int priority;
-    private int extraTime;
+//    private int extraTime;
 
     public boolean isValid() {
         return isValid;
@@ -44,8 +67,6 @@ public class Rider {
         this.fixedCost = fixedCost;
         this.serviceTime = serviceTime;
         this.orderList = new ArrayList<>();
-        this.shopIndexList = new ArrayList<>();
-        this.deliveryIndexList = new ArrayList<>();
         this.cost = 0;
         this.isValid = true;
         if (type.equals("CAR")) {
@@ -55,7 +76,11 @@ public class Rider {
         } else {
             priority = -3;
         }
-        this.extraTime = 0;
+
+        Constants.bestShopIndexMap.put(this.type(), new HashMap<>());
+        Constants.bestDeliveryIndexMap.put(this.type(), new HashMap<>());
+        Constants.bestScore.put(this.type(), new HashMap<>());
+//        this.extraTime = 0;
     }
 
     public double speed() {
@@ -96,6 +121,10 @@ public class Rider {
 
     @Override
     public String toString() {
+        return defaultInformation() + additionalInformation();
+    }
+
+    private String defaultInformation() {
         return "Rider{" +
             "capa=" + capa +
             ", id=" + id +
@@ -106,15 +135,28 @@ public class Rider {
             '}';
     }
 
+    private String additionalInformation() {
+        StringBuilder sb = new StringBuilder();
+        for (Integer shopIndex : this.shopIndexList) {
+            sb.append(shopIndex)
+                .append("->");
+        }
+        for (Integer deliveryIndex : this.deliveryIndexList) {
+            sb.append(deliveryIndex)
+                .append("->");
+        }
+        return sb.substring(0, sb.length() - 2);
+
+    }
+
     public int calculateCost(int totalDistance) {
         return this.fixedCost + (int) (totalDistance / 100.0 * this.varCost);
     }
 
 
-
-
-    public CalculationResult addOrder(Order order) {
+    public void addOrder(Order order) {
         this.orderList.add(order);
+
         shopIndexList.add(order.id());
         deliveryIndexList.add(order.id());
 
@@ -122,46 +164,78 @@ public class Rider {
         List<List<Integer>> deliveryPermutationList = Permutation.generatePermutations(deliveryIndexList);
 
         int minCost = Integer.MAX_VALUE;
-        boolean addPossible = false;
+
+        TreeMap<Integer, HashMap<String, List<Integer>>> bestScoreRecord = new TreeMap<>();
+
         for (List<Integer> shopSeqListCandidate : shopPermuationList) {
             for (List<Integer> deliveryShopSeqListCandidate : deliveryPermutationList) {
+
+                if (shopSeqListCandidate.size() == 3
+                    && shopSeqListCandidate.get(0) == 0
+                    && shopSeqListCandidate.get(1) == 18
+                    && shopSeqListCandidate.get(2) == 3
+                    && deliveryShopSeqListCandidate.get(0) == 3
+                    && deliveryShopSeqListCandidate.get(1) == 0
+                    && deliveryShopSeqListCandidate.get(2) == 18
+                    && this.type().equals("CAR")
+                ) {
+                    int t = 1;
+                    t = 2;
+                }
+
+                resetRecord();
                 CalculationResult calculationResult = calculate(shopSeqListCandidate, deliveryShopSeqListCandidate);
-                if (calculationResult.isFeasible() && calculationResult.cost() < minCost) {
-                    this.shopIndexList.clear();
-                    this.shopIndexList.addAll(shopSeqListCandidate);
-                    this.deliveryIndexList.clear();
-                    this.deliveryIndexList.addAll(deliveryShopSeqListCandidate);
+
+                int newScore = calculationResult.cost();
+                if (calculationResult.isFeasible() && newScore < minCost) {
+                    bestScoreRecord.put(newScore, new HashMap<>());
+                    bestScoreRecord.get(newScore).put("shopIndexList", shopSeqListCandidate);
+                    bestScoreRecord.get(newScore).put("deliveryIndexList", deliveryShopSeqListCandidate);
                     minCost = calculationResult.cost();
-                    this.extraTime = calculationResult.extraTime();
-                    addPossible = true;
                 }
             }
         }
 
-        if (addPossible) {
+        if (!bestScoreRecord.isEmpty()) {
 
             List<Integer> idCollect = getSortedSequence();
-
             String orderKey = CalculationUtils.getKeyFromList(idCollect);
-            String shopIndexKey = CalculationUtils.getKeyFromList(this.shopIndexList);
-            String deliveryIndexKey = CalculationUtils.getKeyFromList(this.deliveryIndexList);
+            HashMap<String, List<Integer>> indexListMap = bestScoreRecord.firstEntry().getValue();
+            List<Integer> bestShopIndexList = indexListMap.get("shopIndexList");
+            List<Integer> bestDeliveryIndexList = indexListMap.get("deliveryIndexList");
 
-            Constants.bestShopIndexMap.put(orderKey, shopIndexKey);
-            Constants.bestDeliveryIndexMap.put(orderKey, deliveryIndexKey);
-            Constants.bestScore.put(orderKey, minCost);
+            String shopIndexKey = CalculationUtils.getKeyFromList(bestShopIndexList);
+            String deliveryIndexKey = CalculationUtils.getKeyFromList(bestDeliveryIndexList);
+
+            shopIndexList.clear();
+            deliveryIndexList.clear();
+
+            shopIndexList.addAll(bestShopIndexList);
+            deliveryIndexList.addAll(bestDeliveryIndexList);
+
+            if (shopIndexList.size() == 3
+                && shopIndexList.get(0) == 0
+                && shopIndexList.get(1) == 18
+                && shopIndexList.get(2) == 3
+                && deliveryIndexList.get(0) == 3
+                && deliveryIndexList.get(1) == 0
+                && deliveryIndexList.get(2) == 18
+            ) {
+                int t = 1;
+                t = 2;
+            }
+
+            Constants.bestShopIndexMap.get(this.type()).put(orderKey, shopIndexKey);
+            Constants.bestDeliveryIndexMap.get(this.type()).put(orderKey, deliveryIndexKey);
+            Constants.bestScore.get(this.type()).put(orderKey, minCost);
 
             this.isValid = true;
             this.cost = minCost;
 
-            CalculationResult calculationResult = new CalculationResult(true);
-            calculationResult.setCost(minCost);
-            calculationResult.setExtraTime(extraTime);
-            return calculationResult;
 
         } else {
             this.isValid = false;
-
-            return new CalculationResult(false);
+            this.cost = -1;
         }
     }
 
@@ -176,14 +250,29 @@ public class Rider {
         this.orderList.remove(order);
 
         String orderKey = CalculationUtils.getKeyFromList(this.getSortedSequence());
+
         this.resetRecord();
         if (!orderList.isEmpty()) {
-            String backupShopIndexStr = Constants.bestShopIndexMap.get(orderKey);
-            String backupDeliveryIndexStr = Constants.bestDeliveryIndexMap.get(orderKey);
+            String backupShopIndexStr = Constants.bestShopIndexMap.get(type()).get(orderKey);
+            String backupDeliveryIndexStr = Constants.bestDeliveryIndexMap.get(type()).get(orderKey);
             this.shopIndexList.addAll(Arrays.stream(backupShopIndexStr.split(",")).map(Integer::parseInt).toList());
             this.deliveryIndexList.addAll(
                 Arrays.stream(backupDeliveryIndexStr.split(",")).map(Integer::parseInt).toList());
-            this.cost = Constants.bestScore.get(orderKey);
+//            if (orderKey.equals("0,3,18")) {
+//                log.info("==========");
+//                for (Integer i : shopIndexList) {
+//                    log.info(String.valueOf(i));
+//                }
+//                log.info("--------");
+//                for (Integer i : deliveryIndexList) {
+//                    log.info(String.valueOf(i));
+//                }
+//
+//                log.info("==========");
+//
+//
+//            }
+            this.cost = Constants.bestScore.get(this.type()).get(orderKey);
         }
     }
 
@@ -196,7 +285,7 @@ public class Rider {
         this.shopIndexList.clear();
         this.deliveryIndexList.clear();
         this.cost = 0;
-        this.extraTime = 0;
+//        this.extraTime = 0;
         this.isValid = true;
     }
 
@@ -240,7 +329,7 @@ public class Rider {
                 deadlineViolated = true;
                 break;
             } else {
-                this.extraTime = order.deadline() - deliveryTime;
+//                this.extraTime = order.deadline() - deliveryTime;
             }
             volSum += order.volume();
         }
@@ -249,9 +338,7 @@ public class Rider {
 
         CalculationResult calculationResult = new CalculationResult(isFeasible);
         if (isFeasible) {
-
             calculationResult.setCost(calculateCost(totalDistance));
-            calculationResult.setExtraTime(this.extraTime);
         }
         return calculationResult;
     }

@@ -30,6 +30,7 @@ public class Solution {
         for (Rider rider : riderMap.values()) {
 //            log.info(String.valueOf(rider.cost()));
             totalCost += rider.cost() ;
+
         }
         this.totalCost = totalCost * -1;
     }
