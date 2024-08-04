@@ -24,9 +24,6 @@ public class OrderPool {
     TreeMap<Integer, Order> orderPoolByDeadline;
     TreeMap<Integer, Order> orderPoolByCapacity;
 
-
-
-
     public OrderPool(HashMap<Integer, Order> orderMap, HashMap<String, Rider> sampleRiderMap) {
         consumedRecord = new HashSet<>();
         TreeMap<Integer, TreeMap<Integer, Order>> orderMapByDeadline = new TreeMap<>();

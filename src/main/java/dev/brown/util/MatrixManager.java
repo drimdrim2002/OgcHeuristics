@@ -3,10 +3,12 @@ package dev.brown.util;
 import com.google.gson.JsonObject;
 import dev.brown.Constants.DISTANCE_MATRIX_TYPE;
 import dev.brown.domain.Order;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map.Entry;
+import java.util.Objects;
 import java.util.TreeMap;
 
 public class MatrixManager {
@@ -133,6 +135,26 @@ public class MatrixManager {
 
     private static final HashMap<Integer, TreeMap<Integer, List<Integer>>> nearestDistanceMap = new HashMap<>();
 
+    public static void applyNearestDistanceMap() {
+        for (Integer originIndex : shopDistanceMap.keySet()) {
+            nearestDistanceMap.put(originIndex, new TreeMap<>());
+            for (Integer destinationIndex : shopDistanceMap.keySet()) {
+                if (Objects.equals(originIndex, destinationIndex)) {
+                    continue;
+                }
+
+                Integer shopDistance = shopDistanceMap.get(originIndex).get(destinationIndex);
+                Integer deliveryDistance = deliveryDistanceMap.get(originIndex).get(destinationIndex);
+                Integer shopToDeliveryDistance1 = shopToDeliveryDistanceMap.get(originIndex).get(destinationIndex);
+                Integer shopToDeliveryDistance2 = shopToDeliveryDistanceMap.get(destinationIndex).get(originIndex);
+
+                int totalDistance = shopDistance + deliveryDistance + shopToDeliveryDistance1 + shopToDeliveryDistance2;
+                nearestDistanceMap.get(originIndex).putIfAbsent(totalDistance, new ArrayList<>());
+                nearestDistanceMap.get(originIndex).get(totalDistance).add(destinationIndex);
+
+            }
+        }
+    }
 
     public static int findNearestIndex(Order order, HashSet<Integer> tried) {
         for (Entry<Integer, List<Integer>> nearestDistanceEntry : nearestDistanceMap.get(order.id()).entrySet()) {
@@ -143,6 +165,42 @@ public class MatrixManager {
             }
         }
         return -1;
+    }
+
+    static void applyDuration(String riderType, JsonObject ridersInput, String durationKey, int orderCount) {
+        HashMap<Integer, HashMap<Integer, Integer>> durationMap = new HashMap<>();
+        JsonObject durationObject = ridersInput.get(riderType).getAsJsonObject().get(durationKey).getAsJsonObject();
+
+        for (String originIndexStr : durationObject.keySet()) {
+            int originIndex = Integer.parseInt(originIndexStr);
+            originIndex = durationKey.equals("duration_dlvrys") ? originIndex - orderCount : originIndex;
+            durationMap.putIfAbsent(originIndex, new HashMap<>());
+
+            for (String destinationIndexStr : durationObject.get(originIndexStr).getAsJsonObject().keySet()) {
+                int destinationIndex = Integer.parseInt(destinationIndexStr);
+                destinationIndex =
+                    durationKey.equals("duration_shops") ? destinationIndex : destinationIndex - orderCount;
+                int duration = (int)
+                    durationObject.get(originIndexStr).getAsJsonObject().get(destinationIndexStr)
+                        .getAsDouble();
+
+                durationMap.get(originIndex).put(destinationIndex, duration);
+            }
+        }
+
+        switch (durationKey) {
+            case "duration_shops":
+                applyShopDuration(riderType, durationMap);
+                break;
+            case "duration_dlvrys":
+                applyDeliveryDuration(riderType, durationMap);
+                break;
+            case "duration_shops_to_dlvrys":
+                applyShopToDeliveryDuration(riderType, durationMap);
+                break;
+        }
+
+
     }
 }
 

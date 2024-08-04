@@ -12,6 +12,8 @@
     <list default="true" id="8202c2ee-1972-45b1-aca6-81efa16706b3" name="변경" comment="[brown] 불필요한 map 없애기">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/dev/brown/domain/OrderPool.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dev/brown/domain/OrderPool.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/dev/brown/util/InputMaker.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dev/brown/util/InputMaker.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/dev/brown/util/MatrixManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dev/brown/util/MatrixManager.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -68,6 +70,9 @@
     </key>
     <key name="CreateBuilderDialog.RecentsKey">
       <recent name="dev.brown.util" />
+    </key>
+    <key name="MoveMembersDialog.RECENTS_KEY">
+      <recent name="dev.brown.util.MatrixManager" />
     </key>
     <key name="MoveClassesOrPackagesDialog.RECENTS_KEY">
       <recent name="dev.brown" />
@@ -227,7 +232,15 @@
       <option name="project" value="LOCAL" />
       <updated>1722745325763</updated>
     </task>
-    <option name="localTasksCounter" value="10" />
+    <task id="LOCAL-00010" summary="[brown] 불필요한 map 없애기">
+      <option name="closed" value="true" />
+      <created>1722745344646</created>
+      <option name="number" value="00010" />
+      <option name="presentableId" value="LOCAL-00010" />
+      <option name="project" value="LOCAL" />
+      <updated>1722745344646</updated>
+    </task>
+    <option name="localTasksCounter" value="11" />
     <servers />
   </component>
   <component name="VcsManagerConfiguration">
