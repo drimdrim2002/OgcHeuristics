@@ -11,7 +11,7 @@ public class OutputMaker {
     public static JsonObject convertSolutionToBundles(Solution solution) {
         JsonObject output = new JsonObject();
         for (Rider rider : solution.riderMap().values()) {
-            if ( !rider.shopIndexList().isEmpty()) {
+            if (!rider.shopIndexList().isEmpty()) {
                 String id = String.valueOf(rider.id());
                 output.add(id, new JsonObject());
 
