@@ -5,6 +5,7 @@ import dev.brown.util.CalculationUtils;
 import dev.brown.util.MatrixManager;
 import dev.brown.util.Permutation;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class Rider {
@@ -22,6 +23,7 @@ public class Rider {
     private Solution solution;
     private int cost;
     private final int priority;
+    private int extraTime;
 
     public boolean isValid() {
         return isValid;
@@ -53,6 +55,7 @@ public class Rider {
         } else {
             priority = -3;
         }
+        this.extraTime = 0;
     }
 
     public double speed() {
@@ -103,16 +106,14 @@ public class Rider {
             '}';
     }
 
-    // todo : int로 변환하는 것이 맞는 것인가 고민해야 한다.
     public int calculateCost(int totalDistance) {
-        if (shopIndexList.isEmpty()) {
-            return 0;
-        }
-        return this.fixedCost + (int) Math.floor(totalDistance / 100.0) * this.varCost;
+        return this.fixedCost + (int) (totalDistance / 100.0 * this.varCost);
     }
 
 
-    public void addOrder(Order order) {
+
+
+    public CalculationResult addOrder(Order order) {
         this.orderList.add(order);
         shopIndexList.add(order.id());
         deliveryIndexList.add(order.id());
@@ -124,13 +125,14 @@ public class Rider {
         boolean addPossible = false;
         for (List<Integer> shopSeqListCandidate : shopPermuationList) {
             for (List<Integer> deliveryShopSeqListCandidate : deliveryPermutationList) {
-                int cost = calculateAll(shopSeqListCandidate, deliveryShopSeqListCandidate);
-                if (cost > 0 && cost < minCost) {
+                CalculationResult calculationResult = calculate(shopSeqListCandidate, deliveryShopSeqListCandidate);
+                if (calculationResult.isFeasible() && calculationResult.cost() < minCost) {
                     this.shopIndexList.clear();
                     this.shopIndexList.addAll(shopSeqListCandidate);
                     this.deliveryIndexList.clear();
                     this.deliveryIndexList.addAll(deliveryShopSeqListCandidate);
-                    minCost = cost;
+                    minCost = calculationResult.cost();
+                    this.extraTime = calculationResult.extraTime();
                     addPossible = true;
                 }
             }
@@ -150,8 +152,16 @@ public class Rider {
 
             this.isValid = true;
             this.cost = minCost;
+
+            CalculationResult calculationResult = new CalculationResult(true);
+            calculationResult.setCost(minCost);
+            calculationResult.setExtraTime(extraTime);
+            return calculationResult;
+
         } else {
             this.isValid = false;
+
+            return new CalculationResult(false);
         }
     }
 
@@ -166,41 +176,35 @@ public class Rider {
         this.orderList.remove(order);
 
         String orderKey = CalculationUtils.getKeyFromList(this.getSortedSequence());
-        this.shopIndexList.clear();
-        this.deliveryIndexList.clear();
-        this.cost = 0;
-
+        this.resetRecord();
         if (!orderList.isEmpty()) {
             String backupShopIndexStr = Constants.bestShopIndexMap.get(orderKey);
             String backupDeliveryIndexStr = Constants.bestDeliveryIndexMap.get(orderKey);
-            for (String s : backupShopIndexStr.split(",")) {
-                this.shopIndexList.add(Integer.parseInt(s));
-            }
-            for (String s : backupDeliveryIndexStr.split(",")) {
-                this.deliveryIndexList.add(Integer.parseInt(s));
-            }
+            this.shopIndexList.addAll(Arrays.stream(backupShopIndexStr.split(",")).map(Integer::parseInt).toList());
+            this.deliveryIndexList.addAll(
+                Arrays.stream(backupDeliveryIndexStr.split(",")).map(Integer::parseInt).toList());
             this.cost = Constants.bestScore.get(orderKey);
         }
     }
 
-    public void reset() {
+    public void resetAll() {
+        this.orderList.clear();
+        resetRecord();
+    }
+
+    public void resetRecord() {
         this.shopIndexList.clear();
         this.deliveryIndexList.clear();
         this.cost = 0;
+        this.extraTime = 0;
         this.isValid = true;
     }
 
-    public int calculateAll(List<Integer> shopIndexList, List<Integer> deliveryIndexList) {
+    public CalculationResult calculate(List<Integer> shopIndexList, List<Integer> deliveryIndexList) {
 
         int deliveryTime = 0;
         int totalDistance = 0;
 
-//        if (shopIndexList.size() == 2 && shopIndexList.get(0) == 56 && shopIndexList.get(1) == 57) {
-//            if (deliveryIndexList.get(0) == 57 && deliveryIndexList.get(1) == 56) {
-//                int t = 1;
-//                t = 2;
-//            }
-//        }
         for (int shopVisitOrder = 0; shopVisitOrder < shopIndexList.size(); shopVisitOrder++) {
             Integer currShopIndex = shopIndexList.get(shopVisitOrder);
             if (shopVisitOrder > 0) {
@@ -235,16 +239,21 @@ public class Rider {
             if (order.deadline() < deliveryTime) {
                 deadlineViolated = true;
                 break;
+            } else {
+                this.extraTime = order.deadline() - deliveryTime;
             }
             volSum += order.volume();
+        }
 
+        boolean isFeasible = volSum <= this.capa && !deadlineViolated;
+
+        CalculationResult calculationResult = new CalculationResult(isFeasible);
+        if (isFeasible) {
+
+            calculationResult.setCost(calculateCost(totalDistance));
+            calculationResult.setExtraTime(this.extraTime);
         }
-        if (volSum > this.capa || deadlineViolated) {
-            return -1;
-        } else {
-            cost = calculateCost(totalDistance);
-        }
-        return cost;
+        return calculationResult;
     }
 
 //    public void calculateAll() {

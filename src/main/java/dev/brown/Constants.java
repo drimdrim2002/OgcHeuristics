@@ -12,5 +12,20 @@ public class Constants {
     public static final HashMap<String, String> bestDeliveryIndexMap = new HashMap<>();
     public static final HashMap<String, Integer> bestScore = new HashMap<>();
 
-    public static int RIDER_TYPE_SIZE;
+    public enum RIDER_TYPE {
+        CAR("CAR"), BIKE("BIKE"), WALK("WALK");
+
+        private final String value;
+        RIDER_TYPE(String param) {
+            this.value = param;
+        }
+
+        public String value() {
+            return value;
+        }
+    }
+
+    public enum ORDER_CRITERIA {
+        DEADLINE, CAPACITY
+    }
 }

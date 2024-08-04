@@ -33,7 +33,6 @@ public class PlannerMain {
         InputMaker.setMatrixManager(inputObject);
 
         Solution initialSolution = ConstructHeuristics.solve(solution);
-        Constants.RIDER_TYPE_SIZE = initialSolution.riderMap().size();
         initialSolution.calculateScore();
         JsonObject output = OutputMaker.convertSolutionToBundles(initialSolution);
 

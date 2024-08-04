@@ -1,10 +1,13 @@
 package dev.brown.domain;
 
 import java.util.HashMap;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class Solution {
 
 
+    private static final Logger log = LoggerFactory.getLogger(Solution.class);
     private int notAssignedOrderCount = 0;
     private int totalCost = 0;
 
@@ -20,10 +23,15 @@ public class Solution {
         for (Order order : orderMap.values()) {
             if (order.rider() == null) {
                 notAssignedOrderCount -= 1;
-            } else {
-                totalCost -= order.rider().cost();
             }
         }
+
+        int totalCost = 0;
+        for (Rider rider : riderMap.values()) {
+//            log.info(String.valueOf(rider.cost()));
+            totalCost += rider.cost() ;
+        }
+        this.totalCost = totalCost * -1;
     }
 
 

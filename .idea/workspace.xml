@@ -9,11 +9,17 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="8202c2ee-1972-45b1-aca6-81efa16706b3" name="변경" comment="bug 수정&#10;- 리팩토링 조심해서 하자">
+    <list default="true" id="8202c2ee-1972-45b1-aca6-81efa16706b3" name="변경" comment="cost 맞추기">
+      <change afterPath="$PROJECT_DIR$/src/main/java/dev/brown/domain/CalculationResult.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/dev/brown/Constants.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dev/brown/Constants.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/dev/brown/PlannerMain.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dev/brown/PlannerMain.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/dev/brown/domain/Order.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dev/brown/domain/Order.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/dev/brown/domain/OrderPool.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dev/brown/domain/OrderPool.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/dev/brown/domain/Rider.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dev/brown/domain/Rider.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/dev/brown/domain/RiderPool.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dev/brown/domain/RiderPool.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/dev/brown/domain/Solution.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dev/brown/domain/Solution.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/dev/brown/util/ConstructHeuristics.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dev/brown/util/ConstructHeuristics.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/dev/brown/util/InputMaker.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dev/brown/util/InputMaker.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/dev/brown/util/MatrixManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dev/brown/util/MatrixManager.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -206,7 +212,15 @@
       <option name="project" value="LOCAL" />
       <updated>1722680587351</updated>
     </task>
-    <option name="localTasksCounter" value="7" />
+    <task id="LOCAL-00007" summary="bug 수정&#10;- 리팩토링 조심해서 하자">
+      <option name="closed" value="true" />
+      <created>1722685772782</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1722685772782</updated>
+    </task>
+    <option name="localTasksCounter" value="8" />
     <servers />
   </component>
   <component name="VcsManagerConfiguration">
@@ -216,35 +230,41 @@
     <MESSAGE value="[AlphaPlanner] rider type에 따라 duration 받도록 처리" />
     <MESSAGE value="[AlphaPlanner] duration 오류 수정" />
     <MESSAGE value="bug 수정&#10;- 리팩토링 조심해서 하자" />
-    <option name="LAST_COMMIT_MESSAGE" value="bug 수정&#10;- 리팩토링 조심해서 하자" />
+    <MESSAGE value="cost 맞추기" />
+    <option name="LAST_COMMIT_MESSAGE" value="cost 맞추기" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
       <breakpoints>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/dev/brown/PlannerMain.java</url>
-          <line>44</line>
+          <line>43</line>
           <option name="timeStamp" value="9" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/dev/brown/util/MatrixManager.java</url>
-          <line>109</line>
-          <option name="timeStamp" value="49" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/dev/brown/util/MatrixManager.java</url>
-          <line>104</line>
-          <option name="timeStamp" value="51" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/dev/brown/util/MatrixManager.java</url>
-          <line>99</line>
-          <option name="timeStamp" value="52" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/dev/brown/util/ConstructHeuristics.java</url>
-          <line>46</line>
+          <line>62</line>
           <option name="timeStamp" value="74" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/dev/brown/domain/Order.java</url>
+          <line>56</line>
+          <option name="timeStamp" value="82" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/dev/brown/PlannerMain.java</url>
+          <line>41</line>
+          <option name="timeStamp" value="83" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/dev/brown/PlannerMain.java</url>
+          <line>36</line>
+          <option name="timeStamp" value="84" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/dev/brown/domain/Solution.java</url>
+          <line>31</line>
+          <option name="timeStamp" value="90" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>

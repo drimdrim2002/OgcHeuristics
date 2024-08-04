@@ -2,7 +2,12 @@ package dev.brown.util;
 
 import com.google.gson.JsonObject;
 import dev.brown.Constants.DISTANCE_MATRIX_TYPE;
+import dev.brown.domain.Order;
 import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map.Entry;
+import java.util.TreeMap;
 
 public class MatrixManager {
 
@@ -101,19 +106,21 @@ public class MatrixManager {
         shopDurationMap.put(riderType, durationMap);
     }
 
-    public static void applyDeliveryDuration(String riderType, HashMap<Integer, HashMap<Integer, Integer>> durationMap) {
+    public static void applyDeliveryDuration(String riderType,
+        HashMap<Integer, HashMap<Integer, Integer>> durationMap) {
 //        log.info("applyDeliveryDuration");
         deliveryDurationMap.put(riderType, durationMap);
     }
 
-    public static void applyShopToDeliveryDuration(String riderType, HashMap<Integer, HashMap<Integer, Integer>> durationMap) {
+    public static void applyShopToDeliveryDuration(String riderType,
+        HashMap<Integer, HashMap<Integer, Integer>> durationMap) {
 //        log.info("applyShopToDeliveryDuration");
 
         shopToDeliveryDurationMap.put(riderType, durationMap);
     }
 
     public static Integer getShopDuration(String riderType, Integer originIndex, Integer destinationIndex) {
-       return shopDurationMap.get(riderType).get(originIndex).get(destinationIndex);
+        return shopDurationMap.get(riderType).get(originIndex).get(destinationIndex);
     }
 
     public static Integer getDeliveryDuration(String riderType, Integer originIndex, Integer destinationIndex) {
@@ -122,6 +129,20 @@ public class MatrixManager {
 
     public static Integer getShopToDeliveryDuration(String riderType, Integer originIndex, Integer destinationIndex) {
         return shopToDeliveryDurationMap.get(riderType).get(originIndex).get(destinationIndex);
+    }
+
+    private static final HashMap<Integer, TreeMap<Integer, List<Integer>>> nearestDistanceMap = new HashMap<>();
+
+
+    public static int findNearestIndex(Order order, HashSet<Integer> tried) {
+        for (Entry<Integer, List<Integer>> nearestDistanceEntry : nearestDistanceMap.get(order.id()).entrySet()) {
+            for (Integer orderIndex : nearestDistanceEntry.getValue()) {
+                if (!tried.contains(orderIndex)) {
+                    return orderIndex;
+                }
+            }
+        }
+        return -1;
     }
 }
 
