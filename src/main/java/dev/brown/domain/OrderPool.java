@@ -26,8 +26,6 @@ public class OrderPool {
     TreeMap<Integer, Order> orderPoolByDeadline;
     TreeMap<Integer, Order> orderPoolByCapacity;
 
-    HashMap<Integer, Integer> deadlinePriorityIndex = new HashMap<>();
-    HashMap<Integer, Integer> capacityPriorityIndex = new HashMap<>();
 
 
 
@@ -47,26 +45,22 @@ public class OrderPool {
             sampleRIder.removeOrder(order);
         }
 
-        //
+        makePriority(orderMapByDeadline, orderPoolByDeadline);
+
+        makePriority(orderMapByCapacity, orderPoolByCapacity);
+
+    }
+
+    private void makePriority(TreeMap<Integer, TreeMap<Integer, Order>> orderMapByDeadline,
+        TreeMap<Integer, Order> orderPoolByDeadline) {
         int orderPriority = 0;
         for (Integer extraTime : orderMapByDeadline.keySet()) {
             for (Integer orderId : orderMapByDeadline.get(extraTime).keySet()) {
                 Order order = orderMapByDeadline.get(extraTime).get(orderId);
                 orderPoolByDeadline.put(orderPriority, order);
-                deadlinePriorityIndex.put(orderId, orderPriority);
                 orderPriority += 1;
             }
         }
-
-        orderPriority = 0;
-        for (Integer extraCapa : orderMapByCapacity.keySet()) {
-            for (Integer orderId : orderMapByCapacity.get(extraCapa).keySet()) {
-                Order order = orderMapByCapacity.get(extraCapa).get(orderId);
-                orderPoolByCapacity.put(orderPriority, order);
-                orderPriority += 1;
-            }
-        }
-
     }
 
     private boolean makePriorityMap(Order order, Rider sampleRIder, TreeMap<Integer

@@ -10,17 +10,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="8202c2ee-1972-45b1-aca6-81efa16706b3" name="변경" comment="cost 맞추기">
-      <change afterPath="$PROJECT_DIR$/src/main/java/dev/brown/domain/CalculationResult.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/dev/brown/Constants.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dev/brown/Constants.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/dev/brown/PlannerMain.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dev/brown/PlannerMain.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/dev/brown/domain/Order.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dev/brown/domain/Order.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/dev/brown/domain/OrderPool.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dev/brown/domain/OrderPool.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/dev/brown/domain/Rider.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dev/brown/domain/Rider.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/dev/brown/domain/RiderPool.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dev/brown/domain/RiderPool.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/dev/brown/domain/Solution.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dev/brown/domain/Solution.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/dev/brown/util/ConstructHeuristics.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dev/brown/util/ConstructHeuristics.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/dev/brown/util/MatrixManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dev/brown/util/MatrixManager.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -220,7 +211,15 @@
       <option name="project" value="LOCAL" />
       <updated>1722685772782</updated>
     </task>
-    <option name="localTasksCounter" value="8" />
+    <task id="LOCAL-00008" summary="cost 맞추기">
+      <option name="closed" value="true" />
+      <created>1722744569892</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1722744569892</updated>
+    </task>
+    <option name="localTasksCounter" value="9" />
     <servers />
   </component>
   <component name="VcsManagerConfiguration">
