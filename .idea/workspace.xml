@@ -9,19 +9,8 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="8202c2ee-1972-45b1-aca6-81efa16706b3" name="변경" comment="[brown] indent 수정">
-      <change afterPath="$PROJECT_DIR$/src/main/java/dev/brown/util/Validator.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/test/java/dev/brown/util/InputMakerTest.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/test/java/dev/brown/util/MatrixManagerTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+    <list default="true" id="8202c2ee-1972-45b1-aca6-81efa16706b3" name="변경" comment="[brown] Input 추가 (대용량 제외)">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/dev/brown/PlannerMain.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dev/brown/PlannerMain.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/dev/brown/domain/Rider.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dev/brown/domain/Rider.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/dev/brown/util/ConstructHeuristics.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dev/brown/util/ConstructHeuristics.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/dev/brown/util/InputMaker.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dev/brown/util/InputMaker.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/dev/brown/util/MatrixManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dev/brown/util/MatrixManager.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/dev/brown/PlannerMainTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/dev/brown/PlannerMainTest.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -49,33 +38,34 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "JUnit.InputMakerTest.getOrderMapByInput.executor": "Run",
-    "JUnit.InputMakerTest.makeOrderListByInput.executor": "Run",
-    "JUnit.InputMakerTest.makerRiderListByInput.executor": "Run",
-    "JUnit.MatrixManagerTest.applyDistanceMap.executor": "Run",
-    "JUnit.ParameterDecoderTest.decode.executor": "Run",
-    "JUnit.PlannerMainTest.mainProcessTest.executor": "Run",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
-    "com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrary": "JUnit5",
-    "com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrarySuperClass.JUnit5": "",
-    "git-widget-placeholder": "master",
-    "ignore.virus.scanning.warn.message": "true",
-    "kotlin-language-version-configured": "true",
-    "last_opened_file_path": "D:/Project/Java/optaplanner-baseball",
-    "project.structure.last.edited": "SDK",
-    "project.structure.proportion": "0.15",
-    "project.structure.side.proportion": "0.34953463",
-    "settings.editor.selected.configurable": "Console",
-    "애플리케이션.Main.executor": "Run",
-    "애플리케이션.Permutation.executor": "Debug",
-    "애플리케이션.PlannerMain.executor": "Run"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;JUnit.InputMakerTest.getOrderMapByInput.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.InputMakerTest.makeOrderListByInput.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.InputMakerTest.makerRiderListByInput.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.MatrixManagerTest.applyDistanceMap.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.ParameterDecoderTest.decode.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.PlannerMainTest.mainProcessTest.executor&quot;: &quot;Run&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
+    &quot;com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrary&quot;: &quot;JUnit5&quot;,
+    &quot;com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrarySuperClass.JUnit5&quot;: &quot;&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;master&quot;,
+    &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
+    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
+    &quot;last_opened_file_path&quot;: &quot;D:/Project/Java/OgcHeuristics/src/test/resources/input&quot;,
+    &quot;project.structure.last.edited&quot;: &quot;SDK&quot;,
+    &quot;project.structure.proportion&quot;: &quot;0.15&quot;,
+    &quot;project.structure.side.proportion&quot;: &quot;0.34953463&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.pluginManager&quot;,
+    &quot;애플리케이션.Main.executor&quot;: &quot;Run&quot;,
+    &quot;애플리케이션.Permutation.executor&quot;: &quot;Debug&quot;,
+    &quot;애플리케이션.PlannerMain.executor&quot;: &quot;Run&quot;
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="D:\Project\Java\OgcHeuristics\src\test\resources\input" />
       <recent name="D:\Project\Java\OgcHeuristics\src\test\java\dev\brown" />
     </key>
     <key name="CreateTestDialog.Recents.Supers">
@@ -280,7 +270,55 @@
       <option name="project" value="LOCAL" />
       <updated>1722745344646</updated>
     </task>
-    <option name="localTasksCounter" value="11" />
+    <task id="LOCAL-00011" summary="[brown] alns 적용 작업">
+      <option name="closed" value="true" />
+      <created>1737978873165</created>
+      <option name="number" value="00011" />
+      <option name="presentableId" value="LOCAL-00011" />
+      <option name="project" value="LOCAL" />
+      <updated>1737978873165</updated>
+    </task>
+    <task id="LOCAL-00012" summary="[brown] alns 적용 작업">
+      <option name="closed" value="true" />
+      <created>1737983471435</created>
+      <option name="number" value="00012" />
+      <option name="presentableId" value="LOCAL-00012" />
+      <option name="project" value="LOCAL" />
+      <updated>1737983471435</updated>
+    </task>
+    <task id="LOCAL-00013" summary="[brown] input 업로드">
+      <option name="closed" value="true" />
+      <created>1737983514633</created>
+      <option name="number" value="00013" />
+      <option name="presentableId" value="LOCAL-00013" />
+      <option name="project" value="LOCAL" />
+      <updated>1737983514633</updated>
+    </task>
+    <task id="LOCAL-00014" summary="[brown] input 업로드2">
+      <option name="closed" value="true" />
+      <created>1737983566216</created>
+      <option name="number" value="00014" />
+      <option name="presentableId" value="LOCAL-00014" />
+      <option name="project" value="LOCAL" />
+      <updated>1737983566216</updated>
+    </task>
+    <task id="LOCAL-00015" summary="[brown] Validator추가">
+      <option name="closed" value="true" />
+      <created>1737989949814</created>
+      <option name="number" value="00015" />
+      <option name="presentableId" value="LOCAL-00015" />
+      <option name="project" value="LOCAL" />
+      <updated>1737989949814</updated>
+    </task>
+    <task id="LOCAL-00016" summary="[brown] Input 추가 (대용량 제외)">
+      <option name="closed" value="true" />
+      <created>1737990156468</created>
+      <option name="number" value="00016" />
+      <option name="presentableId" value="LOCAL-00016" />
+      <option name="project" value="LOCAL" />
+      <updated>1737990156468</updated>
+    </task>
+    <option name="localTasksCounter" value="17" />
     <servers />
   </component>
   <component name="Vcs.Log.History.Properties">
@@ -302,7 +340,13 @@
     <MESSAGE value="bug 수정&#10;- 리팩토링 조심해서 하자" />
     <MESSAGE value="cost 맞추기" />
     <MESSAGE value="[brown] 불필요한 map 없애기" />
-    <option name="LAST_COMMIT_MESSAGE" value="[brown] 불필요한 map 없애기" />
+    <MESSAGE value="[brown] alns 적용 작업" />
+    <MESSAGE value="[brown] input 업로드" />
+    <MESSAGE value="[brown] input 업로드2" />
+    <MESSAGE value="[brown] git ignore 추가" />
+    <MESSAGE value="[brown] Validator추가" />
+    <MESSAGE value="[brown] Input 추가 (대용량 제외)" />
+    <option name="LAST_COMMIT_MESSAGE" value="[brown] Input 추가 (대용량 제외)" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
