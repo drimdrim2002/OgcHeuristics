@@ -23,7 +23,7 @@
     <dependency>
       <groupId>ch.qos.logback</groupId>
       <artifactId>logback-core</artifactId>
-      <version>1.4.14</version>
+      <version>1.5.13</version>
     </dependency>
     <dependency>
       <groupId>ch.qos.logback</groupId>
@@ -42,6 +42,12 @@
       <version>5.7.0</version>
       <scope>test</scope>
     </dependency>
+    <dependency>
+      <groupId>org.apache.commons</groupId>
+      <artifactId>commons-lang3</artifactId>
+      <version>3.17.0</version>
+    </dependency>
+
 
   </dependencies>
   <properties>

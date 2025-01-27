@@ -8,6 +8,7 @@ target/
 .idea/jarRepositories.xml
 .idea/compiler.xml
 .idea/libraries/
+.idea/workspace.xml
 *.iws
 *.iml
 *.ipr
@@ -36,3 +37,7 @@ build/
 
 ### Mac OS ###
 .DS_Store
+
+src/test/resources/input/STAGE3_TEST_1.json
+src/test/resources/input/STAGE3_TEST_2.json
+

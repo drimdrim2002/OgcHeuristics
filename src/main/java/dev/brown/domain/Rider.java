@@ -9,12 +9,13 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.TreeMap;
+import org.apache.commons.lang3.ObjectUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 public class Rider {
 
-    private static final Logger log = LoggerFactory.getLogger(Rider.class);
+//    private static final Logger log = LoggerFactory.getLogger(Rider.class);
     private final int id;
     private final String type;
     private final double speed;
@@ -101,9 +102,9 @@ public class Rider {
     }
 
 
-    public Solution solution() {
-        return solution;
-    }
+//    public Solution solution() {
+//        return solution;
+//    }
 
     public void setSolution(Solution solution) {
         this.solution = solution;
@@ -129,19 +130,19 @@ public class Rider {
         return serviceTime;
     }
 
-    private String additionalInformation() {
-        StringBuilder sb = new StringBuilder();
-        for (Integer shopIndex : this.shopIndexList) {
-            sb.append(shopIndex)
-                .append("->");
-        }
-        for (Integer deliveryIndex : this.deliveryIndexList) {
-            sb.append(deliveryIndex)
-                .append("->");
-        }
-        return sb.substring(0, sb.length() - 2);
-
-    }
+//    private String additionalInformation() {
+//        StringBuilder sb = new StringBuilder();
+//        for (Integer shopIndex : this.shopIndexList) {
+//            sb.append(shopIndex)
+//                .append("->");
+//        }
+//        for (Integer deliveryIndex : this.deliveryIndexList) {
+//            sb.append(deliveryIndex)
+//                .append("->");
+//        }
+//        return sb.substring(0, sb.length() - 2);
+//
+//    }
 
     public int calculateCost(int totalDistance) {
         return this.fixedCost + (int) (totalDistance / 100.0 * this.varCost);
@@ -283,6 +284,14 @@ public class Rider {
         this.isValid = true;
     }
 
+    public CalculationResult calculate() {
+        if (ObjectUtils.isNotEmpty(this.shopIndexList)) {
+            return calculate(this.shopIndexList, this.deliveryIndexList);
+        } else {
+            return null;
+        }
+    }
+
     public CalculationResult calculate(List<Integer> shopIndexList, List<Integer> deliveryIndexList) {
 
         int deliveryTime = 0;
@@ -300,8 +309,8 @@ public class Rider {
             deliveryTime = Math.max(deliveryTime, order.readyTime());
         }
 
-        int lastVisitShopIndex = shopIndexList.get(shopIndexList.size() - 1);
-        int firstVisitShopIndex = deliveryIndexList.get(0);
+        int lastVisitShopIndex = shopIndexList.getLast();
+        int firstVisitShopIndex = deliveryIndexList.getFirst();
         int shopToDeliveryDistance = MatrixManager.getShopToDeliveryDistance(
             lastVisitShopIndex, firstVisitShopIndex);
         totalDistance += shopToDeliveryDistance;
@@ -322,9 +331,10 @@ public class Rider {
             if (order.deadline() < deliveryTime) {
                 deadlineViolated = true;
                 break;
-            } else {
-//                this.extraTime = order.deadline() - deliveryTime;
             }
+//            else {
+//                this.extraTime = order.deadline() - deliveryTime;
+//            }
             volSum += order.volume();
         }
 
@@ -408,7 +418,7 @@ public class Rider {
         return MatrixManager.getShopToDeliveryDuration(this.type, originIndex, destinationIndex);
     }
 
-    public int priority() {
-        return priority;
-    }
+//    public int priority() {
+//        return priority;
+//    }
 }
