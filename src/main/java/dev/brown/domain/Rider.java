@@ -46,7 +46,6 @@ public class Rider {
 
     private int cost;
     private final int priority;
-//    private int extraTime;
 
     public boolean isValid() {
         return isValid;
@@ -91,25 +90,16 @@ public class Rider {
         return capa;
     }
 
-    public int fixedCost() {
-        return fixedCost;
-    }
 
     public int id() {
         return id;
     }
 
-    public int serviceTime() {
-        return serviceTime;
-    }
 
     public String type() {
         return type;
     }
 
-    public int varCost() {
-        return varCost;
-    }
 
     public Solution solution() {
         return solution;
@@ -121,7 +111,7 @@ public class Rider {
 
     @Override
     public String toString() {
-        return defaultInformation() + additionalInformation();
+        return defaultInformation();
     }
 
     private String defaultInformation() {
@@ -133,6 +123,10 @@ public class Rider {
             ", fixedCost=" + fixedCost +
             ", serviceTime=" + serviceTime +
             '}';
+    }
+
+    public int serviceTime() {
+        return serviceTime;
     }
 
     private String additionalInformation() {
@@ -170,18 +164,18 @@ public class Rider {
         for (List<Integer> shopSeqListCandidate : shopPermuationList) {
             for (List<Integer> deliveryShopSeqListCandidate : deliveryPermutationList) {
 
-                if (shopSeqListCandidate.size() == 3
-                    && shopSeqListCandidate.get(0) == 0
-                    && shopSeqListCandidate.get(1) == 18
-                    && shopSeqListCandidate.get(2) == 3
-                    && deliveryShopSeqListCandidate.get(0) == 3
-                    && deliveryShopSeqListCandidate.get(1) == 0
-                    && deliveryShopSeqListCandidate.get(2) == 18
-                    && this.type().equals("CAR")
-                ) {
-                    int t = 1;
-                    t = 2;
-                }
+//                if (shopSeqListCandidate.size() == 3
+//                    && shopSeqListCandidate.get(0) == 0
+//                    && shopSeqListCandidate.get(1) == 18
+//                    && shopSeqListCandidate.get(2) == 3
+//                    && deliveryShopSeqListCandidate.get(0) == 3
+//                    && deliveryShopSeqListCandidate.get(1) == 0
+//                    && deliveryShopSeqListCandidate.get(2) == 18
+//                    && this.type().equals("CAR")
+//                ) {
+//                    int t = 1;
+//                    t = 2;
+//                }
 
                 resetRecord();
                 CalculationResult calculationResult = calculate(shopSeqListCandidate, deliveryShopSeqListCandidate);
@@ -213,17 +207,17 @@ public class Rider {
             shopIndexList.addAll(bestShopIndexList);
             deliveryIndexList.addAll(bestDeliveryIndexList);
 
-            if (shopIndexList.size() == 3
-                && shopIndexList.get(0) == 0
-                && shopIndexList.get(1) == 18
-                && shopIndexList.get(2) == 3
-                && deliveryIndexList.get(0) == 3
-                && deliveryIndexList.get(1) == 0
-                && deliveryIndexList.get(2) == 18
-            ) {
-                int t = 1;
-                t = 2;
-            }
+//            if (shopIndexList.size() == 3
+//                && shopIndexList.get(0) == 0
+//                && shopIndexList.get(1) == 18
+//                && shopIndexList.get(2) == 3
+//                && deliveryIndexList.get(0) == 3
+//                && deliveryIndexList.get(1) == 0
+//                && deliveryIndexList.get(2) == 18
+//            ) {
+//                int t = 1;
+//                t = 2;
+//            }
 
             Constants.bestShopIndexMap.get(this.type()).put(orderKey, shopIndexKey);
             Constants.bestDeliveryIndexMap.get(this.type()).put(orderKey, deliveryIndexKey);
@@ -235,7 +229,7 @@ public class Rider {
 
         } else {
             this.isValid = false;
-            this.cost = -1;
+            this.cost = -1000000;
         }
     }
 

@@ -23,21 +23,9 @@ public class ConstructHeuristics {
 
     public static Solution solve(Solution solution) {
 
-        HashMap<Integer, Order> orderMap = solution.orderMap();
-        HashMap<Integer, Rider> riderMap = solution.riderMap();
 
         brownSolution(solution);
-//        orderPool.sortOrderByDifficulties();
 
-//        for (Order order : orderMap.values()) {
-//            solution.sam
-//        }
-
-        // 무엇이 풀기 어려운 order일까?
-
-//        simpleSolution(riderMap, orderMap);
-
-//        log.info("totalCost: {}", totalCost);
         return solution;
     }
 

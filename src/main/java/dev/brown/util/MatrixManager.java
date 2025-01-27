@@ -1,7 +1,10 @@
 package dev.brown.util;
 
+import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import dev.brown.Constants.DISTANCE_MATRIX_TYPE;
+import dev.brown.domain.Rider;
+import dev.brown.domain.Solution;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -15,74 +18,43 @@ public class MatrixManager {
     public final static HashMap<Integer, HashMap<Integer, Integer>> shopToDeliveryDistanceMap = new HashMap<>();
 //    private static final Logger log = LoggerFactory.getLogger(MatrixManager.class);
 
-    private static HashMap<Integer, HashMap<Integer, Integer>> getDistanceMapByType(
-        DISTANCE_MATRIX_TYPE distanceMatrixType) {
-        return switch (distanceMatrixType) {
-            case BETWEEN_SHOP -> shopDistanceMap;
-            case BETWEEN_DELIVERY -> deliveryDistanceMap;
-            case SHOP_TO_DELIVERY -> shopToDeliveryDistanceMap;
-        };
-    }
 
-//    private static void convertJsonToMap(JsonObject matrixJson, DISTANCE_MATRIX_TYPE distanceMatrixType) {
-//
-//        HashMap<Integer, HashMap<Integer, Integer>> distanceMapByType = getDistanceMapByType(distanceMatrixType);
-//
-//        for (String originIndexStr : matrixJson.keySet()) {
-//            int originXIndex = Integer.parseInt(originIndexStr);
-//            distanceMapByType.putIfAbsent(originIndex, new HashMap<>());
-//            JsonObject rowObject = matrixJson.get(originIndexStr).getAsJsonObject();
-//            for (String destinationIndexStr : rowObject.keySet()) {
-//                String distanceStr = rowObject.get(destinationIndexStr).getAsString();
-//                int destinationIndex = Integer.parseInt(destinationIndexStr);
-//                int distance = Integer.parseInt(distanceStr);
-//                distanceMapByType.get(originIndex).put(destinationIndex, distance);
-//            }
-//        }
-//    }
+    public static void applyDistanceMatrix(JsonObject jsonObject) {
 
-    public static void applyShopDistanceMap(JsonObject jsonObject) {
-        for (String originIndexStr : jsonObject.keySet()) {
-            int originIndex = Integer.parseInt(originIndexStr);
-            shopDistanceMap.put(originIndex, new HashMap<>());
-            for (String destinationIndexStr : jsonObject.get(originIndexStr).getAsJsonObject().keySet()) {
-                String distanceStr = jsonObject.get(originIndexStr).getAsJsonObject().get(destinationIndexStr)
-                    .getAsString();
-                int distance = Integer.parseInt(distanceStr);
-                int destinationIndex = Integer.parseInt(destinationIndexStr);
-                shopDistanceMap.get(originIndex).put(destinationIndex, distance);
+        JsonArray distanceArray = jsonObject.get("DIST").getAsJsonArray();
+        int k = distanceArray.size() / 2;
+
+        // fromShopIndex 0, toShopIndex 1, K 100
+        for (int fromShopIndex = 0; fromShopIndex < k; fromShopIndex++) {
+            for (int toShopIndex = 0; toShopIndex < k; toShopIndex++) {
+
+                int fromDeliveryIndex = fromShopIndex + k; // 100
+                int toDeliveryIndex = toShopIndex + k; // 101
+
+                // 0 -> 1
+                int shopToShopDistance
+                    = distanceArray.get(fromShopIndex).getAsJsonArray().get(toShopIndex).getAsInt();
+
+                // 0 -> 101
+                int shopToDeliveryDistance
+                    = distanceArray.get(fromShopIndex).getAsJsonArray().get(toDeliveryIndex).getAsInt();
+
+                // 100 -> 101
+                int deliveryToDeliveryDistance
+                    = distanceArray.get(fromDeliveryIndex).getAsJsonArray().get(toDeliveryIndex).getAsInt();
+
+                shopDistanceMap.putIfAbsent(fromShopIndex, new HashMap<>());
+                shopDistanceMap.get(fromShopIndex).put(toShopIndex, shopToShopDistance);
+
+                deliveryDistanceMap.putIfAbsent(fromShopIndex, new HashMap<>());
+                deliveryDistanceMap.get(fromShopIndex).put(toShopIndex, shopToDeliveryDistance);
+
+                shopToDeliveryDistanceMap.putIfAbsent(fromShopIndex, new HashMap<>());
+                shopToDeliveryDistanceMap.get(fromShopIndex).put(toShopIndex, deliveryToDeliveryDistance);
             }
         }
-    }
 
-    public static void applyDeliveryDistanceMap(JsonObject jsonObject, int orderCount) {
-        for (String originIndexStr : jsonObject.keySet()) {
-            int originIndex = Integer.parseInt(originIndexStr) - orderCount;
-            deliveryDistanceMap.put(originIndex, new HashMap<>());
-            for (String destinationIndexStr : jsonObject.get(originIndexStr).getAsJsonObject().keySet()) {
-                String distanceStr = jsonObject.get(originIndexStr).getAsJsonObject().get(destinationIndexStr)
-                    .getAsString();
-                int distance = Integer.parseInt(distanceStr);
-                int destinationIndex = Integer.parseInt(destinationIndexStr) - orderCount;
-                deliveryDistanceMap.get(originIndex).put(destinationIndex, distance);
-            }
-        }
     }
-
-    public static void applyShopToDeliveryDistanceMap(JsonObject jsonObject, int orderCount) {
-        for (String originIndexStr : jsonObject.keySet()) {
-            int originIndex = Integer.parseInt(originIndexStr);
-            shopToDeliveryDistanceMap.put(originIndex, new HashMap<>());
-            for (String destinationIndexStr : jsonObject.get(originIndexStr).getAsJsonObject().keySet()) {
-                String distanceStr = jsonObject.get(originIndexStr).getAsJsonObject().get(destinationIndexStr)
-                    .getAsString();
-                int distance = Integer.parseInt(distanceStr);
-                int destinationIndex = Integer.parseInt(destinationIndexStr) - orderCount;
-                shopToDeliveryDistanceMap.get(originIndex).put(destinationIndex, distance);
-            }
-        }
-    }
-
 
     public static int getShopDistance(int originIndex, int destinationIndex) {
         return shopDistanceMap.get(originIndex).get(destinationIndex);
@@ -154,40 +126,44 @@ public class MatrixManager {
     }
 
 
-    static void applyDuration(String riderType, JsonObject ridersInput, String durationKey, int orderCount) {
-        HashMap<Integer, HashMap<Integer, Integer>> durationMap = new HashMap<>();
-        JsonObject durationObject = ridersInput.get(riderType).getAsJsonObject().get(durationKey).getAsJsonObject();
+    static void applyDuration(HashMap<String, Rider> sampleRiderMap) {
 
-        for (String originIndexStr : durationObject.keySet()) {
-            int originIndex = Integer.parseInt(originIndexStr);
-            originIndex = durationKey.equals("duration_dlvrys") ? originIndex - orderCount : originIndex;
-            durationMap.putIfAbsent(originIndex, new HashMap<>());
+        for (String riderType : sampleRiderMap.keySet()) {
+            shopDurationMap.putIfAbsent(riderType, new HashMap<>());
+            shopToDeliveryDurationMap.putIfAbsent(riderType, new HashMap<>());
+            deliveryDurationMap.putIfAbsent(riderType, new HashMap<>());
 
-            for (String destinationIndexStr : durationObject.get(originIndexStr).getAsJsonObject().keySet()) {
-                int destinationIndex = Integer.parseInt(destinationIndexStr);
-                destinationIndex =
-                    durationKey.equals("duration_shops") ? destinationIndex : destinationIndex - orderCount;
-                int duration = (int)
-                    durationObject.get(originIndexStr).getAsJsonObject().get(destinationIndexStr)
-                        .getAsDouble();
+            Rider sampleRider = sampleRiderMap.get(riderType);
+            double speed = sampleRider.speed();
+            int serviceTime = sampleRider.serviceTime();
 
-                durationMap.get(originIndex).put(destinationIndex, duration);
+            for (Integer fromIndex : shopDistanceMap.keySet()) {
+                for (Integer toIndex : shopDistanceMap.keySet()) {
+                    Integer distance = shopDistanceMap.get(fromIndex).get(toIndex);
+                    long duration = Math.round(distance / speed) + serviceTime;
+                    shopDurationMap.get(riderType).putIfAbsent(fromIndex, new HashMap<>());
+                    shopDurationMap.get(riderType).get(fromIndex).put(toIndex, (int) duration);
+                }
+            }
+
+            for (Integer fromIndex : shopToDeliveryDistanceMap.keySet()) {
+                for (Integer toIndex : shopToDeliveryDistanceMap.keySet()) {
+                    Integer distance = shopToDeliveryDistanceMap.get(fromIndex).get(toIndex);
+                    long duration = Math.round(distance / speed) + serviceTime;
+                    shopToDeliveryDurationMap.get(riderType).putIfAbsent(fromIndex, new HashMap<>());
+                    shopToDeliveryDurationMap.get(riderType).get(fromIndex).put(toIndex, (int) duration);
+                }
+            }
+
+            for (Integer fromIndex : deliveryDistanceMap.keySet()) {
+                for (Integer toIndex : deliveryDistanceMap.keySet()) {
+                    Integer distance = deliveryDistanceMap.get(fromIndex).get(toIndex);
+                    long duration = Math.round(distance / speed) + serviceTime;
+                    deliveryDurationMap.get(riderType).putIfAbsent(fromIndex, new HashMap<>());
+                    deliveryDurationMap.get(riderType).get(fromIndex).put(toIndex, (int) duration);
+                }
             }
         }
-
-        switch (durationKey) {
-            case "duration_shops":
-                applyShopDuration(riderType, durationMap);
-                break;
-            case "duration_dlvrys":
-                applyDeliveryDuration(riderType, durationMap);
-                break;
-            case "duration_shops_to_dlvrys":
-                applyShopToDeliveryDuration(riderType, durationMap);
-                break;
-        }
-
-
     }
 }
 
