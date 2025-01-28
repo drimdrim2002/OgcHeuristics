@@ -410,4 +410,87 @@ public class Rider {
 //    public int priority() {
 //        return priority;
 //    }
+
+
+    /**
+     * 현재까지의 경로를 기반으로 현재 시간을 계산
+     * @return 현재 시간 (분 단위)
+     */
+    public int getCurrentTime() {
+        if (shopIndexList.isEmpty()) {
+            return 0;  // 아직 아무 주문도 없는 경우
+        }
+
+        int currentTime = 0;
+
+        // 1. 픽업 시간 계산
+        for (int i = 0; i < shopIndexList.size(); i++) {
+            int currShopIndex = shopIndexList.get(i);
+
+            // 이전 지점에서 현재 가게까지의 이동 시간
+            if (i > 0) {
+                int prevShopIndex = shopIndexList.get(i - 1);
+                currentTime += getShopDuration(prevShopIndex, currShopIndex);
+            }
+
+            // 주문 준비 시간 대기
+            Order order = solution.orderMap().get(currShopIndex);
+            currentTime = Math.max(currentTime, order.readyTime());
+
+            // 픽업 서비스 시간
+            currentTime += serviceTime;
+        }
+
+        // 2. 마지막 가게에서 첫 배달 지점까지 이동
+        if (!shopIndexList.isEmpty() && !deliveryIndexList.isEmpty()) {
+            int lastShopIndex = shopIndexList.getLast();
+            int firstDeliveryIndex = deliveryIndexList.getFirst();
+            currentTime += getShopToDeliveryDuration(lastShopIndex, firstDeliveryIndex);
+        }
+
+        // 3. 배달 시간 계산
+        for (int i = 0; i < deliveryIndexList.size(); i++) {
+            int currDeliveryIndex = deliveryIndexList.get(i);
+
+            // 이전 배달 지점에서 현재 배달 지점까지의 이동 시간
+            if (i > 0) {
+                int prevDeliveryIndex = deliveryIndexList.get(i - 1);
+                currentTime += getDeliveryDuration(prevDeliveryIndex, currDeliveryIndex);
+            }
+
+            // 배달 서비스 시간
+            currentTime += serviceTime;
+        }
+
+        return currentTime;
+    }
+
+    /**
+     * 현재 라이더가 적재하고 있는 총 물량을 계산
+     * @return 현재 적재량
+     */
+    public int getCurrentLoad() {
+        int currentLoad = 0;
+
+        // 픽업은 했지만 아직 배달하지 않은 주문들의 물량 합계
+        for (int shopIndex : shopIndexList) {
+            Order order = solution.orderMap().get(shopIndex);
+            currentLoad += order.volume();
+        }
+
+        for (int deliveryIndex : deliveryIndexList) {
+            Order order = solution.orderMap().get(deliveryIndex);
+            currentLoad -= order.volume();  // 배달 완료된 주문은 제외
+        }
+
+        return currentLoad;
+    }
+
+    /**
+     * 라이더의 최대 적재 용량 반환
+     * @return 최대 적재 용량
+     */
+    public int getCapacity() {
+        return this.capa;  // 이미 존재하는 capa 필드 사용
+    }
 }
