@@ -493,4 +493,81 @@ public class Rider {
     public int getCapacity() {
         return this.capa;  // 이미 존재하는 capa 필드 사용
     }
+
+    /**
+     * Rider 객체의 깊은 복사본을 생성
+     * @return 새로운 Rider 객체
+     */
+    public Rider copy() {
+        // 기본 정보로 새 Rider 객체 생성
+        Rider newRider = new Rider(
+            this.id,
+            this.type,
+            this.speed,
+            this.capa,
+            this.varCost,
+            this.fixedCost,
+            this.serviceTime
+        );
+
+        // orderList 복사
+        List<Order> newOrderList = new ArrayList<>();
+        for (Order order : this.orderList) {
+            Order copiedOrder = order.copy();
+            copiedOrder.setRider(newRider);  // 새로운 라이더 참조 설정
+            newOrderList.add(copiedOrder);
+        }
+        newRider.setOrderList(newOrderList);
+
+        // 인덱스 리스트 복사
+        newRider.setShopIndexList(new ArrayList<>(this.shopIndexList));
+        newRider.setDeliveryIndexList(new ArrayList<>(this.deliveryIndexList));
+
+        // 기타 상태 복사
+        newRider.setCost(this.cost);
+        newRider.distance = this.distance;
+        newRider.isValid = this.isValid;
+
+        // Solution 참조 복사 (필요한 경우)
+        if (this.solution != null) {
+            newRider.setSolution(this.solution);  // 솔루션은 공유해도 됨
+        }
+
+        return newRider;
+    }
+
+    /**
+     * 동등성 비교를 위한 equals 메서드 오버라이드
+     */
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Rider rider = (Rider) o;
+        return id == rider.id &&
+            Double.compare(rider.speed, speed) == 0 &&
+            capa == rider.capa &&
+            varCost == rider.varCost &&
+            fixedCost == rider.fixedCost &&
+            serviceTime == rider.serviceTime &&
+            type.equals(rider.type);
+    }
+
+    /**
+     * equals와 함께 구현되어야 하는 hashCode 메서드 오버라이드
+     */
+    @Override
+    public int hashCode() {
+        int result = 17;
+        result = 31 * result + id;
+        result = 31 * result + type.hashCode();
+        long temp = Double.doubleToLongBits(speed);
+        result = 31 * result + (int) (temp ^ (temp >>> 32));
+        result = 31 * result + capa;
+        result = 31 * result + varCost;
+        result = 31 * result + fixedCost;
+        result = 31 * result + serviceTime;
+        return result;
+    }
 }

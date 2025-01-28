@@ -66,4 +66,57 @@ public class Solution {
     public HashMap<String, Rider> sampleRiderMapByType() {
         return sampleRiderMapByType;
     }
+
+    /**
+     * Solution 객체의 깊은 복사본을 생성
+     * @return 새로운 Solution 객체
+     */
+    public Solution copy() {
+        Solution newSolution = new Solution();
+
+        // orderMap 복사
+        HashMap<Integer, Order> newOrderMap = new HashMap<>();
+        for (var entry : orderMap.entrySet()) {
+            newOrderMap.put(entry.getKey(), entry.getValue().copy());
+        }
+        newSolution.setOrderMap(newOrderMap);
+
+        // riderMap 복사
+        HashMap<Integer, Rider> newRiderMap = new HashMap<>();
+        for (var entry : riderMap.entrySet()) {
+            newRiderMap.put(entry.getKey(), entry.getValue().copy());
+        }
+        newSolution.setRiderMap(newRiderMap);
+
+        // sampleRiderMapByType 복사
+        HashMap<String, Rider> newSampleRiderMap = new HashMap<>();
+        for (var entry : sampleRiderMapByType.entrySet()) {
+            newSampleRiderMap.put(entry.getKey(), entry.getValue().copy());
+        }
+        newSolution.setSampleRiderMapByType(newSampleRiderMap);
+
+        // 점수 관련 필드 복사
+        newSolution.notAssignedOrderCount = this.notAssignedOrderCount;
+        newSolution.totalCost = this.totalCost;
+
+        return newSolution;
+    }
+
+    /**
+     * 현재 솔루션의 총 주문 수를 반환
+     * @return 총 주문 수
+     */
+    public int getNumOrders() {
+        return orderMap.size();
+    }
+
+    /**
+     * 현재 솔루션의 총 비용을 계산하여 반환
+     * @return 총 비용
+     */
+    public double calculateTotalCost() {
+        calculateScore();  // 기존 메서드 활용
+        return totalCost;
+    }
+
 }
