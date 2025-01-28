@@ -91,9 +91,7 @@ public class ConstructHeuristics {
 
 
                     if (totalCost > 0) {
-                        // todo 단순히 개수로 하는 것보다는 ratio도 봐야하지 않을까?
                         double averageCost = totalCost * 1.0 / pickOrder.size();
-
                         availableScenarioMap.put(averageCost, new ArrayList<>());
                         availableScenarioMap.get(averageCost).add(new SimulationResult(nextRider));
                     }

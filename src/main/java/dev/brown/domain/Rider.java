@@ -21,9 +21,12 @@ public class Rider {
     private final int varCost;
     private final int fixedCost;
     private final int serviceTime;
+
     private List<Order> orderList;
     private int totalCost;
     private int distance;
+    private List<Integer> shopIndexList = new ArrayList<>();
+    private List<Integer> deliveryIndexList = new ArrayList<>();
 
     public void setShopIndexList(List<Integer> shopIndexList) {
         this.shopIndexList = shopIndexList;
@@ -37,8 +40,6 @@ public class Rider {
         this.orderList = orderList;
     }
 
-    private List<Integer> shopIndexList = new ArrayList<>();
-    private List<Integer> deliveryIndexList = new ArrayList<>();
     private Solution solution;
 
     public void setCost(int cost) {
@@ -46,7 +47,6 @@ public class Rider {
     }
 
     private int cost;
-    private final int priority;
 
     public boolean isValid() {
         return isValid;
@@ -69,14 +69,6 @@ public class Rider {
         this.orderList = new ArrayList<>();
         this.cost = 0;
         this.isValid = true;
-        if (type.equals("CAR")) {
-            priority = -1;
-        } else if (type.equals("BIKE")) {
-            priority = -2;
-        } else {
-            priority = -3;
-        }
-
         Constants.bestShopIndexMap.put(this.type(), new HashMap<>());
         Constants.bestDeliveryIndexMap.put(this.type(), new HashMap<>());
         Constants.bestScore.put(this.type(), new HashMap<>());
@@ -100,11 +92,6 @@ public class Rider {
     public String type() {
         return type;
     }
-
-
-//    public Solution solution() {
-//        return solution;
-//    }
 
     public void setSolution(Solution solution) {
         this.solution = solution;
