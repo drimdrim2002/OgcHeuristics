@@ -1,6 +1,6 @@
 package dev.brown.domain;
 
-public class Order  {
+public class Order {
 
     private final int id;
     private final int orderTime;
@@ -81,6 +81,7 @@ public class Order  {
 
     /**
      * Order 객체의 깊은 복사본을 생성
+     *
      * @return 새로운 Order 객체
      */
     public Order copy() {
@@ -97,10 +98,7 @@ public class Order  {
             this.dlvryLon
         );
 
-        // rider 참조 복사 (필요한 경우 rider도 깊은 복사)
-        if (this.rider != null) {
-            newOrder.setRider(this.rider.copy());
-        }
+        newOrder.rider = null;
 
         return newOrder;
     }
@@ -110,8 +108,12 @@ public class Order  {
      */
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
 
         Order order = (Order) o;
         return id == order.id &&
