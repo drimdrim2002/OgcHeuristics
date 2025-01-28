@@ -10,8 +10,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.TreeMap;
 import org.apache.commons.lang3.ObjectUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 public class Rider {
 
@@ -24,6 +22,8 @@ public class Rider {
     private final int fixedCost;
     private final int serviceTime;
     private List<Order> orderList;
+    private int totalCost;
+    private int distance;
 
     public void setShopIndexList(List<Integer> shopIndexList) {
         this.shopIndexList = shopIndexList;
@@ -144,8 +144,8 @@ public class Rider {
 //
 //    }
 
-    public int calculateCost(int totalDistance) {
-        return this.fixedCost + (int) (totalDistance / 100.0 * this.varCost);
+    public int calculateCost() {
+        return this.fixedCost + (int) (this.distance / 100.0 * this.varCost);
     }
 
 
@@ -342,7 +342,9 @@ public class Rider {
 
         CalculationResult calculationResult = new CalculationResult(isFeasible);
         if (isFeasible) {
-            calculationResult.setCost(calculateCost(totalDistance));
+            this.distance = totalDistance;
+            this.cost = calculateCost();
+            calculationResult.setCost(calculateCost());
         }
         return calculationResult;
     }
