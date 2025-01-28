@@ -20,11 +20,15 @@ public class InputMaker {
 
             int orderId = orderRowElement.get(0).getAsInt();
             int orderTime = orderRowElement.get(1).getAsInt();
+            double shopLat = orderRowElement.get(2).getAsDouble();
+            double shopLon = orderRowElement.get(3).getAsDouble();
+            double dlvryLat = orderRowElement.get(4).getAsDouble();
+            double dlvryLon = orderRowElement.get(5).getAsDouble();
             int cookTime = orderRowElement.get(6).getAsInt();
             int volume = orderRowElement.get(7).getAsInt();
             int deadline = orderRowElement.get(8).getAsInt();
             orderMap.put(orderId,
-                new Order(orderId, volume, orderTime, cookTime, deadline));
+                new Order(orderId, volume, orderTime, cookTime, deadline, shopLat, shopLon, dlvryLat , dlvryLon));
         }
         return orderMap;
     }

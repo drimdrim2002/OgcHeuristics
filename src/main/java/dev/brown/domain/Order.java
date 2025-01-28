@@ -8,16 +8,27 @@ public class Order  {
     private final int volume;
     private final int deadline;
     private final int readyTime;
+    private final double shopLat;
+    private final double shopLon;
+    private final double dlvryLat;
+    private final double dlvryLon;
+
 
     private Rider rider;
 
-    public Order(int id, int volume, int orderTime, int cookTime, int deadline) {
+    public Order(int id, int volume, int orderTime, int cookTime, int deadline,
+        double shopLat, double shopLon, double dlvryLat, double dlvryLon) {
         this.cookTime = cookTime;
         this.deadline = deadline;
         this.id = id;
         this.orderTime = orderTime;
         this.volume = volume;
         this.readyTime = orderTime + cookTime;
+        this.shopLat = shopLat;
+        this.shopLon = shopLon;
+        this.dlvryLat = dlvryLat;
+        this.dlvryLon = dlvryLon;
+
     }
 
     public int cookTime() {
@@ -52,8 +63,21 @@ public class Order  {
         this.rider = rider;
     }
 
+    public double dlvryLat() {
+        return dlvryLat;
+    }
 
+    public double dlvryLon() {
+        return dlvryLon;
+    }
 
+    public double shopLat() {
+        return shopLat;
+    }
+
+    public double shopLon() {
+        return shopLon;
+    }
 
     @Override
     public String toString() {

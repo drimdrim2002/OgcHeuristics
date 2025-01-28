@@ -1,152 +1,291 @@
 package dev.brown.alns.parameter;
+import java.util.Map;
 
 /**
- * ALNS 알고리즘의 하이퍼파라미터를 정의하는 레코드
+ * ALNS 알고리즘의 하이퍼파라미터 설정을 관리하는 클래스
  */
-public record HyperParameter(
-    // Destroy 관련
-    double destroyRatio,           // 파괴할 솔루션의 비율
-    int iterationsPerSegment,      // 각 세그먼트당 반복 횟수
+public class HyperParameter {
+    // Time for polish
+    private double timeMargin = 0.5;  // need fix when n>300
 
-    // Simulated Annealing 관련
-    double initialTemperature,     // 초기 온도
-    double coolingRate,            // 냉각 속도
-    double minTemperature,         // 최소 온도
+    // Adaptive Destroyer
+    private float rho = 0.5f;              // updating parameter
+    private float smoothingRatio = 0.01f;  // smoothing for insertion operators
+    private float minProb = 0.05f;         // destroy prob min
+    private float maxProb = 0.15f;         // destroy prob max
+    private int maxDestroy = 1000;         // just infinite value
+    private float routeRemovalRatio = 0.2f; // route removal ratio
+    private int updatePeriod = 100;        // period for updating prob
 
-    // Adaptive Weight 관련
-    double reactionFactor,         // 적응형 가중치 업데이트 계수
+    // Operator scores
+    private int score1 = 20;  // operator score when a better overall solution is found
+    private int score2 = 10;  // operator score when a better local solution is found
+    private int score3 = 2;   // operator score when a worst-cost solution is accepted
 
-    // Score 관련
-    double newBestScore,          // 새로운 최적해 발견 시 점수
-    double betterScore,           // 이전보다 개선된 해 발견 시 점수
-    double acceptedScore          // 수용된 해에 대한 점수
-) {
+    // Shaw removal parameters
+    private float shawNoise = 6.0f;
+    private float shawD = 9.0f;
+    private float shawT = 3.0f;
+    private float shawL = 2.0f;
+
+    // Worst removal parameters
+    private float worstNoise = 3.0f;
+
+    // Initial Semi-Parallel Solution weights (should add up to 1)
+    private float alpha1 = 1.0f;  // cost weight
+    private float alpha2 = 0.0f;  // empty space weight
+
+    private int considerSize = 12;
+
+    private float wtWeight = 0.2f;
+    private float twWeight = 1.0f;
+
+    private boolean useWorst = true;
+    private boolean useOld = false;
+
     /**
-     * 기본 하이퍼파라미터 값을 반환하는 팩토리 메서드
+     * 기본 생성자
      */
-    public static HyperParameter getDefault() {
-        return new HyperParameter(
-            0.4,    // destroyRatio
-            100,    // iterationsPerSegment
-            100.0,  // initialTemperature
-            0.99,   // coolingRate
-            0.01,   // minTemperature
-            0.1,    // reactionFactor
-            33.0,   // newBestScore
-            20.0,   // betterScore
-            10.0    // acceptedScore
-        );
+    public HyperParameter() {}
+
+    /**
+     * Map을 이용한 생성자
+     * @param hparam 하이퍼파라미터 맵
+     */
+    public HyperParameter(Map<String, Float> hparam) {
+        // Time margin
+        timeMargin = hparam.getOrDefault("time_margin", (float)timeMargin).doubleValue();
+
+        // Adaptive Destroyer parameters
+        rho = hparam.getOrDefault("rho", rho);
+        smoothingRatio = hparam.getOrDefault("smoothing_ratio", smoothingRatio);
+        minProb = hparam.getOrDefault("min_prob", minProb);
+        maxProb = hparam.getOrDefault("max_prob", maxProb);
+        maxDestroy = hparam.getOrDefault("max_destroy", (float)maxDestroy).intValue();
+        routeRemovalRatio = hparam.getOrDefault("route_removal_ratio", routeRemovalRatio);
+        updatePeriod = hparam.getOrDefault("update_period", (float)updatePeriod).intValue();
+
+        // Scores
+        score1 = hparam.getOrDefault("score1", (float)score1).intValue();
+        score2 = hparam.getOrDefault("score2", (float)score2).intValue();
+        score3 = hparam.getOrDefault("score3", (float)score3).intValue();
+
+        // Shaw removal parameters
+        shawNoise = hparam.getOrDefault("shaw_noise", shawNoise);
+        shawD = hparam.getOrDefault("shaw_d", shawD);
+        shawT = hparam.getOrDefault("shaw_t", shawT);
+        shawL = hparam.getOrDefault("shaw_l", shawL);
+
+        // Worst removal parameter
+        worstNoise = hparam.getOrDefault("worst_noise", worstNoise);
+
+        // Solution weights
+        alpha1 = hparam.getOrDefault("alpha1", alpha1);
+        alpha2 = hparam.getOrDefault("alpha2", alpha2);
+
+        // Other parameters
+        considerSize = hparam.getOrDefault("consider_size", (float)considerSize).intValue();
+        wtWeight = hparam.getOrDefault("wt_weight", wtWeight);
+        twWeight = hparam.getOrDefault("tw_weight", twWeight);
+
+        // Boolean parameters
+        useWorst = hparam.getOrDefault("use_worst", useWorst ? 1.0f : 0.0f) > 0.5f;
+        useOld = hparam.getOrDefault("use_old", useOld ? 1.0f : 0.0f) > 0.5f;
     }
 
+    // Getter methods
+    public double getTimeMargin() { return timeMargin; }
+    public float getRho() { return rho; }
+    public float getSmoothingRatio() { return smoothingRatio; }
+    public float getMinProb() { return minProb; }
+    public float getMaxProb() { return maxProb; }
+    public int getMaxDestroy() { return maxDestroy; }
+    public float getRouteRemovalRatio() { return routeRemovalRatio; }
+    public int getUpdatePeriod() { return updatePeriod; }
+
+    public int getScore1() { return score1; }
+    public int getScore2() { return score2; }
+    public int getScore3() { return score3; }
+
+    public float getShawNoise() { return shawNoise; }
+    public float getShawD() { return shawD; }
+    public float getShawT() { return shawT; }
+    public float getShawL() { return shawL; }
+
+    public float getWorstNoise() { return worstNoise; }
+
+    public float getAlpha1() { return alpha1; }
+    public float getAlpha2() { return alpha2; }
+
+    public int getConsiderSize() { return considerSize; }
+
+    public float getWtWeight() { return wtWeight; }
+    public float getTwWeight() { return twWeight; }
+
+    public boolean isUseWorst() { return useWorst; }
+    public boolean isUseOld() { return useOld; }
+
     /**
-     * 하이퍼파라미터 유효성 검증을 위한 빌더
+     * Builder 클래스
      */
     public static class Builder {
-        private double destroyRatio = 0.4;
-        private int iterationsPerSegment = 100;
-        private double initialTemperature = 100.0;
-        private double coolingRate = 0.99;
-        private double minTemperature = 0.01;
-        private double reactionFactor = 0.1;
-        private double newBestScore = 33.0;
-        private double betterScore = 20.0;
-        private double acceptedScore = 10.0;
+        private final HyperParameter params = new HyperParameter();
 
-        public Builder destroyRatio(double value) {
-            if (value <= 0 || value >= 1) {
-                throw new IllegalArgumentException("Destroy ratio must be between 0 and 1");
-            }
-            this.destroyRatio = value;
+        // Time margin
+        public Builder timeMargin(double val) {
+            params.timeMargin = val;
             return this;
         }
 
-        public Builder iterationsPerSegment(int value) {
-            if (value <= 0) {
-                throw new IllegalArgumentException("Iterations must be positive");
-            }
-            this.iterationsPerSegment = value;
+        // Adaptive Destroyer parameters
+        public Builder rho(float val) {
+            params.rho = val;
             return this;
         }
 
-        public Builder initialTemperature(double value) {
-            if (value <= 0) {
-                throw new IllegalArgumentException("Initial temperature must be positive");
-            }
-            this.initialTemperature = value;
+        public Builder smoothingRatio(float val) {
+            params.smoothingRatio = val;
             return this;
         }
 
-        public Builder coolingRate(double value) {
-            if (value <= 0 || value >= 1) {
-                throw new IllegalArgumentException("Cooling rate must be between 0 and 1");
-            }
-            this.coolingRate = value;
+        public Builder minProb(float val) {
+            params.minProb = val;
             return this;
         }
 
-        public Builder minTemperature(double value) {
-            if (value < 0) {
-                throw new IllegalArgumentException("Minimum temperature must be non-negative");
-            }
-            this.minTemperature = value;
+        public Builder maxProb(float val) {
+            params.maxProb = val;
             return this;
         }
 
-        public Builder reactionFactor(double value) {
-            if (value <= 0 || value >= 1) {
-                throw new IllegalArgumentException("Reaction factor must be between 0 and 1");
-            }
-            this.reactionFactor = value;
+        public Builder maxDestroy(int val) {
+            params.maxDestroy = val;
             return this;
         }
 
-        public Builder newBestScore(double value) {
-            if (value <= 0) {
-                throw new IllegalArgumentException("Score must be positive");
-            }
-            this.newBestScore = value;
+        public Builder routeRemovalRatio(float val) {
+            params.routeRemovalRatio = val;
             return this;
         }
 
-        public Builder betterScore(double value) {
-            if (value <= 0) {
-                throw new IllegalArgumentException("Score must be positive");
-            }
-            this.betterScore = value;
+        public Builder updatePeriod(int val) {
+            params.updatePeriod = val;
             return this;
         }
 
-        public Builder acceptedScore(double value) {
-            if (value <= 0) {
-                throw new IllegalArgumentException("Score must be positive");
-            }
-            this.acceptedScore = value;
+        // Operator scores
+        public Builder score1(int val) {
+            params.score1 = val;
+            return this;
+        }
+
+        public Builder score2(int val) {
+            params.score2 = val;
+            return this;
+        }
+
+        public Builder score3(int val) {
+            params.score3 = val;
+            return this;
+        }
+
+        // Shaw removal parameters
+        public Builder shawNoise(float val) {
+            params.shawNoise = val;
+            return this;
+        }
+
+        public Builder shawD(float val) {
+            params.shawD = val;
+            return this;
+        }
+
+        public Builder shawT(float val) {
+            params.shawT = val;
+            return this;
+        }
+
+        public Builder shawL(float val) {
+            params.shawL = val;
+            return this;
+        }
+
+        // Worst removal parameter
+        public Builder worstNoise(float val) {
+            params.worstNoise = val;
+            return this;
+        }
+
+        // Solution weights
+        public Builder alpha1(float val) {
+            params.alpha1 = val;
+            return this;
+        }
+
+        public Builder alpha2(float val) {
+            params.alpha2 = val;
+            return this;
+        }
+
+        // Other parameters
+        public Builder considerSize(int val) {
+            params.considerSize = val;
+            return this;
+        }
+
+        public Builder wtWeight(float val) {
+            params.wtWeight = val;
+            return this;
+        }
+
+        public Builder twWeight(float val) {
+            params.twWeight = val;
+            return this;
+        }
+
+        // Boolean parameters
+        public Builder useWorst(boolean val) {
+            params.useWorst = val;
+            return this;
+        }
+
+        public Builder useOld(boolean val) {
+            params.useOld = val;
             return this;
         }
 
         public HyperParameter build() {
-            // 추가적인 유효성 검사
-            if (minTemperature >= initialTemperature) {
-                throw new IllegalStateException("Minimum temperature must be less than initial temperature");
-            }
-            if (betterScore > newBestScore) {
-                throw new IllegalStateException("Better score should not exceed new best score");
-            }
-            if (acceptedScore > betterScore) {
-                throw new IllegalStateException("Accepted score should not exceed better score");
+            validateParameters();
+            return params;
+        }
+
+        private void validateParameters() {
+            // alpha1 + alpha2 should add up to 1.0
+            if (Math.abs(params.alpha1 + params.alpha2 - 1.0) > 0.001) {
+                throw new IllegalStateException("alpha1 + alpha2 must equal 1.0");
             }
 
-            return new HyperParameter(
-                destroyRatio,
-                iterationsPerSegment,
-                initialTemperature,
-                coolingRate,
-                minTemperature,
-                reactionFactor,
-                newBestScore,
-                betterScore,
-                acceptedScore
-            );
+            // Probability checks
+            if (params.minProb >= params.maxProb) {
+                throw new IllegalStateException("minProb must be less than maxProb");
+            }
+
+            // Other validation rules
+            if (params.timeMargin <= 0) {
+                throw new IllegalStateException("timeMargin must be positive");
+            }
+
+            if (params.rho < 0 || params.rho > 1) {
+                throw new IllegalStateException("rho must be between 0 and 1");
+            }
+
+            if (params.maxDestroy <= 0) {
+                throw new IllegalStateException("maxDestroy must be positive");
+            }
+
+            if (params.updatePeriod <= 0) {
+                throw new IllegalStateException("updatePeriod must be positive");
+            }
         }
     }
 }
