@@ -1,8 +1,10 @@
 package dev.brown.alns.destroy;
+
 import dev.brown.domain.Order;
-import dev.brown.domain.Rider;
 import dev.brown.domain.Solution;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Random;
 
 public class RandomRemoval implements DestroyOperator {
     private final Random random;
