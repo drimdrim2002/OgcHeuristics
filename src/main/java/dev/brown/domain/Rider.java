@@ -217,7 +217,7 @@ public class Rider {
 
         } else {
             this.isValid = false;
-            this.cost = -1000000;
+            this.cost += 1000000;
         }
     }
 
