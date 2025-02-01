@@ -27,8 +27,9 @@ public class InputMaker {
             int cookTime = orderRowElement.get(6).getAsInt();
             int volume = orderRowElement.get(7).getAsInt();
             int deadline = orderRowElement.get(8).getAsInt();
+            int readyTime = orderTime + cookTime;
             orderMap.put(orderId,
-                new Order(orderId, volume, orderTime, cookTime, deadline, shopLat, shopLon, dlvryLat , dlvryLon));
+                new Order(orderId, volume, readyTime, deadline, shopLat, shopLon, dlvryLat , dlvryLon));
         }
         return orderMap;
     }

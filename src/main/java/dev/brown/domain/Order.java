@@ -3,36 +3,28 @@ package dev.brown.domain;
 public class Order {
 
     private final int id;
-    private final int orderTime;
-    private final int cookTime;
     private final int volume;
     private final int deadline;
     private final int readyTime;
     private final double shopLat;
     private final double shopLon;
-    private final double dlvryLat;
-    private final double dlvryLon;
+    private final double deliveryLat;
+    private final double deliveryLon;
 
 
     private Rider rider;
 
-    public Order(int id, int volume, int orderTime, int cookTime, int deadline,
-        double shopLat, double shopLon, double dlvryLat, double dlvryLon) {
-        this.cookTime = cookTime;
-        this.deadline = deadline;
+    public Order(int id, int volume, int readyTime, int deadline,
+        double shopLat, double shopLon, double deliveryLat, double deliveryLon) {
         this.id = id;
-        this.orderTime = orderTime;
         this.volume = volume;
-        this.readyTime = orderTime + cookTime;
+        this.readyTime = readyTime;
+        this.deadline = deadline;
         this.shopLat = shopLat;
         this.shopLon = shopLon;
-        this.dlvryLat = dlvryLat;
-        this.dlvryLon = dlvryLon;
+        this.deliveryLat = deliveryLat;
+        this.deliveryLon = deliveryLon;
 
-    }
-
-    public int cookTime() {
-        return cookTime;
     }
 
     public int deadline() {
@@ -41,10 +33,6 @@ public class Order {
 
     public int id() {
         return id;
-    }
-
-    public int orderTime() {
-        return orderTime;
     }
 
     public int readyTime() {
@@ -64,11 +52,11 @@ public class Order {
     }
 
     public double dlvryLat() {
-        return dlvryLat;
+        return deliveryLat;
     }
 
     public double dlvryLon() {
-        return dlvryLon;
+        return deliveryLon;
     }
 
     public double shopLat() {
@@ -89,13 +77,12 @@ public class Order {
         Order newOrder = new Order(
             this.id,
             this.volume,
-            this.orderTime,
-            this.cookTime,
+            this.readyTime,
             this.deadline,
             this.shopLat,
             this.shopLon,
-            this.dlvryLat,
-            this.dlvryLon
+            this.deliveryLat,
+            this.deliveryLon
         );
 
         newOrder.rider = null;
@@ -117,15 +104,13 @@ public class Order {
 
         Order order = (Order) o;
         return id == order.id &&
-            orderTime == order.orderTime &&
-            cookTime == order.cookTime &&
+            readyTime == order.readyTime &&
             volume == order.volume &&
             deadline == order.deadline &&
-            readyTime == order.readyTime &&
             Double.compare(order.shopLat, shopLat) == 0 &&
             Double.compare(order.shopLon, shopLon) == 0 &&
-            Double.compare(order.dlvryLat, dlvryLat) == 0 &&
-            Double.compare(order.dlvryLon, dlvryLon) == 0;
+            Double.compare(order.deliveryLat, deliveryLat) == 0 &&
+            Double.compare(order.deliveryLon, deliveryLon) == 0;
     }
 
     /**
@@ -135,20 +120,13 @@ public class Order {
     public int hashCode() {
         int result = 17;
         result = 31 * result + id;
-        result = 31 * result + orderTime;
-        result = 31 * result + cookTime;
         result = 31 * result + volume;
         result = 31 * result + deadline;
         result = 31 * result + readyTime;
-        long temp;
-        temp = Double.doubleToLongBits(shopLat);
-        result = 31 * result + (int) (temp ^ (temp >>> 32));
-        temp = Double.doubleToLongBits(shopLon);
-        result = 31 * result + (int) (temp ^ (temp >>> 32));
-        temp = Double.doubleToLongBits(dlvryLat);
-        result = 31 * result + (int) (temp ^ (temp >>> 32));
-        temp = Double.doubleToLongBits(dlvryLon);
-        result = 31 * result + (int) (temp ^ (temp >>> 32));
+        result = 31 * result + Double.hashCode(shopLat);
+        result = 31 * result + Double.hashCode(shopLon);
+        result = 31 * result + Double.hashCode(deliveryLat);
+        result = 31 * result + Double.hashCode(deliveryLon);
         return result;
     }
 
@@ -156,15 +134,13 @@ public class Order {
     public String toString() {
         return "Order{" +
             "id=" + id +
-            ", cookTime=" + cookTime +
             ", deadline=" + deadline +
-            ", orderTime=" + orderTime +
             ", readyTime=" + readyTime +
             ", volume=" + volume +
             ", shopLat=" + shopLat +
             ", shopLon=" + shopLon +
-            ", dlvryLat=" + dlvryLat +
-            ", dlvryLon=" + dlvryLon +
+            ", dlvryLat=" + deliveryLat +
+            ", dlvryLon=" + deliveryLon +
             ", rider=" + (rider != null ? rider.id() : "null") +
             '}';
     }

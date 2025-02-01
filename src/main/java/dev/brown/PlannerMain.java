@@ -48,8 +48,8 @@ public class PlannerMain {
         logger.info("initialSolution cost: {}", initialSolution.totalCost());
 
         // 1. 하이퍼파라미터 설정
-        HyperParameter params = createHyperParameters();
-        runOptimization(params, initialSolution);
+//        HyperParameter params = createHyperParameters();
+//        runOptimization(params, initialSolution);
 
 
 
