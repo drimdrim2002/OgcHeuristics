@@ -29,8 +29,8 @@ public class HistoricalRemoval implements DestroyOperator {
         }
 
         Order randomOrder = assignedOrders.get(random.nextInt(assignedOrders.size()));
-        removedOrders.add(randomOrder.id());
-        randomOrder.rider().removeOrder(randomOrder);
+        removedOrders.add(randomOrder.getId());
+//        randomOrder.getRider().removeOrder(randomOrder);
         assignedOrders.remove(randomOrder);
 
         // 2. 히스토리 기반으로 관련 주문 선택
@@ -43,8 +43,8 @@ public class HistoricalRemoval implements DestroyOperator {
 
             if (selectedOrder == null) break;
 
-            removedOrders.add(selectedOrder.id());
-            selectedOrder.rider().removeOrder(selectedOrder);
+            removedOrders.add(selectedOrder.getId());
+//            selectedOrder.getRider().removeOrder(selectedOrder);
             assignedOrders.remove(selectedOrder);
         }
 
@@ -54,9 +54,9 @@ public class HistoricalRemoval implements DestroyOperator {
     private List<Order> getAssignedOrders(Solution solution) {
         List<Order> assignedOrders = new ArrayList<>();
         for (Order order : solution.orderMap().values()) {
-            if (order.rider() != null) {
-                assignedOrders.add(order);
-            }
+//            if (order.getRider() != null) {
+//                assignedOrders.add(order);
+//            }
         }
         return assignedOrders;
     }
@@ -69,9 +69,9 @@ public class HistoricalRemoval implements DestroyOperator {
         List<OrderScore> orderScores = new ArrayList<>();
 
         for (Order candidate : candidates) {
-            if (excludeIds.contains(candidate.id())) continue;
+            if (excludeIds.contains(candidate.getId())) continue;
 
-            String pairKey = getPairKey(referenceOrder.id(), candidate.id());
+            String pairKey = getPairKey(referenceOrder.getId(), candidate.getId());
             double historicalScore = historicalPairs.getOrDefault(pairKey, INITIAL_SCORE);
 
             // 노이즈 추가
@@ -103,8 +103,8 @@ public class HistoricalRemoval implements DestroyOperator {
             for (int i = 0; i < orders.size(); i++) {
                 for (int j = i + 1; j < orders.size(); j++) {
                     String pairKey = getPairKey(
-                        orders.get(i).id(),
-                        orders.get(j).id()
+                        orders.get(i).getId(),
+                        orders.get(j).getId()
                     );
                     double currentScore = historicalPairs.getOrDefault(pairKey, INITIAL_SCORE);
                     double newScore = currentScore * (1 - LEARNING_RATE) +

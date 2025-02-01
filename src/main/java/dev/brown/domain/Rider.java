@@ -139,8 +139,8 @@ public class Rider {
     public void addOrder(Order order) {
         this.orderList.add(order);
 
-        shopIndexList.add(order.id());
-        deliveryIndexList.add(order.id());
+        shopIndexList.add(order.getId());
+        deliveryIndexList.add(order.getId());
 
         List<List<Integer>> shopPermuationList = Permutation.generatePermutations(shopIndexList);
         List<List<Integer>> deliveryPermutationList = Permutation.generatePermutations(deliveryIndexList);
@@ -223,7 +223,7 @@ public class Rider {
 
     private List<Integer> getSortedSequence() {
         return this.orderList.stream()
-            .map(Order::id)
+            .map(Order::getId)
             .sorted()
             .toList();
     }
@@ -293,7 +293,7 @@ public class Rider {
                 deliveryTime += getShopDuration(prevShopIndex, currShopIndex);
             }
             Order order = this.solution.orderMap().get(currShopIndex);
-            deliveryTime = Math.max(deliveryTime, order.readyTime());
+            deliveryTime = Math.max(deliveryTime, order.getReadyTime());
         }
 
         int lastVisitShopIndex = shopIndexList.getLast();
@@ -315,14 +315,14 @@ public class Rider {
                 deliveryTime += getDeliveryDuration(prevShopIndex, currDeliveryIndex);
             }
             Order order = this.solution.orderMap().get(currDeliveryIndex);
-            if (order.deadline() < deliveryTime) {
+            if (order.getDeadline() < deliveryTime) {
                 deadlineViolated = true;
                 break;
             }
 //            else {
 //                this.extraTime = order.deadline() - deliveryTime;
 //            }
-            volSum += order.volume();
+            volSum += order.getVolume();
         }
 
         boolean isFeasible = volSum <= this.capa && !deadlineViolated;
@@ -435,7 +435,7 @@ public class Rider {
 
             // 주문 준비 시간 대기
             Order order = solution.orderMap().get(currShopIndex);
-            currentTime = Math.max(currentTime, order.readyTime());
+            currentTime = Math.max(currentTime, order.getReadyTime());
 
             // 픽업 서비스 시간
             currentTime += serviceTime;
@@ -475,12 +475,12 @@ public class Rider {
         // 픽업은 했지만 아직 배달하지 않은 주문들의 물량 합계
         for (int shopIndex : shopIndexList) {
             Order order = solution.orderMap().get(shopIndex);
-            currentLoad += order.volume();
+            currentLoad += order.getVolume();
         }
 
         for (int deliveryIndex : deliveryIndexList) {
             Order order = solution.orderMap().get(deliveryIndex);
-            currentLoad -= order.volume();  // 배달 완료된 주문은 제외
+            currentLoad -= order.getVolume();  // 배달 완료된 주문은 제외
         }
 
         return currentLoad;
@@ -514,7 +514,7 @@ public class Rider {
         List<Order> newOrderList = new ArrayList<>();
         for (Order order : this.orderList) {
             Order copiedOrder = order.copy();
-            copiedOrder.setRider(newRider);  // 새로운 라이더 참조 설정
+            copiedOrder.setRiderId(newRider.id);  // 새로운 라이더 참조 설정
             newOrderList.add(copiedOrder);
         }
         newRider.setOrderList(newOrderList);

@@ -25,8 +25,8 @@ public class ShawRemoval implements DestroyOperator {
         }
 
         Order randomOrder = assignedOrders.get(random.nextInt(assignedOrders.size()));
-        removedOrders.add(randomOrder.id());
-        randomOrder.rider().removeOrder(randomOrder);
+        removedOrders.add(randomOrder.getId());
+//        randomOrder.getRider().removeOrder(randomOrder);
 
         // 2. 관련성이 높은 주문들 선택
         while (removedOrders.size() < numToDestroy && !assignedOrders.isEmpty()) {
@@ -38,8 +38,8 @@ public class ShawRemoval implements DestroyOperator {
 
             if (selectedOrder == null) break;
 
-            removedOrders.add(selectedOrder.id());
-            selectedOrder.rider().removeOrder(selectedOrder);
+            removedOrders.add(selectedOrder.getId());
+//            selectedOrder.getRider().removeOrder(selectedOrder);
             assignedOrders.remove(selectedOrder);
         }
 
@@ -49,9 +49,9 @@ public class ShawRemoval implements DestroyOperator {
     private List<Order> getAssignedOrders(Solution solution) {
         List<Order> assignedOrders = new ArrayList<>();
         for (Order order : solution.orderMap().values()) {
-            if (order.rider() != null) {
-                assignedOrders.add(order);
-            }
+//            if (order.getRider() != null) {
+//                assignedOrders.add(order);
+//            }
         }
         return assignedOrders;
     }
@@ -65,7 +65,7 @@ public class ShawRemoval implements DestroyOperator {
         List<OrderRelatedness> orderRelatednessList = new ArrayList<>();
 
         for (Order candidate : candidates) {
-            if (excludeIds.contains(candidate.id())) continue;
+            if (excludeIds.contains(candidate.getId())) continue;
 
             double relatedness = RelatenessCalculator.calculateRelatedness(
                 referenceOrder,

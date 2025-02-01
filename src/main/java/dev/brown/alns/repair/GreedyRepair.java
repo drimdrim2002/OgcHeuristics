@@ -44,8 +44,8 @@ public class GreedyRepair implements RepairOperator {
                     List<Integer> tempShopList = new ArrayList<>(rider.shopIndexList());
                     List<Integer> tempDeliveryList = new ArrayList<>(rider.deliveryIndexList());
 
-                    tempShopList.add(shopPos, order.id());
-                    tempDeliveryList.add(deliveryPos, order.id());
+                    tempShopList.add(shopPos, order.getId());
+                    tempDeliveryList.add(deliveryPos, order.getId());
 
                     // 임시 상태로 비용 계산
                     rider.setShopIndexList(tempShopList);
@@ -74,14 +74,14 @@ public class GreedyRepair implements RepairOperator {
             List<Integer> newShopList = new ArrayList<>(bestRider.shopIndexList());
             List<Integer> newDeliveryList = new ArrayList<>(bestRider.deliveryIndexList());
 
-            newShopList.add(bestShopPos, order.id());
-            newDeliveryList.add(bestDeliveryPos, order.id());
+            newShopList.add(bestShopPos, order.getId());
+            newDeliveryList.add(bestDeliveryPos, order.getId());
 
             bestRider.setShopIndexList(newShopList);
             bestRider.setDeliveryIndexList(newDeliveryList);
 
             // 주문-라이더 연결 설정
-            order.setRider(bestRider);
+//            order.setRider(bestRider);
             bestRider.addOrder(order);
 
             return true;

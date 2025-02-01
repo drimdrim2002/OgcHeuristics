@@ -20,20 +20,20 @@ public class WorstRemoval implements DestroyOperator {
 
         // 각 주문의 비용 계산
         for (Order order : solution.orderMap().values()) {
-            if (order.rider() != null) {
-                Rider rider = order.rider();
-                int currentCost = rider.cost();
-                rider.removeOrder(order);
-                int newCost = rider.cost();
-                int costDiff = currentCost - newCost;
-
-                // 노이즈 추가
-                double noise = 1.0 + hparam.getWorstNoise() * random.nextDouble();
-                orderCosts.add(new OrderCost(order.id(), costDiff * noise));
-
-                // 원래대로 복구
-                rider.addOrder(order);
-            }
+//            if (order.getRider() != null) {
+//                Rider rider = order.getRider();
+//                int currentCost = rider.cost();
+//                rider.removeOrder(order);
+//                int newCost = rider.cost();
+//                int costDiff = currentCost - newCost;
+//
+//                // 노이즈 추가
+//                double noise = 1.0 + hparam.getWorstNoise() * random.nextDouble();
+//                orderCosts.add(new OrderCost(order.getId(), costDiff * noise));
+//
+//                // 원래대로 복구
+//                rider.addOrder(order);
+//            }
         }
 
         // 비용이 높은 순으로 정렬
@@ -44,10 +44,10 @@ public class WorstRemoval implements DestroyOperator {
         for (int i = 0; i < Math.min(numToDestroy, orderCosts.size()); i++) {
             int orderId = orderCosts.get(i).orderId;
             Order order = solution.orderMap().get(orderId);
-            if (order.rider() != null) {
-                order.rider().removeOrder(order);
-                removedOrders.add(orderId);
-            }
+//            if (order.getRider() != null) {
+//                order.getRider().removeOrder(order);
+//                removedOrders.add(orderId);
+//            }
         }
 
         return removedOrders;

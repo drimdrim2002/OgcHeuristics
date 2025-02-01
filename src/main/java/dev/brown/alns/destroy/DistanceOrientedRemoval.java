@@ -39,11 +39,11 @@ public class DistanceOrientedRemoval implements DestroyOperator {
 
         // 아직 제거되지 않은 모든 주문에 대해
         for (Order order : solution.getActiveOrders()) {
-            if (!removedOrders.contains(order.id())) {
+            if (!removedOrders.contains(order.getId())) {
                 // 이미 제거된 주문들과의 평균 거리 계산
                 double avgDistance = calculateAverageDistance(order, removedOrders, solution);
                 // 거리가 가까울수록 높은 점수
-                orderScores.put(order.id(), 1.0 / (avgDistance + 1));
+                orderScores.put(order.getId(), 1.0 / (avgDistance + 1));
             }
         }
 
@@ -62,14 +62,14 @@ public class DistanceOrientedRemoval implements DestroyOperator {
 
             // 픽업 지점 간 거리
             double pickupDistance = calculateDistance(
-                order.shopLat(), order.shopLon(),
-                removedOrder.shopLat(), removedOrder.shopLon()
+                order.getShopLat(), order.getShopLon(),
+                removedOrder.getShopLat(), removedOrder.getShopLon()
             );
 
             // 배달 지점 간 거리
             double deliveryDistance = calculateDistance(
-                order.dlvryLat(), order.dlvryLon(),
-                removedOrder.dlvryLat(), removedOrder.dlvryLon()
+                order.getDeliveryLat(), order.getDeliveryLon(),
+                removedOrder.getDeliveryLat(), removedOrder.getDeliveryLon()
             );
 
             // 평균 거리에 가중치 적용

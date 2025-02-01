@@ -35,7 +35,7 @@ public class Methods {
 
         // 주문 제거
         Order orderToRemove = rider.orderList().stream()
-            .filter(o -> o.id() == orderId)
+            .filter(o -> o.getId() == orderId)
             .findFirst()
             .orElse(null);
 
@@ -64,10 +64,10 @@ public class Methods {
         double distanceDiff = calculateDistance(order1, order2);
 
         // 시간 차이
-        double timeDiff = Math.abs(order1.readyTime() - order2.readyTime());
+        double timeDiff = Math.abs(order1.getReadyTime() - order2.getReadyTime());
 
         // 크기(볼륨) 차이
-        double loadDiff = Math.abs(order1.volume() - order2.volume());
+        double loadDiff = Math.abs(order1.getVolume() - order2.getVolume());
 
         return hyperParameter.getShawD() * distanceDiff +
             hyperParameter.getShawT() * timeDiff +
@@ -107,8 +107,8 @@ public class Methods {
     private static double calculateDistance(Order order1, Order order2) {
         // 주문의 위치 정보를 이용한 거리 계산
         // 실제 구현에서는 MatrixManager를 사용할 수 있습니다
-        double dx = order1.shopLat() - order2.dlvryLat();
-        double dy = order1.shopLon() - order2.dlvryLon();
+        double dx = order1.getShopLat() - order2.getDeliveryLat();
+        double dy = order1.getShopLon() - order2.getDeliveryLon();
         return Math.sqrt(dx * dx + dy * dy);
     }
 

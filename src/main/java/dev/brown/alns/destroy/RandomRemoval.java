@@ -25,9 +25,9 @@ public class RandomRemoval implements DestroyOperator {
             Order order = solution.orderMap().get(orderId);
 
             // 라이더로부터 주문 제거
-            if (order.rider() != null) {
-                order.rider().removeOrder(order);
-                removedOrders.add(orderId);
+            if (order.getRiderId() != null) {
+//                order.getRider().removeOrder(order);
+//                removedOrders.add(orderId);
             }
         }
 

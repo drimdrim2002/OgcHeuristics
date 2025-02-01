@@ -28,27 +28,27 @@ public class OrderPool {
         consumedRecord = new HashSet<>();
         totalOrderList.addAll(orderMap.values().stream().toList());
         List<Order> sortedOrderByDeadline = orderMap.values().stream()
-            .sorted(Comparator.comparing(Order::deadline)
-                .thenComparing(Order::readyTime)
-                .thenComparing(Order::id))
+            .sorted(Comparator.comparing(Order::getDeadline)
+                .thenComparing(Order::getReadyTime)
+                .thenComparing(Order::getId))
             .toList();
 
         int orderPriority = 0;
         for (Order order : sortedOrderByDeadline) {
             orderPoolByDeadline.put(orderPriority, order);
-            priorityMapByDeadline.put(order.id(), orderPriority);
+            priorityMapByDeadline.put(order.getId(), orderPriority);
             orderPriority += 1;
         }
     }
 
     public void consume(Order order) {
-        this.consumedRecord.add(order.id());
-        orderPoolByDeadline.remove(priorityMapByDeadline.get(order.id()));
+        this.consumedRecord.add(order.getId());
+        orderPoolByDeadline.remove(priorityMapByDeadline.get(order.getId()));
     }
 
     public Order getNextOrder() {
         for (Order order : orderPoolByDeadline.values()) {
-            if (!consumedRecord.contains(order.id())) {
+            if (!consumedRecord.contains(order.getId())) {
                 return order;
             }
         }
@@ -64,7 +64,7 @@ public class OrderPool {
     public int findNearestIndex(Order order, HashSet<Integer> tried) {
 
         for (Entry<Integer, List<Integer>> nearestDistanceEntry
-            : MatrixManager.nearestDistanceMap.get(order.id()).entrySet()) {
+            : MatrixManager.nearestDistanceMap.get(order.getId()).entrySet()) {
             for (Integer orderIndex : nearestDistanceEntry.getValue()) {
                 if (!tried.contains(orderIndex) && ! consumedRecord.contains(orderIndex)) {
                     return orderIndex;

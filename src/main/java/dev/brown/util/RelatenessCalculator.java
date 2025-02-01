@@ -23,14 +23,14 @@ public class RelatenessCalculator {
     private static double calculateDistanceRelatedness(Order order1, Order order2) {
         // 픽업 지점 간의 거리
         double pickupDistance = calculateDistance(
-            order1.shopLat(), order1.shopLon(),
-            order2.shopLat(), order2.shopLon()
+            order1.getShopLat(), order1.getShopLon(),
+            order2.getShopLat(), order2.getShopLon()
         );
 
         // 배달 지점 간의 거리
         double deliveryDistance = calculateDistance(
-            order1.dlvryLat(), order1.dlvryLon(),
-            order2.dlvryLat(), order2.dlvryLon()
+            order1.getDeliveryLat(), order1.getDeliveryLon(),
+            order2.getDeliveryLat(), order2.getDeliveryLon()
         );
 
         return normalizeDistance(pickupDistance + deliveryDistance);
@@ -40,8 +40,8 @@ public class RelatenessCalculator {
      * 시간 기반 관련성 계산
      */
     private static double calculateTimeRelatedness(Order order1, Order order2) {
-        int readyTimeDiff = Math.abs(order1.readyTime() - order2.readyTime());
-        int deadlineDiff = Math.abs(order1.deadline() - order2.deadline());
+        int readyTimeDiff = Math.abs(order1.getReadyTime() - order2.getReadyTime());
+        int deadlineDiff = Math.abs(order1.getDeadline() - order2.getDeadline());
 
         return normalizeTime(readyTimeDiff + deadlineDiff);
     }
@@ -50,7 +50,7 @@ public class RelatenessCalculator {
      * 적재량 기반 관련성 계산
      */
     private static double calculateLoadRelatedness(Order order1, Order order2) {
-        return normalizeLoad(Math.abs(order1.volume() - order2.volume()));
+        return normalizeLoad(Math.abs(order1.getVolume() - order2.getVolume()));
     }
 
     /**

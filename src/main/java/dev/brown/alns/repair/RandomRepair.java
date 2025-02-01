@@ -49,8 +49,8 @@ public class RandomRepair implements RepairOperator {
             List<Integer> tempShopList = new ArrayList<>(rider.shopIndexList());
             List<Integer> tempDeliveryList = new ArrayList<>(rider.deliveryIndexList());
 
-            tempShopList.add(shopPos, order.id());
-            tempDeliveryList.add(deliveryPos, order.id());
+            tempShopList.add(shopPos, order.getId());
+            tempDeliveryList.add(deliveryPos, order.getId());
 
             rider.setShopIndexList(tempShopList);
             rider.setDeliveryIndexList(tempDeliveryList);
@@ -59,7 +59,7 @@ public class RandomRepair implements RepairOperator {
 
             if (result.isFeasible()) {
                 // 실행 가능한 위치를 찾았으면 주문 할당
-                order.setRider(rider);
+//                order.setRider(rider);
                 rider.addOrder(order);
                 return true;
             }
@@ -90,8 +90,8 @@ public class RandomRepair implements RepairOperator {
         int estimatedPickupTime = currentTime + (shopPos * 5);  // 예상 픽업 시간
         int estimatedDeliveryTime = estimatedPickupTime + ((deliveryPos - shopPos) * 5);  // 예상 배달 시간
 
-        return estimatedPickupTime >= order.readyTime() &&
-            estimatedDeliveryTime <= order.deadline();
+        return estimatedPickupTime >= order.getReadyTime() &&
+            estimatedDeliveryTime <= order.getDeadline();
     }
 
     /**
@@ -99,6 +99,6 @@ public class RandomRepair implements RepairOperator {
      */
     private boolean isCapacityCompatible(Order order, Rider rider) {
         int currentLoad = rider.getCurrentLoad();
-        return currentLoad + order.volume() <= rider.getCapacity();
+        return currentLoad + order.getVolume() <= rider.getCapacity();
     }
 }

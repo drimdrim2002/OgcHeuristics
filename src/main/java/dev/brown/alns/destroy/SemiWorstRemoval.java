@@ -38,12 +38,12 @@ public class SemiWorstRemoval implements DestroyOperator {
     private Map<Integer, Double> calculateOrderCosts(Solution solution) {
         Map<Integer, Double> orderCosts = new HashMap<>();
 
-        for (Order order : solution.orderMap().values()) {
-            if (order.rider() != null) {
-                double removalCost = calculateRemovalCost(order, solution);
-                orderCosts.put(order.id(), removalCost);
-            }
-        }
+//        for (Order order : solution.orderMap().values()) {
+//            if (order.getRider() != null) {
+//                double removalCost = calculateRemovalCost(order, solution);
+//                orderCosts.put(order.getId(), removalCost);
+//            }
+//        }
 
         return orderCosts;
     }
@@ -52,43 +52,44 @@ public class SemiWorstRemoval implements DestroyOperator {
      * 주문 제거 시의 비용 계산
      */
     private double calculateRemovalCost(Order order, Solution solution) {
-        Rider rider = order.rider();
-
-        // 1. 현재 상태 저장
-        int originalCost = rider.cost();
-        boolean originalValid = rider.isValid();
-
-        // 2. 주문 임시 제거
-        rider.removeOrder(order);
-
-        // 3. 새로운 비용 계산
-        CalculationResult result = rider.calculate();
-        int newCost = result != null && result.isFeasible() ? result.cost() : Integer.MAX_VALUE;
-
-        // 4. 원래 상태로 복원
-        rider.addOrder(order);
-
-        // 5. 비용 차이 및 페널티 계산
-        double costDiff = originalCost - newCost;
-
-        // 시간 제약 위반 페널티
-        if (!originalValid) {
-            costDiff += calculateTimeWindowPenalty(order);
-        }
-
-        return costDiff;
+//        Rider rider = order.getRider();
+//
+//        // 1. 현재 상태 저장
+//        int originalCost = rider.cost();
+//        boolean originalValid = rider.isValid();
+//
+//        // 2. 주문 임시 제거
+//        rider.removeOrder(order);
+//
+//        // 3. 새로운 비용 계산
+//        CalculationResult result = rider.calculate();
+//        int newCost = result != null && result.isFeasible() ? result.cost() : Integer.MAX_VALUE;
+//
+//        // 4. 원래 상태로 복원
+//        rider.addOrder(order);
+//
+//        // 5. 비용 차이 및 페널티 계산
+//        double costDiff = originalCost - newCost;
+//
+//        // 시간 제약 위반 페널티
+//        if (!originalValid) {
+//            costDiff += calculateTimeWindowPenalty(order);
+//        }
+//
+//        return costDiff;
+        return 0.0;
     }
 
     /**
      * 시간 제약 위반 페널티 계산
      */
     private double calculateTimeWindowPenalty(Order order) {
-        int currentTime = order.rider().getCurrentTime();
-        int deadline = order.deadline();
-
-        if (currentTime > deadline) {
-            return (currentTime - deadline) * params.getTwWeight();
-        }
+//        int currentTime = order.getRider().getCurrentTime();
+//        int deadline = order.getDeadline();
+//
+//        if (currentTime > deadline) {
+//            return (currentTime - deadline) * params.getTwWeight();
+//        }
         return 0.0;
     }
 
@@ -119,15 +120,15 @@ public class SemiWorstRemoval implements DestroyOperator {
         Map<Integer, Double> orderCosts,
         int removedOrderId) {
         Order removedOrder = solution.orderMap().get(removedOrderId);
-        Rider affectedRider = removedOrder.rider();
-
-        // 같은 라이더의 주문들 업데이트
-        for (Order order : affectedRider.orderList()) {
-            if (order.id() != removedOrderId) {
-                double newCost = calculateRemovalCost(order, solution);
-                orderCosts.put(order.id(), newCost);
-            }
-        }
+//        Rider affectedRider = removedOrder.getRider();
+//
+//         같은 라이더의 주문들 업데이트
+//        for (Order order : affectedRider.orderList()) {
+//            if (order.getId() != removedOrderId) {
+//                double newCost = calculateRemovalCost(order, solution);
+//                orderCosts.put(order.getId(), newCost);
+//            }
+//        }
 
         // 제거된 주문의 비용 제거
         orderCosts.remove(removedOrderId);
@@ -145,13 +146,13 @@ public class SemiWorstRemoval implements DestroyOperator {
         Map<Integer, Double> orderCosts,
         Order removedOrder) {
         for (Order order : solution.orderMap().values()) {
-            if (order.rider() != null &&
-                order.id() != removedOrder.id() &&
-                isTimeWindowOverlapping(order, removedOrder)) {
-
-                double newCost = calculateRemovalCost(order, solution);
-                orderCosts.put(order.id(), newCost);
-            }
+//            if (order.getRider() != null &&
+//                order.getId() != removedOrder.getId() &&
+//                isTimeWindowOverlapping(order, removedOrder)) {
+//
+//                double newCost = calculateRemovalCost(order, solution);
+//                orderCosts.put(order.getId(), newCost);
+//            }
         }
     }
 
@@ -162,10 +163,10 @@ public class SemiWorstRemoval implements DestroyOperator {
         // timeMargin을 고려한 시간 윈도우 체크
         double timeMargin = params.getTimeMargin();
 
-        int start1 = order1.readyTime();
-        int end1 = (int)(order1.deadline() * (1 + timeMargin));
-        int start2 = order2.readyTime();
-        int end2 = (int)(order2.deadline() * (1 + timeMargin));
+        int start1 = order1.getReadyTime();
+        int end1 = (int)(order1.getDeadline() * (1 + timeMargin));
+        int start2 = order2.getReadyTime();
+        int end2 = (int)(order2.getDeadline() * (1 + timeMargin));
 
         return !(end1 < start2 || end2 < start1);
     }

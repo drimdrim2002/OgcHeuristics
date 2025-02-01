@@ -75,8 +75,8 @@ public class BestPositionRepair implements RepairOperator {
                         List<Integer> tempShopList = new ArrayList<>(rider.shopIndexList());
                         List<Integer> tempDeliveryList = new ArrayList<>(rider.deliveryIndexList());
 
-                        tempShopList.add(shopPos, order.id());
-                        tempDeliveryList.add(deliveryPos, order.id());
+                        tempShopList.add(shopPos, order.getId());
+                        tempDeliveryList.add(deliveryPos, order.getId());
 
                         rider.setShopIndexList(tempShopList);
                         rider.setDeliveryIndexList(tempDeliveryList);
@@ -110,13 +110,13 @@ public class BestPositionRepair implements RepairOperator {
         List<Integer> newShopList = new ArrayList<>(rider.shopIndexList());
         List<Integer> newDeliveryList = new ArrayList<>(rider.deliveryIndexList());
 
-        newShopList.add(shopPos, order.id());
-        newDeliveryList.add(deliveryPos, order.id());
+        newShopList.add(shopPos, order.getId());
+        newDeliveryList.add(deliveryPos, order.getId());
 
         rider.setShopIndexList(newShopList);
         rider.setDeliveryIndexList(newDeliveryList);
 
-        order.setRider(rider);
+//        order.setRider(rider);
         rider.addOrder(order);
     }
 

@@ -2,7 +2,6 @@ package dev.brown.domain;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
@@ -31,7 +30,7 @@ public class Solution {
 
     public void calculateScore() {
         for (Order order : orderMap.values()) {
-            if (order.rider() == null) {
+            if (order.getRiderId() == null) {
                 notAssignedOrderCount -= 1;
             }
         }
@@ -90,8 +89,8 @@ public class Solution {
             Integer riderId = entry.getKey();
             Rider copiedRider = entry.getValue().copy();
             for (Order copiedOrder : copiedRider.orderList()) {
-                copiedOrder.setRider(copiedRider);
-                newOrderMap.put(copiedOrder.id(), copiedOrder);
+                copiedOrder.setRiderId(copiedRider.id());
+                newOrderMap.put(copiedOrder.getId(), copiedOrder);
             }
             newRiderMap.put(riderId, copiedRider);
         }
@@ -100,8 +99,8 @@ public class Solution {
 
         // orderMap 복사
         for (Order order : orderMap.values()) {
-            if(!newOrderMap.containsKey(order.id())) {
-                newOrderMap.put(order.id(), order.copy());
+            if(!newOrderMap.containsKey(order.getId())) {
+                newOrderMap.put(order.getId(), order.copy());
             }
         }
         newSolution.setOrderMap(newOrderMap);
@@ -117,7 +116,7 @@ public class Solution {
 
         for (Rider rider : newSolution.riderMap().values()) {
             for (Order order : rider.orderList()) {
-                order.setRider(rider);
+                order.setRiderId(rider.id());
             }
         }
 
@@ -152,7 +151,7 @@ public class Solution {
     public List<Order> getActiveOrders() {
         List<Order> activeOrders = new ArrayList<>();
         for (Order order : orderMap.values()) {
-            if (!removedOrderIds.contains(order.id())) {
+            if (!removedOrderIds.contains(order.getId())) {
                 activeOrders.add(order);
             }
         }

@@ -45,7 +45,7 @@ public class RouteRemoval implements DestroyOperator {
             for (int i = 0; i < actualOrdersToRemove; i++) {
                 Order orderToRemove = routeOrders.get(start + i);
                 selectedRider.removeOrder(orderToRemove);
-                removedOrders.add(orderToRemove.id());
+                removedOrders.add(orderToRemove.getId());
             }
         }
 
@@ -73,7 +73,7 @@ public class RouteRemoval implements DestroyOperator {
             for (int i = 0; i < actualOrdersToRemove; i++) {
                 Order orderToRemove = routeOrders.get(start + i);
                 selectedRider.removeOrder(orderToRemove);
-                removedOrders.add(orderToRemove.id());
+                removedOrders.add(orderToRemove.getId());
             }
         }
 
@@ -130,7 +130,7 @@ public class RouteRemoval implements DestroyOperator {
         double totalSlack = 0;
         for (Order order : rider.orderList()) {
             // 실제 배달 시간과 마감 시간의 차이
-            int slack = order.deadline() - order.readyTime();
+            int slack = order.getDeadline() - order.getReadyTime();
             totalSlack += slack;
         }
         return totalSlack / Math.max(1, rider.orderList().size());

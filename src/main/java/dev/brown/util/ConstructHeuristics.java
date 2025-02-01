@@ -40,7 +40,7 @@ public class ConstructHeuristics {
 
             rider.addOrder(order);
             if (rider.isValid()) {
-                order.setRider(rider);
+                order.setRiderId(rider.id());
                 orderIndex += 1;
 //                log.info("order {}-> rider{}", order.id(), rider.id());
             } else {
@@ -85,7 +85,7 @@ public class ConstructHeuristics {
                         pickOrder.remove(nextOrder);
                     }
 
-                    triedOrderIndex.add(nextOrder.id());
+                    triedOrderIndex.add(nextOrder.getId());
                     int nearestIndex = orderPool.findNearestIndex(nextOrder, triedOrderIndex);
                     nextOrder = solution.orderMap().get(nearestIndex);
 
@@ -101,7 +101,7 @@ public class ConstructHeuristics {
 
                 nextRider.resetAll();
                 for (Order order : pickOrder) {
-                    order.setRider(null);
+                    order.setRiderId(null);
                 }
 
                 nextOrder = orderPool.getNextOrder();
@@ -121,7 +121,7 @@ public class ConstructHeuristics {
 
                 for (Order order : simulationResult.orderList()) {
                     orderPool.consume(order);
-                    order.setRider(bestPickRider);
+                    order.setRiderId(bestPickRider.id());
                 }
                 riderPool.consume(bestPickRider);
 
