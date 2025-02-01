@@ -43,10 +43,11 @@ public class AdaptiveDestroyer {
      */
     private void initializeOperators() {
         operators.put(DestroyMethod.RANDOM, new RandomRemoval(random));
-        operators.put(DestroyMethod.DISTANCE_ORIENTED, new RouteRemoval(hparam, random));
+        operators.put(DestroyMethod.DISTANCE_ORIENTED, new DistanceOrientedRemoval(hparam, random));
         operators.put(DestroyMethod.ROUTE, new RouteRemoval(hparam, random));
         operators.put(DestroyMethod.SHAW, new ShawRemoval(hparam, random));
         operators.put(DestroyMethod.WORST, new WorstRemoval(hparam, random));
+        operators.put(DestroyMethod.SEMI_WORST, new SemiWorstRemoval(hparam, random));
         operators.put(DestroyMethod.HISTORICAL, new HistoricalRemoval(hparam, random));
     }
 
