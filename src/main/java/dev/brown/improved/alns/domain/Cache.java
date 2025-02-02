@@ -1,32 +1,29 @@
 package dev.brown.improved.alns.domain;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 public class Cache {
-    private final Map<List<Integer>, Res> storage;
+    private final Map<List<Integer>, Result> storage = new HashMap<>();
 
-    public Cache() {
-        this.storage = new HashMap<>();
+    public boolean check(List<Integer> key) {
+        List<Integer> sortedKey = new ArrayList<>(key);
+        Collections.sort(sortedKey);
+        return storage.containsKey(sortedKey);
     }
 
-    public boolean check(List<Integer> v) {
-        List<Integer> key = new ArrayList<>(v);
-        key.sort(null);
-        return storage.containsKey(key);
+    public void append(List<Integer> key, Result result) {
+        List<Integer> sortedKey = new ArrayList<>(key);
+        Collections.sort(sortedKey);
+        storage.put(sortedKey, result);
     }
 
-    public void append(List<Integer> v, Res r) {
-        List<Integer> key = new ArrayList<>(v);
-        key.sort(null);
-        storage.put(key, r);
-    }
-
-    public Res retrieve(List<Integer> v) {
-        List<Integer> key = new ArrayList<>(v);
-        key.sort(null);
-        return storage.get(key);
+    public Result retrieve(List<Integer> key) {
+        List<Integer> sortedKey = new ArrayList<>(key);
+        Collections.sort(sortedKey);
+        return storage.get(sortedKey);
     }
 }
