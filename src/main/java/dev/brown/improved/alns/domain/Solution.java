@@ -158,6 +158,22 @@ public class Solution {
     public List<Bundle> getSolutions() {
         return new ArrayList<>(solutions);
     }
+
+    /**
+     * 복사 생성자
+     * @param other 복사할 Solution 객체
+     */
+    public Solution(Solution other) {
+        this.cost = other.cost;
+        this.solutions = other.solutions.stream()
+            .map(bundle -> new Bundle(
+                bundle.riderType(),
+                bundle.cost(),
+                new ArrayList<>(bundle.source()),
+                new ArrayList<>(bundle.dest())
+            ))
+            .collect(Collectors.toList());
+    }
 }
 
 /**
