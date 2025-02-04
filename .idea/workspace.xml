@@ -9,16 +9,17 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="8202c2ee-1972-45b1-aca6-81efa16706b3" name="변경" comment="[brown] improved alns 반영">
-      <change afterPath="$PROJECT_DIR$/src/main/java/dev/brown/improved/alns/domain/BundleKey.java" afterDir="false" />
+    <list default="true" id="8202c2ee-1972-45b1-aca6-81efa16706b3" name="변경" comment="[brown] improved 진행 중">
+      <change afterPath="$PROJECT_DIR$/src/main/java/dev/brown/improved/alns/destroy/AdaptiveDestroyer.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/dev/brown/improved/alns/destroy/DeliveryOrientedRemoval.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/dev/brown/improved/alns/destroy/DistanceOrientedRemoval.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/dev/brown/improved/alns/destroy/RandomRemoval.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/dev/brown/improved/alns/destroy/RouteRemoval.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/dev/brown/improved/alns/destroy/ShawRemoval.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/dev/brown/improved/alns/destroy/ShopOrientedRemoval.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/dev/brown/improved/alns/destroy/WorstRemoval.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/dev/brown/improved/alns/domain/BundleUtils.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/dev/brown/improved/alns/domain/Bundle.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dev/brown/improved/alns/domain/Bundle.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/dev/brown/improved/alns/domain/Cache.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dev/brown/improved/alns/domain/Cache.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/dev/brown/improved/alns/domain/PathResult.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dev/brown/improved/alns/domain/PathResult.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/dev/brown/improved/alns/domain/Res.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/dev/brown/improved/alns/domain/Result.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dev/brown/improved/alns/domain/Result.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/dev/brown/improved/alns/domain/RiderTuple.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dev/brown/improved/alns/domain/RiderTuple.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/dev/brown/improved/alns/domain/Solution.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dev/brown/improved/alns/domain/Solution.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -456,7 +457,47 @@
       <option name="project" value="LOCAL" />
       <updated>1738421840561</updated>
     </task>
-    <option name="localTasksCounter" value="32" />
+    <task id="LOCAL-00032" summary="[brown] 2차 반영">
+      <option name="closed" value="true" />
+      <created>1738501247354</created>
+      <option name="number" value="00032" />
+      <option name="presentableId" value="LOCAL-00032" />
+      <option name="project" value="LOCAL" />
+      <updated>1738501247354</updated>
+    </task>
+    <task id="LOCAL-00033" summary="[brown] annealer 추가">
+      <option name="closed" value="true" />
+      <created>1738501580636</created>
+      <option name="number" value="00033" />
+      <option name="presentableId" value="LOCAL-00033" />
+      <option name="project" value="LOCAL" />
+      <updated>1738501580636</updated>
+    </task>
+    <task id="LOCAL-00034" summary="[brown] destroy method 반영">
+      <option name="closed" value="true" />
+      <created>1738501788734</created>
+      <option name="number" value="00034" />
+      <option name="presentableId" value="LOCAL-00034" />
+      <option name="project" value="LOCAL" />
+      <updated>1738501788734</updated>
+    </task>
+    <task id="LOCAL-00035" summary="[brown] HARemoval 추가">
+      <option name="closed" value="true" />
+      <created>1738502508773</created>
+      <option name="number" value="00035" />
+      <option name="presentableId" value="LOCAL-00035" />
+      <option name="project" value="LOCAL" />
+      <updated>1738502508773</updated>
+    </task>
+    <task id="LOCAL-00036" summary="[brown] SemiWorstRemoval 추가">
+      <option name="closed" value="true" />
+      <created>1738503258388</created>
+      <option name="number" value="00036" />
+      <option name="presentableId" value="LOCAL-00036" />
+      <option name="project" value="LOCAL" />
+      <updated>1738503258388</updated>
+    </task>
+    <option name="localTasksCounter" value="37" />
     <servers />
   </component>
   <component name="Vcs.Log.History.Properties">
@@ -481,12 +522,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="[AlphaPlanner] rider type에 따라 duration 받도록 처리" />
-    <MESSAGE value="[AlphaPlanner] duration 오류 수정" />
-    <MESSAGE value="bug 수정&#10;- 리팩토링 조심해서 하자" />
-    <MESSAGE value="cost 맞추기" />
-    <MESSAGE value="[brown] 불필요한 map 없애기" />
-    <MESSAGE value="[brown] alns 적용 작업" />
     <MESSAGE value="[brown] input 업로드" />
     <MESSAGE value="[brown] input 업로드2" />
     <MESSAGE value="[brown] git ignore 추가" />
@@ -506,7 +541,13 @@
     <MESSAGE value="[brown] removal param 다 채움" />
     <MESSAGE value="[brown] Order refactoring" />
     <MESSAGE value="[brown] improved alns 반영" />
-    <option name="LAST_COMMIT_MESSAGE" value="[brown] improved alns 반영" />
+    <MESSAGE value="[brown] 2차 반영" />
+    <MESSAGE value="[brown] annealer 추가" />
+    <MESSAGE value="[brown] destroy method 반영" />
+    <MESSAGE value="[brown] HARemoval 추가" />
+    <MESSAGE value="[brown] SemiWorstRemoval 추가" />
+    <MESSAGE value="[brown] improved 진행 중" />
+    <option name="LAST_COMMIT_MESSAGE" value="[brown] improved 진행 중" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
