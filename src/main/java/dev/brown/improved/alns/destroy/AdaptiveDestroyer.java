@@ -325,7 +325,7 @@ public class AdaptiveDestroyer {
             int bundleId = idToBundle.get(id);
             if (bundlesToDelete.contains(bundleId)) continue;
 
-            Bundle bundle = sol.getSolutions().get(bundleId);
+            Bundle bundle = sol.getBundles().get(bundleId);
             List<Integer> newSourceOrder = new ArrayList<>(bundle.source());
             List<Integer> newDestOrder = new ArrayList<>(bundle.dest());
 
@@ -342,7 +342,7 @@ public class AdaptiveDestroyer {
                     newSourceOrder, newDestOrder,
                     riderData.getValue(), distMatPtr, matrixLength);
 
-                sol.getSolutions().set(bundleId, new Bundle(
+                sol.getBundles().set(bundleId, new Bundle(
                     bundle.riderType(), newCost, newSourceOrder, newDestOrder));
             }
         }

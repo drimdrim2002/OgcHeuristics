@@ -1,5 +1,6 @@
 package dev.brown.improved.alns.destroy;
 
+import dev.brown.improved.alns.domain.IndexedValue;
 import dev.brown.improved.alns.domain.Solution;
 import java.util.*;
 import java.util.stream.IntStream;

@@ -10,32 +10,32 @@ import java.util.stream.Collectors;
 public class Solution {
 
     private double cost;
-    private List<Bundle> solutions;
+    public List<Bundle> bundles;
 
     public Solution() {
         this.cost = 0.0;
-        this.solutions = new ArrayList<>();
+        this.bundles = new ArrayList<>();
     }
 
-    public Solution(List<Bundle> solutions, double cost) {
-        this.solutions = solutions;
+    public Solution(List<Bundle> bundles, double cost) {
+        this.bundles = bundles;
         this.cost = cost;
     }
 
     public String getRiderType(int i) {
-        return solutions.get(i).riderType();
+        return bundles.get(i).riderType();
     }
 
     public double getCost(int i) {
-        return solutions.get(i).cost();
+        return bundles.get(i).cost();
     }
 
     public List<Integer> getSource(int i) {
-        return solutions.get(i).source();
+        return bundles.get(i).source();
     }
 
     public List<Integer> getDest(int i) {
-        return solutions.get(i).dest();
+        return bundles.get(i).dest();
     }
 
     /**
@@ -44,8 +44,8 @@ public class Solution {
      * @return 번들 ID, 없으면 -1
      */
     public int getBundleId(int orderId) {
-        for (int i = 0; i < solutions.size(); i++) {
-            if (solutions.get(i).source().contains(orderId)) {
+        for (int i = 0; i < bundles.size(); i++) {
+            if (bundles.get(i).source().contains(orderId)) {
                 return i;
             }
         }
@@ -53,7 +53,7 @@ public class Solution {
     }
 
     public void updateCost() {
-        cost = solutions.stream()
+        cost = bundles.stream()
             .mapToDouble(Bundle::cost)
             .sum();
     }
@@ -65,20 +65,20 @@ public class Solution {
         Set<Integer> idsToRemove = new HashSet<>(bundleIds);
         List<Bundle> newSolutions = new ArrayList<>();
 
-        for (int i = 0; i < solutions.size(); i++) {
+        for (int i = 0; i < bundles.size(); i++) {
             if (!idsToRemove.contains(i)) {
-                newSolutions.add(solutions.get(i));
+                newSolutions.add(bundles.get(i));
             }
         }
 
-        solutions.clear();
-        solutions.addAll(newSolutions);
+        bundles.clear();
+        bundles.addAll(newSolutions);
         updateCost();
     }
 
     public void remove(int i) {
-        cost -= solutions.get(i).cost();
-        solutions.remove(i);
+        cost -= bundles.get(i).cost();
+        bundles.remove(i);
     }
 
 
@@ -103,7 +103,7 @@ public class Solution {
         dest.remove(Integer.valueOf(orderId));
 
         cost += (newCost - getCost(bundleId));
-        solutions.set(bundleId, new Bundle(riderType, newCost, source, dest));
+        bundles.set(bundleId, new Bundle(riderType, newCost, source, dest));
 
         return Map.entry(false, riderType);
     }
@@ -112,7 +112,7 @@ public class Solution {
      * 번들 추가
      */
     public void append(Bundle bundle) {
-        solutions.add(bundle);
+        bundles.add(bundle);
         cost += bundle.cost();
     }
 
@@ -120,14 +120,14 @@ public class Solution {
      * 솔루션 추출
      */
     public Map.Entry<List<Bundle>, Double> getSolution() {
-        return Map.entry(new ArrayList<>(solutions), cost);
+        return Map.entry(new ArrayList<>(bundles), cost);
     }
 
     /**
      * 간소화된 형태로 솔루션 추출
      */
     public Map.Entry<Double, List<BundleInfo>> extract() {
-        List<BundleInfo> result = solutions.stream()
+        List<BundleInfo> result = bundles.stream()
             .map(bundle -> new BundleInfo(
                 bundle.riderType(),
                 bundle.source(),
@@ -149,14 +149,14 @@ public class Solution {
      * 솔루션 크기 반환
      */
     public int size() {
-        return solutions.size();
+        return bundles.size();
     }
 
     /**
      * 모든 번들 반환
      */
-    public List<Bundle> getSolutions() {
-        return new ArrayList<>(solutions);
+    public List<Bundle> getBundles() {
+        return new ArrayList<>(bundles);
     }
 
     /**
@@ -165,7 +165,7 @@ public class Solution {
      */
     public Solution(Solution other) {
         this.cost = other.cost;
-        this.solutions = other.solutions.stream()
+        this.bundles = other.bundles.stream()
             .map(bundle -> new Bundle(
                 bundle.riderType(),
                 bundle.cost(),

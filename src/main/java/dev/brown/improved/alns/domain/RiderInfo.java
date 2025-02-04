@@ -48,4 +48,16 @@ public class RiderInfo {
             default -> throw new IllegalArgumentException("Unknown rider type: " + type);
         };
     }
+
+    public List<Integer> getBikeInfo() {
+        return bikeInfo;
+    }
+
+    public List<Integer> getCarInfo() {
+        return carInfo;
+    }
+
+    public List<Integer> getWalkInfo() {
+        return walkInfo;
+    }
 }

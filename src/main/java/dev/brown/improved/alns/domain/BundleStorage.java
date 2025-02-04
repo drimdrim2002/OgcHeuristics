@@ -33,7 +33,7 @@ public class BundleStorage {
     }
 
     public void append(Solution sol, double prob) {
-        for (Bundle bundle : sol.getSolutions()) {
+        for (Bundle bundle : sol.getBundles()) {
             append(bundle);
         }
     }
@@ -49,7 +49,7 @@ public class BundleStorage {
         }
 
         List<Integer> gurobiInitialSolution = new ArrayList<>();
-        for (Bundle bundle : bestSol.getSolutions()) {
+        for (Bundle bundle : bestSol.getBundles()) {
             BundleKey key = getKey(bundle);
             gurobiInitialSolution.add(keysToIndex.get(key));
         }
