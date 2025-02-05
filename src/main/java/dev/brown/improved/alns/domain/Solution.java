@@ -174,6 +174,16 @@ public class Solution {
             ))
             .collect(Collectors.toList());
     }
+
+    /**
+     * 다른 Solution의 내용을 현재 객체로 복사
+     * @param other 복사할 Solution 객체
+     */
+    public void copyFrom(Solution other) {
+        this.bundles.clear();
+        this.bundles.addAll(other.getBundles());
+        this.updateCost();
+    }
 }
 
 /**

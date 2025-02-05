@@ -9,28 +9,14 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="8202c2ee-1972-45b1-aca6-81efa16706b3" name="변경" comment="[brown] improved 진행 중">
-      <change afterPath="$PROJECT_DIR$/src/main/java/dev/brown/improved/alns/domain/IndexedValue.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/dev/brown/improved/alns/repair/BundleSolution.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/dev/brown/improved/alns/repair/Cache.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/dev/brown/improved/alns/repair/CacheEntry.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/dev/brown/improved/alns/repair/FeasibleSolution.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/dev/brown/improved/alns/repair/InvestigationResult.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/dev/brown/improved/alns/repair/InvestigationUtils.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/dev/brown/improved/alns/repair/LittleRandomRepair.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/dev/brown/improved/alns/repair/RandomRepair.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/dev/brown/improved/alns/repair/RegretRepair.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/dev/brown/improved/alns/repair/RepairBuilder.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/dev/brown/improved/alns/repair/Repairer.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/dev/brown/improved/alns/repair/RiderOptimizer.java" afterDir="false" />
+    <list default="true" id="8202c2ee-1972-45b1-aca6-81efa16706b3" name="변경" comment="[brown] repair 작업 중">
+      <change afterPath="$PROJECT_DIR$/src/main/java/dev/brown/improved/alns/MainIteration.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/dev/brown/improved/alns/storage/BundleStorage.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/dev/brown/improved/alns/destroy/AdaptiveDestroyer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dev/brown/improved/alns/destroy/AdaptiveDestroyer.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/dev/brown/improved/alns/destroy/DestroyMethods.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dev/brown/improved/alns/destroy/DestroyMethods.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/dev/brown/improved/alns/destroy/HARemoval.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dev/brown/improved/alns/destroy/HARemoval.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/dev/brown/improved/alns/destroy/IndexedValue.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/dev/brown/improved/alns/domain/BundleStorage.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dev/brown/improved/alns/domain/BundleStorage.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/dev/brown/improved/alns/domain/RiderInfo.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dev/brown/improved/alns/domain/RiderInfo.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/dev/brown/improved/alns/domain/Bundle.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dev/brown/improved/alns/domain/Bundle.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/dev/brown/improved/alns/domain/Solution.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dev/brown/improved/alns/domain/Solution.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/dev/brown/improved/alns/repair/RepairBuilder.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dev/brown/improved/alns/repair/RepairBuilder.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -516,7 +502,15 @@
       <option name="project" value="LOCAL" />
       <updated>1738678838839</updated>
     </task>
-    <option name="localTasksCounter" value="38" />
+    <task id="LOCAL-00038" summary="[brown] repair 작업 중">
+      <option name="closed" value="true" />
+      <created>1738682324866</created>
+      <option name="number" value="00038" />
+      <option name="presentableId" value="LOCAL-00038" />
+      <option name="project" value="LOCAL" />
+      <updated>1738682324866</updated>
+    </task>
+    <option name="localTasksCounter" value="39" />
     <servers />
   </component>
   <component name="Vcs.Log.History.Properties">
@@ -541,7 +535,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="[brown] input 업로드" />
     <MESSAGE value="[brown] input 업로드2" />
     <MESSAGE value="[brown] git ignore 추가" />
     <MESSAGE value="[brown] Validator추가" />
@@ -566,7 +559,8 @@
     <MESSAGE value="[brown] HARemoval 추가" />
     <MESSAGE value="[brown] SemiWorstRemoval 추가" />
     <MESSAGE value="[brown] improved 진행 중" />
-    <option name="LAST_COMMIT_MESSAGE" value="[brown] improved 진행 중" />
+    <MESSAGE value="[brown] repair 작업 중" />
+    <option name="LAST_COMMIT_MESSAGE" value="[brown] repair 작업 중" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

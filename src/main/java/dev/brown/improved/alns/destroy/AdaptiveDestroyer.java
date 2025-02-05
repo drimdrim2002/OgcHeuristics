@@ -391,4 +391,24 @@ public class AdaptiveDestroyer {
         Arrays.fill(numSuccess, 0);
     }
 
+
+    /**
+     * 현재 사용 중인 파괴 메서드의 이름 반환
+     * @return 현재 파괴 메서드 이름
+     */
+    public String getCurrentMethod() {
+        return switch (currentMethod) {
+            case 0 -> "RANDOM";
+            case 1 -> "DISTANCE";
+            case 2 -> "ROUTE";
+            case 3 -> "SHAW";
+            case 4 -> "HA";
+            case 5 -> "SHOP";
+            case 6 -> "DELIVERY";
+            case 7 -> "SEMI_WORST";
+            case 8 -> "WORST";
+            default -> "UNKNOWN";
+        };
+    }
+
 }

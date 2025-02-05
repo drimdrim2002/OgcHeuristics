@@ -33,4 +33,14 @@ public record Bundle(
     public Bundle withCost(double newCost) {
         return new Bundle(riderType, newCost, source, dest);
     }
+
+    @Override
+    public List<Integer> dest() {
+        return dest;
+    }
+
+    @Override
+    public List<Integer> source() {
+        return source;
+    }
 }

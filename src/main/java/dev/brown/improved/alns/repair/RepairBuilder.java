@@ -91,4 +91,8 @@ public class RepairBuilder {
             littleRandomRepair.repairOld(insertOrder, idsToBuild, solution, ridersAvailable);
         }
     }
+
+    public int getK() {
+        return K;
+    }
 }
