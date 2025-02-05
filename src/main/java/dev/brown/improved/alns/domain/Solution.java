@@ -124,10 +124,11 @@ public class Solution {
     }
 
     /**
-     * 간소화된 형태로 솔루션 추출
+     * SolutionFormat 형식으로 솔루션 추출
+     * @return SolutionFormat 객체
      */
-    public Map.Entry<Double, List<BundleInfo>> extract() {
-        List<BundleInfo> result = bundles.stream()
+    public SolutionFormat extract() {
+        List<BundleInfo> bundleInfos = bundles.stream()
             .map(bundle -> new BundleInfo(
                 bundle.riderType(),
                 bundle.source(),
@@ -135,9 +136,23 @@ public class Solution {
             ))
             .collect(Collectors.toList());
 
-        return Map.entry(cost, result);
+        return new SolutionFormat(cost, bundleInfos);
     }
 
+    /**
+     * 기존의 extract 메서드는 extractLegacy로 이름 변경
+     */
+//    public Map.Entry<Double, List<BundleInfo>> extractLegacy() {
+//        List<BundleInfo> result = bundles.stream()
+//            .map(bundle -> new BundleInfo(
+//                bundle.riderType(),
+//                bundle.source(),
+//                bundle.dest()
+//            ))
+//            .collect(Collectors.toList());
+//
+//        return Map.entry(cost, result);
+//    }
     /**
      * 현재 비용 반환
      */
@@ -183,20 +198,5 @@ public class Solution {
         this.bundles.clear();
         this.bundles.addAll(other.getBundles());
         this.updateCost();
-    }
-}
-
-/**
- * 번들 정보를 저장하는 보조 레코드
- */
-record BundleInfo(
-    String riderType,
-    List<Integer> source,
-    List<Integer> dest
-) {
-
-    public BundleInfo {
-        source = List.copyOf(source);
-        dest = List.copyOf(dest);
     }
 }
