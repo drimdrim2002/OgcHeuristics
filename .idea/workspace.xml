@@ -9,14 +9,11 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="8202c2ee-1972-45b1-aca6-81efa16706b3" name="변경" comment="[brown] Main Iteration 완료">
-      <change afterPath="$PROJECT_DIR$/src/main/java/dev/brown/improved/alns/Runner.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/dev/brown/improved/alns/domain/BundleInfo.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/dev/brown/improved/alns/domain/GurobiInput.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/dev/brown/improved/alns/domain/SolutionFormat.java" afterDir="false" />
+    <list default="true" id="8202c2ee-1972-45b1-aca6-81efa16706b3" name="변경" comment="[brown] myalogorithm 완료">
+      <change afterPath="$PROJECT_DIR$/src/main/java/dev/brown/MyAlgorithm.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/dev/brown/improved/alns/parameter/TimeConfig.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/dev/brown/improved/alns/domain/Solution.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dev/brown/improved/alns/domain/Solution.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/dev/brown/improved/alns/storage/BundleStorage.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dev/brown/improved/alns/storage/BundleStorage.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/dev/brown/domain/Rider.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dev/brown/domain/Rider.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -518,7 +515,15 @@
       <option name="project" value="LOCAL" />
       <updated>1738762894486</updated>
     </task>
-    <option name="localTasksCounter" value="40" />
+    <task id="LOCAL-00040" summary="[brown] runner.hpp 완료">
+      <option name="closed" value="true" />
+      <created>1738763842693</created>
+      <option name="number" value="00040" />
+      <option name="presentableId" value="LOCAL-00040" />
+      <option name="project" value="LOCAL" />
+      <updated>1738763842693</updated>
+    </task>
+    <option name="localTasksCounter" value="41" />
     <servers />
   </component>
   <component name="Vcs.Log.History.Properties">
@@ -543,8 +548,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="[brown] git ignore 추가" />
-    <MESSAGE value="[brown] Validator추가" />
     <MESSAGE value="[brown] Input 추가 (대용량 제외)" />
     <MESSAGE value="[brown] Rider에 cost 추가" />
     <MESSAGE value="[brown] Rider Refactoring" />
@@ -568,7 +571,9 @@
     <MESSAGE value="[brown] improved 진행 중" />
     <MESSAGE value="[brown] repair 작업 중" />
     <MESSAGE value="[brown] Main Iteration 완료" />
-    <option name="LAST_COMMIT_MESSAGE" value="[brown] Main Iteration 완료" />
+    <MESSAGE value="[brown] runner.hpp 완료" />
+    <MESSAGE value="[brown] myalogorithm 완료" />
+    <option name="LAST_COMMIT_MESSAGE" value="[brown] myalogorithm 완료" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

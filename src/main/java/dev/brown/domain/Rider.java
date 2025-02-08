@@ -570,4 +570,8 @@ public class Rider {
         result = 31 * result + serviceTime;
         return result;
     }
+
+    public int getVarCost() {
+        return varCost;
+    }
 }
