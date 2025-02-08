@@ -4,7 +4,6 @@ import dev.brown.domain.Order;
 import dev.brown.domain.Rider;
 import dev.brown.improved.alns.Runner;
 import dev.brown.improved.alns.domain.Bundle;
-import dev.brown.improved.alns.domain.ExtractResult;
 import dev.brown.improved.alns.domain.GurobiInput;
 import dev.brown.improved.alns.domain.SPResult;
 import dev.brown.improved.alns.domain.Solution;
@@ -181,44 +180,6 @@ public class MyAlgorithm {
      */
     private static boolean getUseOldVersion(int probNum) {
         return probNum == 9;
-    }
-
-    /**
-     * 주문과 라이더 데이터를 전처리합니다.
-     *
-     * @param allOrders 모든 주문 목록
-     * @param allRiders 모든 라이더 목록
-     * @param distMat 거리 행렬
-     * @return 전처리된 데이터
-     */
-    private static ProcessedData preprocess(List<Order> allOrders, List<Rider> allRiders, int[][] distMat) {
-        Map<Integer, OrderInput> orders = new HashMap<>();
-        List<int[]> ordersArray = new ArrayList<>();
-
-        // 주문 정보 처리
-        for (Order order : allOrders) {
-            OrderInput info = new OrderInput(order);
-            orders.put(order.getId(), info);
-            ordersArray.add(new int[]{info.getStart(), info.getEnd(), info.getVolume()});
-        }
-
-        // 라이더 정보 처리
-        Map<String, RiderInput> riders = new HashMap<>();
-        Map<String, Integer> ridersAvailable = new HashMap<>();
-
-        for (Rider rider : allRiders) {
-            riders.put(rider.getType(), new RiderInput(rider, distMat));
-            Integer prevCount = ridersAvailable.getOrDefault(rider.getType(), 0);
-            ridersAvailable.put(rider.getType(), prevCount + 1);
-        }
-
-        // List<int[]>를 int[][]로 변환
-        int[][] ordersArrayResult = new int[ordersArray.size()][];
-        for (int i = 0; i < ordersArray.size(); i++) {
-            ordersArrayResult[i] = ordersArray.get(i);
-        }
-
-        return new ProcessedData(ordersArrayResult, orders, riders, ridersAvailable);
     }
 
     /**
@@ -429,131 +390,4 @@ public class MyAlgorithm {
 
 }
 
-class OrderInput {
-    private final int start;    // order.orderTime + order.cookTime
-    private final int end;      // order.deadline
-    private final int volume;   // order.volume
 
-    /**
-     * 주문 객체로부터 OrderInput를 생성합니다.
-     *
-     * @param order 주문 객체
-     */
-    public OrderInput(Order order) {
-        this.start = order.getReadyTime();
-        this.end = order.getDeadline();
-        this.volume = order.getVolume();
-    }
-
-    // Getters
-    public int getStart() {
-        return start;
-    }
-
-    public int getEnd() {
-        return end;
-    }
-
-    public int getVolume() {
-        return volume;
-    }
-}
-
-class RiderInput {
-    private final int[][] T;            // 시간 행렬
-    private final int capacity;         // 용량
-    private final int fixedCost;        // 고정 비용
-    private final int varCost;          // 변동 비용
-
-    /**
-     * 라이더 객체와 거리 행렬로부터 RiderInfo를 생성합니다.
-     *
-     * @param rider 라이더 객체
-     * @param distMat 거리 행렬
-     */
-    public RiderInput(Rider rider, int[][] distMat) {
-        this.T = calculateTimeMatrix(distMat, rider.getSpeed(), rider.getServiceTime());
-        this.capacity = rider.getCapacity();
-        this.fixedCost = rider.getFixedCost();
-        this.varCost = rider.getVarCost();
-    }
-
-    /**
-     * 거리 행렬을 시간 행렬로 변환합니다.
-     *
-     * @param distMat 거리 행렬
-     * @param speed 속도
-     * @param serviceTime 서비스 시간
-     * @return 시간 행렬
-     */
-    private int[][] calculateTimeMatrix(int[][] distMat, double speed, int serviceTime) {
-        int n = distMat.length;
-        int[][] result = new int[n][n];
-        for (int i = 0; i < n; i++) {
-            for (int j = 0; j < n; j++) {
-                result[i][j] = (int) Math.round(distMat[i][j] / speed + serviceTime);
-            }
-        }
-        return result;
-    }
-
-    /**
-     * 주어진 거리에 대한 비용을 계산합니다.
-     *
-     * @param dist 거리
-     * @return 비용
-     */
-    public double cost(int dist) {
-        return fixedCost + (dist / 100.0) * varCost;
-    }
-
-    /**
-     * 시간 행렬과 정보 리스트를 추출합니다.
-     *
-     * @return [시간 행렬, [용량, 고정비용, 변동비용]]
-     */
-    public ExtractResult extract() {
-        return new ExtractResult(T, new int[]{capacity, fixedCost, varCost});
-    }
-
-    // Getters
-    public int[][] getT() {
-        return T;
-    }
-
-    public int getCapacity() {
-        return capacity;
-    }
-
-    public int getFixedCost() {
-        return fixedCost;
-    }
-
-    public int getVarCost() {
-        return varCost;
-    }
-}
-
-/**
- * 전처리된 데이터를 담는 클래스
- */
-class ProcessedData {
-    private final int[][] ordersArray;
-    private final Map<Integer, OrderInput> orders;
-    private final Map<String, RiderInput> riders;
-    private final Map<String, Integer> ridersAvailable;
-
-    public ProcessedData(int[][] ordersArray, Map<Integer, OrderInput> orders,
-        Map<String, RiderInput> riders, Map<String, Integer> ridersAvailable) {
-        this.ordersArray = ordersArray;
-        this.orders = orders;
-        this.riders = riders;
-        this.ridersAvailable = ridersAvailable;
-    }
-
-    // Getters
-    public int[][] getOrdersArray() { return ordersArray; }
-    public Map<Integer, OrderInput> getOrders() { return orders; }
-    public Map<String, RiderInput> getRiders() { return riders; }
-    public Map<String, Integer> getRidersAvailable() { return ridersAvailable; }
-}
