@@ -574,4 +574,22 @@ public class Rider {
     public int getVarCost() {
         return varCost;
     }
+
+    public double getSpeed() {
+        return speed;
+    }
+
+    public int getServiceTime() {
+        return serviceTime;
+    }
+
+    public int getFixedCost() {
+        return fixedCost;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+
 }

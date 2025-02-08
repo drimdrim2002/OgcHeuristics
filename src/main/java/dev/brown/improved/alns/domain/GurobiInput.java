@@ -11,7 +11,7 @@ import java.util.stream.IntStream;
 public record GurobiInput(
     int[][] edgeMatrix,      // 엣지 연결 행렬 (2K x 2K)
     int[] riderTypes,        // 각 주문의 라이더 타입 (K)
-    List<BundleInfo> bundles,// 저장된 모든 번들
+    List<Bundle> bundles,// 저장된 모든 번들
     List<Double> costs       // 각 번들의 비용
 ) {
     /**
@@ -56,7 +56,7 @@ public record GurobiInput(
     public Map<String, Long> getBundleCountsByType() {
         return bundles.stream()
             .collect(Collectors.groupingBy(
-                BundleInfo::riderType,
+                Bundle::riderType,
                 Collectors.counting()
             ));
     }
@@ -64,7 +64,7 @@ public record GurobiInput(
     /**
      * 특정 주문이 포함된 번들 찾기
      */
-    public List<BundleInfo> findBundlesContainingOrder(int orderId) {
+    public List<Bundle> findBundlesContainingOrder(int orderId) {
         return bundles.stream()
             .filter(bundle ->
                 bundle.source().contains(orderId) ||
@@ -149,5 +149,25 @@ public record GurobiInput(
             getTotalCost(),
             getBundleCountsByType()
         );
+    }
+
+    @Override
+    public List<Bundle> bundles() {
+        return bundles;
+    }
+
+    @Override
+    public List<Double> costs() {
+        return costs;
+    }
+
+    @Override
+    public int[][] edgeMatrix() {
+        return edgeMatrix;
+    }
+
+    @Override
+    public int[] riderTypes() {
+        return riderTypes;
     }
 }

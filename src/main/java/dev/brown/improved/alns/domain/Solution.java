@@ -128,13 +128,14 @@ public class Solution {
      * @return SolutionFormat 객체
      */
     public SolutionFormat extract() {
-        List<BundleInfo> bundleInfos = bundles.stream()
-            .map(bundle -> new BundleInfo(
-                bundle.riderType(),
-                bundle.source(),
-                bundle.dest()
+        List<Bundle> bundleInfos = bundles.stream()
+            .map(bundle -> new Bundle(
+                bundle.riderType(),      // riderType이 첫 번째 매개변수
+                bundle.cost(),           // cost가 두 번째 매개변수
+                bundle.source(),         // source가 세 번째 매개변수
+                bundle.dest()            // dest가 네 번째 매개변수
             ))
-            .collect(Collectors.toList());
+            .toList();
 
         return new SolutionFormat(cost, bundleInfos);
     }

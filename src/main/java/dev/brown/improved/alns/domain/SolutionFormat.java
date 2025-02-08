@@ -7,7 +7,7 @@ import java.util.List;
  */
 public record SolutionFormat(
     double cost,                  // 전체 솔루션 비용
-    List<BundleInfo> bundles     // 번들 정보 리스트
+    List<Bundle> bundles     // 번들 정보 리스트
 ) {
     /**
      * 불변성을 보장하기 위한 생성자
@@ -26,7 +26,7 @@ public record SolutionFormat(
     /**
      * 특정 인덱스의 번들 정보 반환
      */
-    public BundleInfo getBundle(int index) {
+    public Bundle getBundle(int index) {
         return bundles.get(index);
     }
 

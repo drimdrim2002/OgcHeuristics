@@ -1,7 +1,6 @@
 package dev.brown.improved.alns.storage;
 
 import dev.brown.improved.alns.domain.Bundle;
-import dev.brown.improved.alns.domain.BundleInfo;
 import dev.brown.improved.alns.domain.GurobiInput;
 import dev.brown.improved.alns.domain.RiderInfo;
 import dev.brown.improved.alns.domain.Solution;
@@ -133,10 +132,11 @@ public class BundleStorage {
         }
 
         // 저장된 모든 번들의 정보 수집
-        List<BundleInfo> storedBundles = new ArrayList<>();
+        List<Bundle> storedBundles = new ArrayList<>();
         for (Bundle bundle : bundles) {
-            storedBundles.add(new BundleInfo(
+            storedBundles.add(new Bundle(
                 bundle.riderType(),
+                bundle.cost(),
                 bundle.source(),
                 bundle.dest()
             ));
@@ -166,7 +166,7 @@ public class BundleStorage {
      * 각 번들의 비용 계산
      */
     private List<Double> calculateCosts(
-        List<BundleInfo> bundles,
+        List<Bundle> bundles,
         RiderInfo riderInfo,
         int[][] distMat,
         int K) {
@@ -174,7 +174,7 @@ public class BundleStorage {
         List<Double> costs = new ArrayList<>();
         int matrixLength = 2 * K;
 
-        for (BundleInfo bundle : bundles) {
+        for (Bundle bundle : bundles) {
             List<Integer> source = bundle.source();
             List<Integer> dest = bundle.dest();
             String riderType = bundle.riderType();

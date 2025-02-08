@@ -10,10 +10,22 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="8202c2ee-1972-45b1-aca6-81efa16706b3" name="변경" comment="[brown] myalogorithm 완료">
-      <change afterPath="$PROJECT_DIR$/src/main/java/dev/brown/MyAlgorithm.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/dev/brown/improved/alns/parameter/TimeConfig.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/dev/brown/improved/alns/domain/ExtractResult.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/dev/brown/improved/alns/domain/Pair.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/dev/brown/improved/alns/domain/SPResult.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/dev/brown/improved/alns/parameter/TimeAndAnnealData.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/dev/brown/solver/SpSolver.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/dev/brown/MyAlgorithm.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dev/brown/MyAlgorithm.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/dev/brown/domain/Order.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dev/brown/domain/Order.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/dev/brown/domain/Rider.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dev/brown/domain/Rider.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/dev/brown/improved/alns/domain/Bundle.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dev/brown/improved/alns/domain/Bundle.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/dev/brown/improved/alns/domain/BundleInfo.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/dev/brown/improved/alns/domain/GurobiInput.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dev/brown/improved/alns/domain/GurobiInput.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/dev/brown/improved/alns/domain/Solution.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dev/brown/improved/alns/domain/Solution.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/dev/brown/improved/alns/domain/SolutionFormat.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dev/brown/improved/alns/domain/SolutionFormat.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/dev/brown/improved/alns/storage/BundleStorage.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dev/brown/improved/alns/storage/BundleStorage.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -40,6 +52,9 @@
   </component>
   <component name="PerforceDirect.Settings">
     <option name="CHARSET" value="none" />
+  </component>
+  <component name="ProblemsViewState">
+    <option name="selectedTabId" value="DEPENDENCY_CHECKER_PROBLEMS_TAB" />
   </component>
   <component name="ProjectColorInfo">{
   &quot;associatedIndex&quot;: 1
@@ -95,6 +110,9 @@
     </key>
     <key name="CreateTestDialog.RecentsKey">
       <recent name="dev.brown.util" />
+      <recent name="dev.brown" />
+    </key>
+    <key name="CopyClassDialog.RECENTS_KEY">
       <recent name="dev.brown" />
     </key>
   </component>
@@ -523,7 +541,15 @@
       <option name="project" value="LOCAL" />
       <updated>1738763842693</updated>
     </task>
-    <option name="localTasksCounter" value="41" />
+    <task id="LOCAL-00041" summary="[brown] myalogorithm 완료">
+      <option name="closed" value="true" />
+      <created>1739007228477</created>
+      <option name="number" value="00041" />
+      <option name="presentableId" value="LOCAL-00041" />
+      <option name="project" value="LOCAL" />
+      <updated>1739007228477</updated>
+    </task>
+    <option name="localTasksCounter" value="42" />
     <servers />
   </component>
   <component name="Vcs.Log.History.Properties">

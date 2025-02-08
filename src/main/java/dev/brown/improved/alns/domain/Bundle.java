@@ -43,4 +43,23 @@ public record Bundle(
     public List<Integer> source() {
         return source;
     }
+
+    public Bundle(Bundle bundle) {
+        this(
+            bundle.riderType(),
+            bundle.cost(),
+            bundle.source(),
+            bundle.dest()
+        );
+    }
+
+    @Override
+    public double cost() {
+        return cost;
+    }
+
+    @Override
+    public String riderType() {
+        return riderType;
+    }
 }
