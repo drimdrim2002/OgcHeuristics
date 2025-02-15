@@ -9,7 +9,7 @@ import dev.brown.util.ConstructHeuristics;
 import dev.brown.util.InputMaker;
 import dev.brown.util.JsonFileReader;
 import dev.brown.util.OutputMaker;
-import dev.brown.util.Validator;
+import dev.brown.util.OldValidator;
 import java.io.FileNotFoundException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -61,7 +61,7 @@ public class PlannerMain {
 
         output.addProperty("cost", initialSolution.totalCost() * -1);
 
-        Validator.validateAll(solution);
+        OldValidator.validateAll(solution);
 
         logger.info("output: {}", output);
     }

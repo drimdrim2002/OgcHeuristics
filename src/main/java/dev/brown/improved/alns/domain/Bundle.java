@@ -1,6 +1,7 @@
 package dev.brown.improved.alns.domain;
 
 import java.util.List;
+import java.util.Objects;
 
 /**
  * 배달 번들 정보를 저장하는 클래스 C++의 tuple<string, float, vint, vint>를 Java record로 변환
@@ -61,5 +62,22 @@ public record Bundle(
     @Override
     public String riderType() {
         return riderType;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (!(o instanceof Bundle bundle)) {
+            return false;
+        }
+        return Double.compare(cost, bundle.cost) == 0 && Objects.equals(riderType, bundle.riderType)
+            && Objects.equals(dest, bundle.dest) && Objects.equals(source, bundle.source);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(riderType, cost, source, dest);
     }
 }

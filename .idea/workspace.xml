@@ -9,23 +9,15 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="8202c2ee-1972-45b1-aca6-81efa16706b3" name="변경" comment="[brown] myalogorithm 완료">
-      <change afterPath="$PROJECT_DIR$/src/main/java/dev/brown/improved/alns/domain/ExtractResult.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/dev/brown/improved/alns/domain/Pair.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/dev/brown/improved/alns/domain/SPResult.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/dev/brown/improved/alns/parameter/TimeAndAnnealData.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/dev/brown/solver/SpSolver.java" afterDir="false" />
+    <list default="true" id="8202c2ee-1972-45b1-aca6-81efa16706b3" name="변경" comment="[brown] 불필요한 부분 제거">
+      <change afterPath="$PROJECT_DIR$/src/main/java/dev/brown/NewPlannerMain.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/dev/brown/improved/alns/domain/OrderInput.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/dev/brown/improved/alns/domain/RiderInput.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/dev/brown/util/OldValidator.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/dev/brown/MyAlgorithm.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dev/brown/MyAlgorithm.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/dev/brown/domain/Order.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dev/brown/domain/Order.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/dev/brown/domain/Rider.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dev/brown/domain/Rider.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/dev/brown/PlannerMain.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dev/brown/PlannerMain.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/dev/brown/improved/alns/domain/Bundle.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dev/brown/improved/alns/domain/Bundle.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/dev/brown/improved/alns/domain/BundleInfo.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/dev/brown/improved/alns/domain/GurobiInput.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dev/brown/improved/alns/domain/GurobiInput.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/dev/brown/improved/alns/domain/Solution.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dev/brown/improved/alns/domain/Solution.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/dev/brown/improved/alns/domain/SolutionFormat.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dev/brown/improved/alns/domain/SolutionFormat.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/dev/brown/improved/alns/storage/BundleStorage.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dev/brown/improved/alns/storage/BundleStorage.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/dev/brown/util/Validator.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dev/brown/util/Validator.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -106,6 +98,7 @@
       <recent name="dev.brown.util.MatrixManager" />
     </key>
     <key name="MoveClassesOrPackagesDialog.RECENTS_KEY">
+      <recent name="dev.brown.domain" />
       <recent name="dev.brown" />
     </key>
     <key name="CreateTestDialog.RecentsKey">
@@ -113,6 +106,7 @@
       <recent name="dev.brown" />
     </key>
     <key name="CopyClassDialog.RECENTS_KEY">
+      <recent name="dev.brown.util" />
       <recent name="dev.brown" />
     </key>
   </component>
@@ -124,7 +118,7 @@
       <shortenClasspath name="ARGS_FILE" />
       <extension name="coverage">
         <pattern>
-          <option name="PATTERN" value="dev.brown.*" />
+          <option name="PATTERN" value="dev.brown.improved.alns.domain.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
@@ -190,7 +184,7 @@
       <module name="OgcHeuristics" />
       <extension name="coverage">
         <pattern>
-          <option name="PATTERN" value="dev.brown.*" />
+          <option name="PATTERN" value="dev.brown.improved.alns.domain.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
@@ -549,7 +543,23 @@
       <option name="project" value="LOCAL" />
       <updated>1739007228477</updated>
     </task>
-    <option name="localTasksCounter" value="42" />
+    <task id="LOCAL-00042" summary="[brown] 실행가능하도록 진행 중">
+      <option name="closed" value="true" />
+      <created>1739019750609</created>
+      <option name="number" value="00042" />
+      <option name="presentableId" value="LOCAL-00042" />
+      <option name="project" value="LOCAL" />
+      <updated>1739019750609</updated>
+    </task>
+    <task id="LOCAL-00043" summary="[brown] 불필요한 부분 제거">
+      <option name="closed" value="true" />
+      <created>1739020265370</created>
+      <option name="number" value="00043" />
+      <option name="presentableId" value="LOCAL-00043" />
+      <option name="project" value="LOCAL" />
+      <updated>1739020265370</updated>
+    </task>
+    <option name="localTasksCounter" value="44" />
     <servers />
   </component>
   <component name="Vcs.Log.History.Properties">
@@ -574,8 +584,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="[brown] Input 추가 (대용량 제외)" />
-    <MESSAGE value="[brown] Rider에 cost 추가" />
     <MESSAGE value="[brown] Rider Refactoring" />
     <MESSAGE value="[brown] helper method 추가" />
     <MESSAGE value="[brown] destroy 추가" />
@@ -599,7 +607,9 @@
     <MESSAGE value="[brown] Main Iteration 완료" />
     <MESSAGE value="[brown] runner.hpp 완료" />
     <MESSAGE value="[brown] myalogorithm 완료" />
-    <option name="LAST_COMMIT_MESSAGE" value="[brown] myalogorithm 완료" />
+    <MESSAGE value="[brown] 실행가능하도록 진행 중" />
+    <MESSAGE value="[brown] 불필요한 부분 제거" />
+    <option name="LAST_COMMIT_MESSAGE" value="[brown] 불필요한 부분 제거" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
