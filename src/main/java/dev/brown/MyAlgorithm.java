@@ -17,34 +17,56 @@ import java.util.List;
 import java.util.Map;
 
 public class MyAlgorithm {
+
     private static final int VERBOSE = 2;  // 0: no logging, 1: compact logging, 2: all logging
     private static final int SEED = 1;
+
     /**
      * 주어진 K와 timeLimit 값에 따라 문제 번호를 반환합니다.
      *
-     * @param K 주문 개수
+     * @param K         주문 개수
      * @param timeLimit 시간 제한 (초)
      * @return 문제 번호 (0-10)
      */
     private static int getProbNum(int K, int timeLimit) {
-        if (K == 2000 && timeLimit == 300) return 1;
-        if (K == 2000 && timeLimit == 480) return 2;
-        if (K == 1000 && timeLimit == 60)  return 3;
-        if (K == 1000 && timeLimit == 180) return 4;
-        if (K == 1000 && timeLimit == 300) return 5;
-        if (K == 750  && timeLimit == 30)  return 6;
-        if (K == 750  && timeLimit == 60)  return 7;
-        if (K == 500  && timeLimit == 15)  return 8;
-        if (K == 500  && timeLimit == 30)  return 9;
-        if (K == 300  && timeLimit == 15)  return 10;
+        if (K == 2000 && timeLimit == 300) {
+            return 1;
+        }
+        if (K == 2000 && timeLimit == 480) {
+            return 2;
+        }
+        if (K == 1000 && timeLimit == 60) {
+            return 3;
+        }
+        if (K == 1000 && timeLimit == 180) {
+            return 4;
+        }
+        if (K == 1000 && timeLimit == 300) {
+            return 5;
+        }
+        if (K == 750 && timeLimit == 30) {
+            return 6;
+        }
+        if (K == 750 && timeLimit == 60) {
+            return 7;
+        }
+        if (K == 500 && timeLimit == 15) {
+            return 8;
+        }
+        if (K == 500 && timeLimit == 30) {
+            return 9;
+        }
+        if (K == 300 && timeLimit == 15) {
+            return 10;
+        }
         return 0;
     }
 
     /**
      * 문제 번호에 따른 시간 리스트와 annealing 파라미터를 반환합니다.
      *
-     * @param probNum 문제 번호
-     * @param K 주문 개수
+     * @param probNum   문제 번호
+     * @param K         주문 개수
      * @param timeLimit 시간 제한 (초)
      * @return TimeAndAnnealData 객체 (timeList, annealerModifyRatio, spareTime)
      */
@@ -120,12 +142,46 @@ public class MyAlgorithm {
     }
 
     /**
-     * 일반적인 경우의 시간 리스트와 annealing 파라미터를 계산합니다.
-     * 이 메서드는 별도로 구현되어야 합니다.
+     * 일반적인 경우의 시간 리스트와 annealing 파라미터를 계산합니다. 이 메서드는 별도로 구현되어야 합니다.
      */
     private static TimeAndAnnealData getGeneralTimeListAndAnneal(int K, int timeLimit) {
-        // TODO: extra.get_general_timelist_and_anneal 구현 필요
-        throw new UnsupportedOperationException("getGeneralTimeListAndAnneal not implemented yet");
+        double[][] timeList;
+
+        // 시간 리스트 설정
+        if (timeLimit < 120) {
+            // 기본 케이스: 시간을 반으로 나눔
+            timeList = new double[][]{{timeLimit / 2.0, timeLimit / 2.0}};
+        } else if (timeLimit <= 180) {
+            // 120초 ~ 180초 케이스
+            timeList = new double[][]{
+                {timeLimit - 60.0, 30.0},
+                {15.0, 15.0}
+            };
+        } else {
+            // 180초 초과 케이스
+            timeList = new double[][]{
+                {timeLimit - 105.0, 45.0},
+                {15.0, 15.0},
+                {15.0, 15.0}
+            };
+        }
+
+        // Annealing 파라미터 계산: min(1.12, (6 ** 1/timelist[0][0]))
+        double anneal = Math.min(1.12, Math.pow(6.0, 1.0 / timeList[0][0]));
+
+        // Spare time 설정
+        double spareTime = 1.0;
+        if (K >= 1000 && timeLimit >= 180) {
+            spareTime = 3.5;
+        }
+
+        // 대규모 문제(K >= 2000)에 대한 시간 조정
+        if (K >= 2000) {
+            timeList[0][0] -= 5.0;
+            timeList[0][1] -= 5.0;
+        }
+
+        return new TimeAndAnnealData(timeList, anneal, spareTime);
     }
 
     /**
@@ -218,12 +274,12 @@ public class MyAlgorithm {
     /**
      * 메인 알고리즘을 실행합니다.
      *
-     * @param K 주문 개수
+     * @param K         주문 개수
      * @param allOrders 모든 주문 목록
      * @param allRiders 모든 라이더 목록
-     * @param distMat 거리 행렬
+     * @param distMat   거리 행렬
      * @param timeLimit 시간 제한 (초)
-     * @param hParam 하이퍼파라미터
+     * @param hParam    하이퍼파라미터
      * @return 최적화된 해결책
      */
     public Solution algorithm(int K, List<Order> allOrders, List<Rider> allRiders,
@@ -268,17 +324,21 @@ public class MyAlgorithm {
             orders[i][2] = order.getVolume();
         }
 
-        Map<String, Integer> ridersAvailable = new HashMap<>();
         Map<String, int[][]> riderTimes = new HashMap<>();
+        Map<String, Integer> ridersAvailable = new HashMap<>();
         Map<String, List<Integer>> riderInfos = new HashMap<>();
 
         for (Rider rider : allRiders) {
             String type = rider.getType();
+
+            // rider time update
+            if (!riderTimes.containsKey(type)) {
+                int[][] timeMatrix = calculateTimeMatrix(distMat, rider.getSpeed(), rider.getServiceTime());
+                riderTimes.put(type, timeMatrix);
+            }
+
             Integer prevQty = ridersAvailable.getOrDefault(type, 0);
             ridersAvailable.put(type, prevQty + 1);
-
-            int[][] timeMatrix = calculateTimeMatrix(distMat, rider.getSpeed(), rider.getServiceTime());
-            riderTimes.put(type, timeMatrix);
 
             riderInfos.put(type, Arrays.asList(
                 rider.getCapacity(),
@@ -327,7 +387,7 @@ public class MyAlgorithm {
 
             Map.Entry<SolutionFormat, GurobiInput> result = Runner.run(
                 alnsTime,
-                (float)timeData.getAnnealerModifyRatio(),
+                (float) timeData.getAnnealerModifyRatio(),
                 SEED,
                 solEdge,
                 solRider,

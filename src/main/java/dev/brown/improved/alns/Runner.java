@@ -65,7 +65,7 @@ public class Runner {
         BundleStorage bundleStorage = new BundleStorage(DEFAULT_BUNDLE_STORAGE_CAPACITY);
 
         // 초기 번들이 있다면 추가
-        if (!initBundle.isEmpty()) {
+        if (!firstAlns) {
             Solution initialSolution = new Solution();
             for (Bundle bundle : initBundle) {
                 initialSolution.append(bundle);

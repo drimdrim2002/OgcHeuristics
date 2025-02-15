@@ -67,7 +67,7 @@ public class NewPlannerMain {
 
     public static void main(String[] args) {
         try {
-            String problemFile = "/home/brown/projects/python-project/ogc-solutions/TEST_K50_1.json";
+            String problemFile = "src/test/resources/input/TEST_K50_1.json";
             int timeLimit = 60;
 
             runAlgorithm(problemFile, timeLimit);

@@ -132,9 +132,9 @@ public class LittleRandomRepair implements Repairer {
     public void repairNew(List<Integer> insertOrder, List<Integer> idsToBuild,
         Solution solution, Map<String, Integer> ridersAvailable) {
         int maxCapacity = Math.max(Math.max(
-                riderInfo.getWalkInfo().get(0),
-                riderInfo.getBikeInfo().get(0)),
-            riderInfo.getCarInfo().get(0)
+                riderInfo.getWalkInfo().getFirst(),
+                riderInfo.getBikeInfo().getFirst()),
+            riderInfo.getCarInfo().getFirst()
         );
 
         for (int orderIdToAppend : insertOrder) {
