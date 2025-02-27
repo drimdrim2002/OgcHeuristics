@@ -75,7 +75,9 @@ public class OptimizeRider {
             }
         }
 
-        // 총 비용 업데이트
+        // 5. 모든 변경 완료 후 솔루션 총 비용 업데이트
+        // 참고: solution.updateBundle() 메서드가 비용을 즉시 업데이트한다면
+        // 이 호출은 중복일 수 있으나, 안전을 위해 유지
         solution.updateCost();
     }
 

@@ -1,6 +1,5 @@
 package dev.brown.improved.alns.repair;
 
-import dev.brown.improved.alns.domain.Bundle;
 import dev.brown.improved.alns.domain.RiderInfo;
 import dev.brown.improved.alns.domain.Solution;
 import dev.brown.improved.alns.parameter.HyperParameter;
@@ -69,11 +68,14 @@ public class RepairBuilder {
         }
 
         // 라이더 타입 최적화
-        optimizeRiderType(
-            indices,
-            solution,
-            ridersAvailable
+        OptimizeRider optimizer = new OptimizeRider(
+            ordersPtr,
+            riderInfo,
+            distMatPtr,
+            matrixLength
         );
+
+        optimizer.optimizeRiderType(indices, solution, ridersAvailable);
 
         // repair 수행
         if (!useOld) {
@@ -91,43 +93,4 @@ public class RepairBuilder {
         return K;
     }
 
-    private void optimizeRiderType(
-        List<Integer> indices,
-        Solution solution,
-        Map<String, Integer> ridersAvailable
-    ) {
-        OptimizeRider optimizer = new OptimizeRider(
-            ordersPtr,
-            riderInfo,
-            distMatPtr,
-            matrixLength
-        );
-
-        for (int idx : indices) {
-            String currentType = solution.getRiderType(idx);
-            List<Integer> source = solution.getSource(idx);
-            List<Integer> dest = solution.getDest(idx);
-
-            InvestigationResult result = optimizer.investigate(source, dest);
-
-            for (String newType : result.getOptimalOrder()) {
-                if (ridersAvailable.getOrDefault(newType, 0) > 0 &&
-                    result.getFeasibility(newType)) {
-                    if (!newType.equals(currentType)) {
-                        // 라이더 타입 변경
-                        ridersAvailable.merge(currentType, 1, Integer::sum);
-                        ridersAvailable.merge(newType, -1, Integer::sum);
-
-                        solution.updateBundle(idx, new Bundle(
-                            newType,
-                            result.getCost(newType),
-                            result.getSource(newType),
-                            result.getDest(newType)
-                        ));
-                    }
-                    break;
-                }
-            }
-        }
-    }
 }
