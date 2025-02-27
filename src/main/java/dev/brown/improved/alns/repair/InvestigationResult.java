@@ -20,6 +20,20 @@ public class InvestigationResult {
         this.optimalOrder = new ArrayList<>();
     }
 
+    public InvestigationResult(
+        Map<String, Boolean> feasibility,
+        Map<String, Double> costs,
+        Map<String, List<Integer>> sources,
+        Map<String, List<Integer>> destinations,
+        List<String> optimalOrder
+    ) {
+        this.feasibility = feasibility;
+        this.costs = costs;
+        this.sources = sources;
+        this.destinations = destinations;
+        this.optimalOrder = optimalOrder;
+    }
+
     /**
      * 특정 라이더 타입에 대한 실현 가능성 설정
      */

@@ -200,4 +200,18 @@ public class Solution {
         this.bundles.addAll(other.getBundles());
         this.updateCost();
     }
+
+    /**
+     * 특정 인덱스의 번들 업데이트
+     * @param index 업데이트할 번들 인덱스
+     * @param newBundle 새 번들
+     */
+    public void updateBundle(int index, Bundle newBundle) {
+        // 이전 비용 제거
+        cost -= bundles.get(index).cost();
+        // 새 번들로 교체
+        bundles.set(index, newBundle);
+        // 새 비용 추가
+        cost += newBundle.cost();
+    }
 }

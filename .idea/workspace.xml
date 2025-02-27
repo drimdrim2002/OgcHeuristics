@@ -9,11 +9,18 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="8202c2ee-1972-45b1-aca6-81efa16706b3" name="변경" comment="[brown] 실행할 수 있도록 처리 중">
+    <list default="true" id="8202c2ee-1972-45b1-aca6-81efa16706b3" name="변경" comment="[brown] 실행하면서 오류 수정 중">
+      <change afterPath="$PROJECT_DIR$/src/main/java/dev/brown/improved/alns/repair/CostBundlePair.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/dev/brown/improved/alns/repair/LittleRandomRepairOld.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/dev/brown/improved/alns/repair/OptimizeRider.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/dev/brown/improved/alns/util/HelperFunctions.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/dev/brown/MyAlgorithm.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dev/brown/MyAlgorithm.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/dev/brown/NewPlannerMain.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dev/brown/NewPlannerMain.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/dev/brown/improved/alns/Runner.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dev/brown/improved/alns/Runner.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/dev/brown/improved/alns/domain/Solution.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dev/brown/improved/alns/domain/Solution.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/dev/brown/improved/alns/repair/InvestigationResult.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dev/brown/improved/alns/repair/InvestigationResult.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/dev/brown/improved/alns/repair/LittleRandomRepair.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dev/brown/improved/alns/repair/LittleRandomRepair.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/dev/brown/improved/alns/repair/RepairBuilder.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dev/brown/improved/alns/repair/RepairBuilder.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/dev/brown/improved/alns/repair/RiderOptimizer.java" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -54,32 +61,32 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "JUnit.InputMakerTest.getOrderMapByInput.executor": "Run",
-    "JUnit.InputMakerTest.makeOrderListByInput.executor": "Run",
-    "JUnit.InputMakerTest.makerRiderListByInput.executor": "Run",
-    "JUnit.MatrixManagerTest.applyDistanceMap.executor": "Run",
-    "JUnit.ParameterDecoderTest.decode.executor": "Run",
-    "JUnit.PlannerMainTest.mainProcessTest.executor": "Run",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
-    "com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrary": "JUnit5",
-    "com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrarySuperClass.JUnit5": "",
-    "git-widget-placeholder": "new-start",
-    "ignore.virus.scanning.warn.message": "true",
-    "kotlin-language-version-configured": "true",
-    "last_opened_file_path": "D:/Project/Java/OgcHeuristics/src/test/resources/input",
-    "project.structure.last.edited": "SDK",
-    "project.structure.proportion": "0.15",
-    "project.structure.side.proportion": "0.34953463",
-    "settings.editor.selected.configurable": "com.haulmont.jpb.entityDeclaration",
-    "애플리케이션.Main.executor": "Run",
-    "애플리케이션.NewPlannerMain.executor": "Debug",
-    "애플리케이션.Permutation.executor": "Debug",
-    "애플리케이션.PlannerMain.executor": "Run"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;JUnit.InputMakerTest.getOrderMapByInput.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.InputMakerTest.makeOrderListByInput.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.InputMakerTest.makerRiderListByInput.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.MatrixManagerTest.applyDistanceMap.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.ParameterDecoderTest.decode.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.PlannerMainTest.mainProcessTest.executor&quot;: &quot;Run&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
+    &quot;com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrary&quot;: &quot;JUnit5&quot;,
+    &quot;com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrarySuperClass.JUnit5&quot;: &quot;&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;new-start&quot;,
+    &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
+    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
+    &quot;last_opened_file_path&quot;: &quot;D:/Project/Java/OgcHeuristics/src/test/resources/input&quot;,
+    &quot;project.structure.last.edited&quot;: &quot;SDK&quot;,
+    &quot;project.structure.proportion&quot;: &quot;0.15&quot;,
+    &quot;project.structure.side.proportion&quot;: &quot;0.34953463&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;com.haulmont.jpb.entityDeclaration&quot;,
+    &quot;애플리케이션.Main.executor&quot;: &quot;Run&quot;,
+    &quot;애플리케이션.NewPlannerMain.executor&quot;: &quot;Run&quot;,
+    &quot;애플리케이션.Permutation.executor&quot;: &quot;Debug&quot;,
+    &quot;애플리케이션.PlannerMain.executor&quot;: &quot;Run&quot;
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="D:\Project\Java\OgcHeuristics\src\test\resources\input" />
@@ -106,6 +113,14 @@
       <recent name="dev.brown.util" />
       <recent name="dev.brown" />
     </key>
+  </component>
+  <component name="RunAnythingCache">
+    <myKeys>
+      <visibility group="Gradle 작업" flag="true" />
+      <visibility group="Maven Goal" flag="true" />
+      <visibility group="실행 구성" flag="true" />
+      <visibility group="최근 프로젝트" flag="true" />
+    </myKeys>
   </component>
   <component name="RunManager" selected="애플리케이션.NewPlannerMain">
     <configuration name="NewPlannerMain" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
@@ -563,7 +578,15 @@
       <option name="project" value="LOCAL" />
       <updated>1739617874478</updated>
     </task>
-    <option name="localTasksCounter" value="45" />
+    <task id="LOCAL-00045" summary="[brown] 실행하면서 오류 수정 중">
+      <option name="closed" value="true" />
+      <created>1739620901642</created>
+      <option name="number" value="00045" />
+      <option name="presentableId" value="LOCAL-00045" />
+      <option name="project" value="LOCAL" />
+      <updated>1739620901642</updated>
+    </task>
+    <option name="localTasksCounter" value="46" />
     <servers />
   </component>
   <component name="Vcs.Log.History.Properties">
@@ -588,7 +611,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="[brown] helper method 추가" />
     <MESSAGE value="[brown] destroy 추가" />
     <MESSAGE value="[brown] repair 추가" />
     <MESSAGE value="[brown] 기본 반영" />
@@ -613,7 +635,8 @@
     <MESSAGE value="[brown] 실행가능하도록 진행 중" />
     <MESSAGE value="[brown] 불필요한 부분 제거" />
     <MESSAGE value="[brown] 실행할 수 있도록 처리 중" />
-    <option name="LAST_COMMIT_MESSAGE" value="[brown] 실행할 수 있도록 처리 중" />
+    <MESSAGE value="[brown] 실행하면서 오류 수정 중" />
+    <option name="LAST_COMMIT_MESSAGE" value="[brown] 실행하면서 오류 수정 중" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -662,21 +685,6 @@
           <url>file://$PROJECT_DIR$/src/main/java/dev/brown/alns/destroy/WorstRemoval.java</url>
           <line>25</line>
           <option name="timeStamp" value="166" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/dev/brown/improved/alns/Runner.java</url>
-          <line>87</line>
-          <option name="timeStamp" value="179" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/dev/brown/improved/alns/Runner.java</url>
-          <line>99</line>
-          <option name="timeStamp" value="180" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/dev/brown/improved/alns/Runner.java</url>
-          <line>95</line>
-          <option name="timeStamp" value="181" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>

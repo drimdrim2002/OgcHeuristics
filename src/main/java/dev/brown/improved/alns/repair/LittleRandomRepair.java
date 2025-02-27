@@ -35,6 +35,37 @@ public class LittleRandomRepair implements Repairer {
         this.promising = initializePromising();
     }
 
+    public static class FeasibleSolution {
+        final double cost;
+        final int bundleId;
+        final String riderType;
+
+        FeasibleSolution(double cost, int bundleId, String riderType) {
+            this.cost = cost;
+            this.bundleId = bundleId;
+            this.riderType = riderType;
+        }
+
+        double cost() { return cost; }
+        int bundleId() { return bundleId; }
+        String riderType() { return riderType; }
+    }
+
+    private static class BundleScore implements Comparable<BundleScore> {
+        final double score;
+        final int bundleId;
+
+        BundleScore(double score, int bundleId) {
+            this.score = score;
+            this.bundleId = bundleId;
+        }
+
+        @Override
+        public int compareTo(BundleScore other) {
+            return Double.compare(this.score, other.score);
+        }
+    }
+
     @Override
     public void repair(List<Integer> idsToBuild, Solution solution, Map<String, Integer> ridersAvailable) {
         // 삽입 순서 생성
@@ -88,47 +119,6 @@ public class LittleRandomRepair implements Repairer {
         return promising;
     }
 
-
-    /**
-     * 실행 가능한 솔루션을 저장하는 내부 클래스
-     */
-    private static class FeasibleSolutionTuple {
-        final double costIncremental;
-        final int bundleId;
-        final String riderType;
-        final double newCost;
-        final List<Integer> newSource;
-        final List<Integer> newDest;
-
-        FeasibleSolutionTuple(double costIncremental, int bundleId, String riderType,
-            double newCost, List<Integer> newSource, List<Integer> newDest) {
-            this.costIncremental = costIncremental;
-            this.bundleId = bundleId;
-            this.riderType = riderType;
-            this.newCost = newCost;
-            this.newSource = new ArrayList<>(newSource);
-            this.newDest = new ArrayList<>(newDest);
-        }
-    }
-
-    /**
-     * 번들 점수를 저장하는 내부 클래스
-     */
-    private static class BundleScore implements Comparable<BundleScore> {
-        final double score;
-        final int bundleId;
-
-        BundleScore(double score, int bundleId) {
-            this.score = score;
-            this.bundleId = bundleId;
-        }
-
-        @Override
-        public int compareTo(BundleScore other) {
-            return Double.compare(this.score, other.score);
-        }
-    }
-
     public void repairNew(List<Integer> insertOrder, List<Integer> idsToBuild,
         Solution solution, Map<String, Integer> ridersAvailable) {
         int maxCapacity = Math.max(Math.max(
@@ -139,9 +129,9 @@ public class LittleRandomRepair implements Repairer {
 
         for (int orderIdToAppend : insertOrder) {
             // 실행 가능한 솔루션 리스트 초기화
-            List<FeasibleSolutionTuple> feasibleSolutions = new ArrayList<>(
+            List<FeasibleSolution> feasibleSolutions = new ArrayList<>(
                 Collections.nCopies(solution.size() + 1,
-                    new FeasibleSolutionTuple(INF, -1, "", 0.0, new ArrayList<>(), new ArrayList<>()))
+                    new FeasibleSolution(INF, -1, ""))
             );
 
             // 번들 점수 계산
@@ -162,197 +152,9 @@ public class LittleRandomRepair implements Repairer {
             idsToBuild.remove(Integer.valueOf(orderIdToAppend));
 
             // 최적의 솔루션 적용
-            applyBestSolution(feasibleSolutions, solution, ridersAvailable);
+            applyBestSolution(orderIdToAppend, feasibleSolutions, solution, ridersAvailable);
         }
     }
-
-    public void repairOld(List<Integer> insertOrder, List<Integer> idsToBuild,
-        Solution solution, Map<String, Integer> ridersAvailable) {
-        int maxCapacity = Math.max(Math.max(
-                riderInfo.getWalkInfo().get(0),
-                riderInfo.getBikeInfo().get(0)),
-            riderInfo.getCarInfo().get(0)
-        );
-
-        for (int rep = 0; rep < idsToBuild.size(); rep++) {
-            int orderIdToAppend = idsToBuild.get(insertOrder.get(rep));
-
-            // 실행 가능한 솔루션 초기화
-            List<FeasibleSolutionTuple> feasibleSolutions = new ArrayList<>(
-                Collections.nCopies(solution.size() + 1,
-                    new FeasibleSolutionTuple(INF, -1, "", 0.0, new ArrayList<>(), new ArrayList<>()))
-            );
-
-            int n = solution.size();
-            List<BundleScore> vv = new ArrayList<>(
-                Collections.nCopies(n, new BundleScore(INF, -1))
-            );
-
-            // 병렬 처리로 번들 점수 계산
-            for (int bundleId = 0; bundleId < n; bundleId++) {
-                String riderType = solution.getRiderType(bundleId);
-                int tmp = 0;
-                boolean ok = true;
-                int filled = 0;
-
-                for (int x : solution.getSource(bundleId)) {
-                    tmp += promising.get(riderType)[orderIdToAppend][x];
-                    filled += ordersPtr[f(x, 2, 3)];
-                    if (ordersPtr[f(orderIdToAppend, 1, 3)] < ordersPtr[f(x, 0, 3)]) {
-                        ok = false;
-                        break;
-                    }
-                    if (ordersPtr[f(x, 1, 3)] < ordersPtr[f(orderIdToAppend, 0, 3)]) {
-                        ok = false;
-                        break;
-                    }
-                }
-
-                if (filled + ordersPtr[f(orderIdToAppend, 2, 3)] > maxCapacity) {
-                    ok = false;
-                }
-
-                if (ok) {
-                    vv.set(bundleId, new BundleScore(
-                        (float)tmp / solution.getSource(bundleId).size(),
-                        bundleId
-                    ));
-                }
-            }
-
-            List<Integer> bundleIndices = new ArrayList<>();
-
-            if (usePower) {
-                List<BundleScore> vvv = new ArrayList<>();
-                for (int i = 0; i < n; i++) {
-                    if (vv.get(i).bundleId != -1) {
-                        vvv.add(vv.get(i));
-                    }
-                }
-                Collections.sort(vvv);
-
-                int nConsideration = Math.min(Math.max(considerSize, matrixLength/100), vvv.size());
-                int nn = Math.min(vvv.size(), 5 * nConsideration);
-
-                List<Integer> candidates = new ArrayList<>(nn);
-                for (int i = 0; i < nn; i++) {
-                    candidates.add(vvv.get(i).bundleId);
-                }
-
-                bundleIndices = new ArrayList<>(nConsideration);
-                for (int i = 0; i < nConsideration; i++) {
-                    double randomValue = random.nextDouble();
-                    int noiseIdx = (int)Math.floor(Math.pow(randomValue, 5) * candidates.size());
-                    int bundleId = candidates.get(noiseIdx);
-                    bundleIndices.add(bundleId);
-                    candidates.remove(noiseIdx);
-                }
-            } else {
-                List<BundleScore> candidates = new ArrayList<>();
-                for (BundleScore score : vv) {
-                    if (score.bundleId != -1) {
-                        candidates.add(score);
-                    }
-                }
-                Collections.sort(candidates);
-
-                int nConsideration = Math.min(Math.max(considerSize, matrixLength/100), candidates.size());
-                nConsideration = Math.min((nConsideration + 3) / 4 * 4, candidates.size());
-
-                bundleIndices = new ArrayList<>(nConsideration);
-                for (int i = 0; i < nConsideration; i++) {
-                    bundleIndices.add(candidates.get(i).bundleId);
-                }
-            }
-
-            // Case 1: 기존 번들에 추가
-            for (int bundleId : bundleIndices) {
-                double costBefore = solution.getCost(bundleId);
-                InvestigationResult res = InvestigationUtils.investigateOld(
-                    orderIdToAppend,
-                    solution.getSource(bundleId),
-                    solution.getDest(bundleId),
-                    riderInfo,
-                    ordersPtr,
-                    distMatPtr,
-                    matrixLength
-                );
-
-                for (String riderType : res.getOptimalOrder()) {
-                    if (ridersAvailable.getOrDefault(riderType, 0) > 0 ||
-                        solution.getRiderType(bundleId).equals(riderType)) {
-                        if (res.getFeasibility(riderType)) {
-                            double costAfter = res.getCost(riderType);
-                            double costIncremental = costAfter - costBefore;
-
-                            feasibleSolutions.set(bundleId, new FeasibleSolutionTuple(
-                                costIncremental,
-                                bundleId,
-                                riderType,
-                                costAfter,
-                                res.getSource(riderType),
-                                res.getDest(riderType)
-                            ));
-                            break;
-                        }
-                    }
-                }
-            }
-
-            // Case 2: 새로운 번들 생성
-            InvestigationResult res = InvestigationUtils.investigateOld(
-                orderIdToAppend,
-                new ArrayList<>(),
-                new ArrayList<>(),
-                riderInfo,
-                ordersPtr,
-                distMatPtr,
-                matrixLength
-            );
-
-            for (String riderType : res.getOptimalOrder()) {
-                if (ridersAvailable.getOrDefault(riderType, 0) > 0 && res.getFeasibility(riderType)) {
-                    double costIncremental = res.getCost(riderType);
-                    feasibleSolutions.set(solution.size(), new FeasibleSolutionTuple(
-                        costIncremental,
-                        -1,
-                        riderType,
-                        costIncremental,
-                        res.getSource(riderType),
-                        res.getDest(riderType)
-                    ));
-                    break;
-                }
-            }
-
-            // 최적의 솔루션 찾기
-            FeasibleSolutionTuple bestSolution = feasibleSolutions.get(0);
-            for (int i = 1; i < feasibleSolutions.size(); i++) {
-                if (feasibleSolutions.get(i).costIncremental < bestSolution.costIncremental) {
-                    bestSolution = feasibleSolutions.get(i);
-                }
-            }
-
-            // 기존 번들 제거
-            if (bestSolution.bundleId != -1) {
-                ridersAvailable.merge(solution.getRiderType(bestSolution.bundleId), 1, Integer::sum);
-                solution.remove(bestSolution.bundleId);
-            }
-
-            // 새로운 번들 추가
-            solution.append(new Bundle(
-                bestSolution.riderType,
-                bestSolution.newCost,
-                bestSolution.newSource,
-                bestSolution.newDest
-            ));
-            ridersAvailable.merge(bestSolution.riderType, -1, Integer::sum);
-
-            // 처리된 주문 제거
-            idsToBuild.remove(Integer.valueOf(orderIdToAppend));
-        }
-    }
-
 
     private List<BundleScore> calculateBundleScores(
         int orderIdToAppend,
@@ -398,9 +200,6 @@ public class LittleRandomRepair implements Repairer {
         return scores;
     }
 
-    /**
-     * 번들 인덱스 선택
-     */
     private List<Integer> selectBundleIndices(List<BundleScore> bundleScores) {
         if (usePower) {
             return selectBundleIndicesWithPower(bundleScores);
@@ -453,26 +252,19 @@ public class LittleRandomRepair implements Repairer {
             .collect(Collectors.toList());
     }
 
-    /**
-     * 기존 번들에 추가하는 케이스 처리
-     */
     private void processBundleCases(
         int orderIdToAppend,
         List<Integer> bundleIndices,
         Solution solution,
         Map<String, Integer> ridersAvailable,
-        List<FeasibleSolutionTuple> feasibleSolutions) {
+        List<FeasibleSolution> feasibleSolutions) {
 
         for (int bundleId : bundleIndices) {
             double costBefore = solution.getCost(bundleId);
-            InvestigationResult res = InvestigationUtils.investigate(
+            InvestigationResult res = investigate(
                 orderIdToAppend,
                 solution.getSource(bundleId),
-                solution.getDest(bundleId),
-                riderInfo,
-                ordersPtr,
-                distMatPtr,
-                matrixLength
+                solution.getDest(bundleId)
             );
 
             for (String riderType : res.getOptimalOrder()) {
@@ -480,13 +272,10 @@ public class LittleRandomRepair implements Repairer {
                     solution.getRiderType(bundleId).equals(riderType)) {
                     if (res.getFeasibility(riderType)) {
                         double costAfter = res.getCost(riderType);
-                        feasibleSolutions.set(bundleId, new FeasibleSolutionTuple(
+                        feasibleSolutions.set(bundleId, new FeasibleSolution(
                             costAfter - costBefore,
                             bundleId,
-                            riderType,
-                            costAfter,
-                            res.getSource(riderType),
-                            res.getDest(riderType)
+                            riderType
                         ));
                         break;
                     }
@@ -495,79 +284,248 @@ public class LittleRandomRepair implements Repairer {
         }
     }
 
-    /**
-     * 새로운 번들 생성 케이스 처리
-     */
     private void processEmptyCase(
         int orderIdToAppend,
         Solution solution,
         Map<String, Integer> ridersAvailable,
-        List<FeasibleSolutionTuple> feasibleSolutions) {
+        List<FeasibleSolution> feasibleSolutions) {
 
-        InvestigationResult res = InvestigationUtils.investigate(
+        InvestigationResult res = investigate(
             orderIdToAppend,
             new ArrayList<>(),
-            new ArrayList<>(),
-            riderInfo,
-            ordersPtr,
-            distMatPtr,
-            matrixLength
+            new ArrayList<>()
         );
 
         for (String riderType : res.getOptimalOrder()) {
             if (ridersAvailable.getOrDefault(riderType, 0) > 0 &&
                 res.getFeasibility(riderType)) {
                 double cost = res.getCost(riderType);
-                feasibleSolutions.set(solution.size(), new FeasibleSolutionTuple(
+                feasibleSolutions.set(solution.size(), new FeasibleSolution(
                     cost,
                     -1,
-                    riderType,
-                    cost,
-                    res.getSource(riderType),
-                    res.getDest(riderType)
+                    riderType
                 ));
                 break;
             }
         }
     }
 
-    /**
-     * 최적의 솔루션 적용
-     */
     private void applyBestSolution(
-        List<FeasibleSolutionTuple> feasibleSolutions,
+        int orderIdToAppend,
+        List<FeasibleSolution> feasibleSolutions,
         Solution solution,
         Map<String, Integer> ridersAvailable) {
 
-        FeasibleSolutionTuple bestSolution = Collections.min(
+        FeasibleSolution bestSolution = Collections.min(
             feasibleSolutions,
-            Comparator.comparingDouble(s -> s.costIncremental)
+            Comparator.comparingDouble(FeasibleSolution::cost)
         );
 
-        if (bestSolution.bundleId != -1) {
+        if (bestSolution.bundleId() != -1) {
             ridersAvailable.merge(
-                solution.getRiderType(bestSolution.bundleId),
+                solution.getRiderType(bestSolution.bundleId()),
                 1,
                 Integer::sum
             );
-            solution.remove(bestSolution.bundleId);
+            solution.remove(bestSolution.bundleId());
         }
 
+        InvestigationResult res = investigate(
+            orderIdToAppend,
+            bestSolution.bundleId() == -1 ? new ArrayList<>() : solution.getSource(bestSolution.bundleId()),
+            bestSolution.bundleId() == -1 ? new ArrayList<>() : solution.getDest(bestSolution.bundleId())
+        );
+
         solution.append(new Bundle(
-            bestSolution.riderType,
-            bestSolution.newCost,
-            bestSolution.newSource,
-            bestSolution.newDest
+            bestSolution.riderType(),
+            bestSolution.cost(),
+            res.getSource(bestSolution.riderType()),
+            res.getDest(bestSolution.riderType())
         ));
-        ridersAvailable.merge(bestSolution.riderType, -1, Integer::sum);
+        ridersAvailable.merge(bestSolution.riderType(), -1, Integer::sum);
     }
-
-
 
     private InvestigationResult investigate(int orderId, List<Integer> source,
         List<Integer> dest) {
         return InvestigationUtils.investigate(
             orderId, source, dest, riderInfo, ordersPtr, distMatPtr, matrixLength
         );
+    }
+
+    public void repairOld(List<Integer> insertOrder, List<Integer> idsToBuild,
+        Solution solution, Map<String, Integer> ridersAvailable) {
+        int maxCapacity = Math.max(Math.max(
+                riderInfo.getWalkInfo().get(0),
+                riderInfo.getBikeInfo().get(0)),
+            riderInfo.getCarInfo().get(0)
+        );
+
+        for (int rep = 0; rep < idsToBuild.size(); rep++) {
+            int orderIdToAppend = idsToBuild.get(insertOrder.get(rep));
+
+            // 실행 가능한 솔루션 초기화
+            List<FeasibleSolution> feasibleSolutions = new ArrayList<>(
+                Collections.nCopies(solution.size() + 1,
+                    new FeasibleSolution(INF, -1, ""))
+            );
+
+            int n = solution.size();
+            List<BundleScore> vv = new ArrayList<>(
+                Collections.nCopies(n, new BundleScore(INF, -1))
+            );
+
+            // 번들 점수 계산
+            for (int bundleId = 0; bundleId < n; bundleId++) {
+                String riderType = solution.getRiderType(bundleId);
+                int tmp = 0;
+                boolean ok = true;
+                int filled = 0;
+
+                for (int x : solution.getSource(bundleId)) {
+                    tmp += promising.get(riderType)[orderIdToAppend][x];
+                    filled += ordersPtr[f(x, 2, 3)];
+                    if (ordersPtr[f(orderIdToAppend, 1, 3)] < ordersPtr[f(x, 0, 3)]) {
+                        ok = false;
+                        break;
+                    }
+                    if (ordersPtr[f(x, 1, 3)] < ordersPtr[f(orderIdToAppend, 0, 3)]) {
+                        ok = false;
+                        break;
+                    }
+                }
+
+                if (filled + ordersPtr[f(orderIdToAppend, 2, 3)] > maxCapacity) {
+                    ok = false;
+                }
+
+                if (ok) {
+                    vv.set(bundleId, new BundleScore(
+                        (float) tmp / solution.getSource(bundleId).size(),
+                        bundleId
+                    ));
+                }
+            }
+
+            List<Integer> bundleIndices = new ArrayList<>();
+
+            if (usePower) {
+                List<BundleScore> vvv = new ArrayList<>();
+                for (int i = 0; i < n; i++) {
+                    if (vv.get(i).bundleId != -1) {
+                        vvv.add(vv.get(i));
+                    }
+                }
+                Collections.sort(vvv);
+
+                int nConsideration = Math.min(Math.max(considerSize, matrixLength / 100), vvv.size());
+                int nn = Math.min(vvv.size(), 5 * nConsideration);
+
+                List<Integer> candidates = new ArrayList<>(nn);
+                for (int i = 0; i < nn; i++) {
+                    candidates.add(vvv.get(i).bundleId);
+                }
+
+                for (int i = 0; i < nConsideration && !candidates.isEmpty(); i++) {
+                    double randomValue = random.nextDouble();
+                    int noiseIdx = (int) Math.floor(Math.pow(randomValue, 5) * candidates.size());
+                    bundleIndices.add(candidates.get(noiseIdx));
+                    candidates.remove(noiseIdx);
+                }
+            } else {
+                List<BundleScore> candidates = new ArrayList<>();
+                for (BundleScore score : vv) {
+                    if (score.bundleId != -1) {
+                        candidates.add(score);
+                    }
+                }
+                Collections.sort(candidates);
+
+                int nConsideration = Math.min(Math.max(considerSize, matrixLength / 100), candidates.size());
+                nConsideration = Math.min((nConsideration + 3) / 4 * 4, candidates.size());
+
+                for (int i = 0; i < nConsideration; i++) {
+                    bundleIndices.add(candidates.get(i).bundleId);
+                }
+            }
+
+            // Case 1: 기존 번들에 추가
+            for (int bundleId : bundleIndices) {
+                double costBefore = solution.getCost(bundleId);
+                InvestigationResult res = investigate(
+                    orderIdToAppend,
+                    solution.getSource(bundleId),
+                    solution.getDest(bundleId)
+                );
+
+                for (String riderType : res.getOptimalOrder()) {
+                    if (ridersAvailable.getOrDefault(riderType, 0) > 0 ||
+                        solution.getRiderType(bundleId).equals(riderType)) {
+                        if (res.getFeasibility(riderType)) {
+                            double costAfter = res.getCost(riderType);
+                            feasibleSolutions.set(bundleId, new FeasibleSolution(
+                                costAfter - costBefore,
+                                bundleId,
+                                riderType
+                            ));
+                            break;
+                        }
+                    }
+                }
+            }
+
+            // Case 2: 새로운 번들 생성
+            InvestigationResult res = investigate(
+                orderIdToAppend,
+                new ArrayList<>(),
+                new ArrayList<>()
+            );
+
+            for (String riderType : res.getOptimalOrder()) {
+                if (ridersAvailable.getOrDefault(riderType, 0) > 0 &&
+                    res.getFeasibility(riderType)) {
+                    double cost = res.getCost(riderType);
+                    feasibleSolutions.set(solution.size(), new FeasibleSolution(
+                        cost,
+                        -1,
+                        riderType
+                    ));
+                    break;
+                }
+            }
+
+            // 최적의 솔루션 찾기
+            FeasibleSolution bestSolution = Collections.min(
+                feasibleSolutions,
+                Comparator.comparingDouble(FeasibleSolution::cost)
+            );
+
+            // 기존 번들 제거
+            if (bestSolution.bundleId() != -1) {
+                ridersAvailable.merge(
+                    solution.getRiderType(bestSolution.bundleId()),
+                    1,
+                    Integer::sum
+                );
+                solution.remove(bestSolution.bundleId());
+            }
+
+            // 새로운 번들 추가
+            InvestigationResult finalRes = investigate(
+                orderIdToAppend,
+                bestSolution.bundleId() == -1 ? new ArrayList<>() : solution.getSource(bestSolution.bundleId()),
+                bestSolution.bundleId() == -1 ? new ArrayList<>() : solution.getDest(bestSolution.bundleId())
+            );
+
+            solution.append(new Bundle(
+                bestSolution.riderType(),
+                bestSolution.cost(),
+                finalRes.getSource(bestSolution.riderType()),
+                finalRes.getDest(bestSolution.riderType())
+            ));
+            ridersAvailable.merge(bestSolution.riderType(), -1, Integer::sum);
+
+            // 처리된 주문 제거
+            idsToBuild.remove(Integer.valueOf(orderIdToAppend));
+        }
     }
 }

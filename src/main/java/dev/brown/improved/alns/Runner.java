@@ -13,7 +13,7 @@ import java.util.*;
  * ALNS 알고리즘의 실행을 관리하는 클래스
  */
 public class Runner {
-    private static final int DEFAULT_BUNDLE_STORAGE_CAPACITY = 10000;  // 적절한 값으로 조정 필요
+    private static final int DEFAULT_BUNDLE_STORAGE_CAPACITY = 1000000;  // 적절한 값으로 조정 필요
 
     /**
      * ALNS 알고리즘 실행

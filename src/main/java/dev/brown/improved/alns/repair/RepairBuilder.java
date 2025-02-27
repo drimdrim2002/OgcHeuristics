@@ -1,8 +1,14 @@
 package dev.brown.improved.alns.repair;
 
+import dev.brown.improved.alns.domain.Bundle;
+import dev.brown.improved.alns.domain.RiderInfo;
+import dev.brown.improved.alns.domain.Solution;
 import dev.brown.improved.alns.parameter.HyperParameter;
-import dev.brown.improved.alns.domain.*;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.Map;
+import java.util.Random;
 
 /**
  * 복구 전략을 구현하는 빌더 클래스
@@ -63,36 +69,65 @@ public class RepairBuilder {
         }
 
         // 라이더 타입 최적화
-        RiderOptimizer.optimizeRiderType(
+        optimizeRiderType(
             indices,
             solution,
-            ridersAvailable,
-            riderInfo,
-            ordersPtr,
-            distMatPtr,
-            matrixLength
+            ridersAvailable
         );
 
-        // 복구 전략 적용
-        LittleRandomRepair littleRandomRepair = new LittleRandomRepair(
-            K,
-            ordersPtr,
-            riderInfo,
-            distMatPtr,
-            hparam,
-            usePower,
-            hparam.getConsiderSize(),
-            random.nextLong()
-        );
-
+        // repair 수행
         if (!useOld) {
-            littleRandomRepair.repairNew(insertOrder, idsToBuild, solution, ridersAvailable);
+            new LittleRandomRepair(K, ordersPtr, riderInfo, distMatPtr, hparam,
+                usePower, hparam.getConsiderSize(), random.nextLong())
+                .repair(idsToBuild, solution, ridersAvailable);
         } else {
-            littleRandomRepair.repairOld(insertOrder, idsToBuild, solution, ridersAvailable);
+            new LittleRandomRepairOld(K, ordersPtr, riderInfo, distMatPtr, hparam,
+                usePower, hparam.getConsiderSize(), random.nextLong())
+                .repair(idsToBuild, solution, ridersAvailable);
         }
     }
 
     public int getK() {
         return K;
+    }
+
+    private void optimizeRiderType(
+        List<Integer> indices,
+        Solution solution,
+        Map<String, Integer> ridersAvailable
+    ) {
+        OptimizeRider optimizer = new OptimizeRider(
+            ordersPtr,
+            riderInfo,
+            distMatPtr,
+            matrixLength
+        );
+
+        for (int idx : indices) {
+            String currentType = solution.getRiderType(idx);
+            List<Integer> source = solution.getSource(idx);
+            List<Integer> dest = solution.getDest(idx);
+
+            InvestigationResult result = optimizer.investigate(source, dest);
+
+            for (String newType : result.getOptimalOrder()) {
+                if (ridersAvailable.getOrDefault(newType, 0) > 0 &&
+                    result.getFeasibility(newType)) {
+                    if (!newType.equals(currentType)) {
+                        // 라이더 타입 변경
+                        ridersAvailable.merge(currentType, 1, Integer::sum);
+                        ridersAvailable.merge(newType, -1, Integer::sum);
+
+                        solution.updateBundle(idx, new Bundle(
+                            newType,
+                            result.getCost(newType),
+                            result.getSource(newType),
+                            result.getDest(newType)
+                        ));
+                    }
+                    break;
+                }
+            }
+        }
     }
 }
